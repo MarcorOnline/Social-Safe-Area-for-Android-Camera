@@ -144,7 +144,7 @@ public final class OverlayService extends Service {
         addGuide();
 
         TextView button = new TextView(this);
-        button.setText("SAFE\nON/OFF");
+        button.setText(R.string.quick_button_text);
         button.setTextColor(Color.BLACK);
         button.setTextSize(8);
         button.setGravity(Gravity.CENTER);
@@ -154,7 +154,7 @@ public final class OverlayService extends Service {
         background.setColor(getColor(R.color.brand));
         button.setBackground(background);
         button.setElevation(dp(8));
-        button.setContentDescription("Bottone rapido: attiva o spegni guida safe area");
+        button.setContentDescription(getString(R.string.quick_button_description));
         button.setOnClickListener(ignored -> toggleGuide());
         button.setOnTouchListener((view, event) -> handleToggleTouch(view, event));
         toggle = button;
@@ -244,19 +244,19 @@ public final class OverlayService extends Service {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         return new Notification.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_social_safe_area)
-                .setContentTitle("Social Safe Area")
-                .setContentText("Bottone rapido pronto. Usa Chiudi app per rimuoverlo.")
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.notification_text))
                 .setContentIntent(content)
                 .setOngoing(true)
                 .addAction(new Notification.Action.Builder(
-                        R.drawable.ic_social_safe_area, "Chiudi app", close).build())
+                        R.drawable.ic_social_safe_area, getString(R.string.close_app), close).build())
                 .build();
     }
 
     private void createChannel() {
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Social Safe Area",
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, getString(R.string.app_name),
                 NotificationManager.IMPORTANCE_LOW);
-        channel.setDescription("Comando per chiudere la guida");
+        channel.setDescription(getString(R.string.channel_description));
         getSystemService(NotificationManager.class).createNotificationChannel(channel);
     }
 
@@ -289,7 +289,7 @@ public final class OverlayService extends Service {
     private void showTrash() {
         if (trash != null) return;
         TextView target = new TextView(this);
-        target.setText("TRASCINA QUI PER CHIUDERE");
+        target.setText(R.string.trash_target);
         target.setTextColor(Color.WHITE);
         target.setTextSize(12);
         target.setGravity(Gravity.CENTER);

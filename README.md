@@ -4,6 +4,10 @@ A lightweight Android overlay that helps you keep faces, captions and important 
 
 **Beta · Android 8.0+ (API 26) · GPL-3.0-only**
 
+[![SCARICA APK — Download Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v0.3.0-beta/Social-Safe-Area.apk)
+
+**No compilation needed:** download the signed beta APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v0.3.0-beta).
+
 The app draws a transparent guide over your existing camera app. It does not record video, replace the camera or modify the recorded file. The guide is visible on the phone screen; it is not burned into camera recordings.
 
 ## Features
@@ -12,20 +16,26 @@ The app draws a transparent guide over your existing camera app. It does not rec
 - Reference-shaped unsafe bands at the top, bottom and lower right; the useful composition area stays clear.
 - A small, draggable **quick button** marked `SAFE / ON/OFF`, with its position saved between sessions.
 - Mask opacity from 8% to 70%, defaulting to 23%.
-- Vertical alignment from −360 to +360 dp, with a **Reset** button to restore the default.
+- Device/Android/camera profiles with proximity matching, plus manual vertical alignment from −360 to +360 dp. **Reset** restores the suggested profile.
 - Optional automatic display when a selected app opens, and automatic hiding when you switch to another app or the launcher.
 - Tap-through guide: camera controls remain usable.
 - Native Android views and services, with no third-party runtime libraries, account, ads or analytics.
 
-The current interface is in Italian. English localization is not implemented yet.
+The interface supports **English (default/fallback), Italian, French, Spanish and German**. It follows the device language; Android 13+ also provides a per-app language choice in system settings. The bottom **ⓘ** button opens creator attribution, GitHub links, the GPLv3 notice and calibration details.
 
 ## Getting started
 
-Build and install the APK using the instructions below. Open **Social Safe Area** and grant Android's **Display over other apps** permission when requested.
+Download the APK using **SCARICA APK** above. Android may ask you to allow installation from your browser or file manager; grant that permission for the source you are using, then open the APK. You can also build it yourself using the instructions below.
 
-1. Choose **Reels**, **TikTok** or **Entrambi** (both).
-2. Adjust **Opacità maschera** (opacity) and **Posizione verticale** (vertical alignment), if needed. **Reset** restores the default alignment.
-3. Tap **Mostra bottone rapido** (show quick button). This action only shows the button; repeated taps do not change the mask's ON/OFF state.
+### Allow display on top of the camera
+
+Open **Social Safe Area**, then tap **Show quick button**. On Android's permission page, select Social Safe Area and enable **Display over other apps** / **Appear on top**, then return to the app. On Samsung, the same switch is available under **Settings → Apps → Special access → Appear on top**; wording can vary by Android version.
+
+This permission is required to draw over your camera. Accessibility is a separate, optional permission.
+
+1. Choose **Reels**, **TikTok** or **Both**.
+2. Adjust **Mask opacity** and **Vertical position**, if needed. **Reset** restores the detected profile's default alignment.
+3. Tap **Show quick button**. This action only shows the button; repeated taps do not change the mask's ON/OFF state.
 4. Use the floating `SAFE / ON/OFF` button to turn the mask on or off. Only this button changes that state.
 5. Drag the quick button to reposition it. Drag it onto the bottom trash target to close the overlay.
 
@@ -33,33 +43,50 @@ Opening Social Safe Area also restores the quick button when overlay permission 
 
 ### Automatically follow your camera app
 
-In **Apri il bottone rapido quando apro**, select your camera app. Tap **Abilita rilevamento app**, then enable **Rilevamento app Safe Area** in Android Accessibility settings.
+1. In **Show quick button when I open**, select your camera app.
+2. Tap **Enable camera detection** to open Android Accessibility settings.
+3. Find **Safe Area camera detection** under installed/downloaded apps or services, switch it on and confirm Android's prompt.
+4. Return to Social Safe Area, then open the selected camera.
+
+If Android blocks Accessibility for a sideloaded app, its **App info → ⋮ → Allow restricted settings** option may need to be enabled first. Only do this for a build you trust; see [Android's explanation of restricted settings](https://support.google.com/android/answer/12623953). Menu names depend on the OS and manufacturer.
 
 Opening the selected app shows the quick button and restores the saved mask state. Switching to another app or the launcher hides both the button and the mask. Returning to the selected app restores them without changing ON/OFF.
 
-Closing the overlay explicitly using the trash target or the notification's **Chiudi app** action suspends automatic reopening until you reopen Social Safe Area. Select **Nessuna app** to disable automatic following.
+Closing the overlay explicitly using the trash target or the notification's **Close app** action suspends automatic reopening until you reopen Social Safe Area. Select **No app** to disable automatic following.
 
 Detection uses full-screen window-change events. Partial popups and panels do not count as leaving the camera. It does not inspect the contents of the screen.
 
 ### Notifications
 
-While the overlay is running, it uses an Android foreground service and prepares a notification with a **Chiudi app** (close app) action.
+While the overlay is running, it uses an Android foreground service and prepares a notification with a **Close app** action.
 
 On Android 13 and later, the app does not request notification permission, so this notification may be absent from the notification drawer. The foreground service can still run and appears in Android's active-apps controls. See [Android's notification-permission documentation](https://developer.android.com/develop/ui/views/notifications/notification-permission).
 
 ## Compatibility and current limits
 
-Android 8.0 or newer is required. The beta has been verified on a **Samsung Galaxy S26 Ultra**, in portrait mode, with a **9:16** camera preview.
+Android 8.0 or newer is required. The beta has been verified on a **Samsung Galaxy S26 Ultra (SM-S948B), Android 17 / API 37, Samsung Camera 17.0.00.43**, in portrait mode, with a **9:16** camera preview.
 
 The default reference is a 1080 × 2340 display with the actual video preview at `x=0…1080, y=184…2104`: a 1080 × 1920 frame. The mask is scaled uniformly, and Android window offsets are accounted for when drawing. Density is used for controls and the manual vertical adjustment.
 
-Other devices, camera layouts, aspect ratios and display settings may require vertical adjustment. The beta does not automatically locate the camera preview, calibrate its width/height or adapt its geometry to landscape. Android or individual apps can also restrict overlays on protected screens.
+Other devices, camera layouts, aspect ratios and display settings may require vertical adjustment, even when a nearby profile is suggested. The beta does not automatically locate the camera preview, calibrate its width/height or adapt its geometry to landscape. Android or individual apps can also restrict overlays on protected screens.
 
 The mask is a composition aid based on a fixed reference, not an official guarantee of safe placement. Reels and TikTok interfaces can vary. The project is independent and is not affiliated with Samsung, Instagram, Meta or TikTok.
 
+## Help improve camera alignment
+
+The most useful community contribution is a **correct vertical mask offset for widely used camera apps**, tested on a real device.
+
+Profiles live in one small file: [`camera-profiles.json`](app/src/main/assets/camera-profiles.json). Each entry records manufacturer, model, Android API, camera package/version and offset in dp. Calibrate with the slider, then open **ⓘ → Copy calibration JSON** and submit the entry in a pull request to **`develop`**.
+
+On startup the app detects the device, OS and selected camera (or default video camera). It suggests the closest usable profile: same model first, then nearest Android API, then camera app/version. If the model is unknown it searches the same manufacturer; an unknown manufacturer uses the **first valid profile** as the default. Equal scores preserve file order.
+
+Manual adjustments always take priority and survive restarts and app updates. **Reset** removes the manual override and returns to the current suggestion. Missing device metadata, invalid entries and unreadable/empty profile data fall back safely, ultimately to 0 dp; detection failures do not stop the guide from opening.
+
+See [the profile format and matching rules](docs/camera-profiles.md) for examples, priority details and testing instructions. Profiles are bundled offline: a merged contribution becomes available in the next app build.
+
 ## Privacy and permissions
 
-The app has no network permission and does not upload data. Preferences stay on the device; Android backup is disabled.
+The app has no network permission and does not upload data. Preferences stay on the device; Android backup is disabled. Profile detection uses model/OS/app metadata, not serial numbers or unique device identifiers. The calibration-copy action only writes that JSON to your clipboard; GitHub links open your external browser.
 
 | Permission / service | Purpose |
 | --- | --- |
@@ -110,7 +137,19 @@ With USB debugging enabled and the phone authorized:
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-Debug builds use the local Android debug signing key. A build signed with a different key cannot update an existing installation in place. Distribution signing keys and generated APKs are not committed to this repository.
+### Release signing
+
+The downloadable APK is a **non-debug release build**, signed with a dedicated distribution key. Locally compiled debug builds use a different Android debug key. Android cannot update one with the other: migrating from a developer/debug installation to the public APK requires uninstalling the old build first, which removes its saved settings.
+
+On Windows / PowerShell, maintainers can build and sign a release with:
+
+```powershell
+./scripts/build-release.ps1
+```
+
+The first run generates a private key under ignored `.signing/`; its password is protected with Windows DPAPI for the current Windows account. Preserve the key and credentials securely for future updates. They are not portable to a different Windows account without exporting the password on the original account. The script never commits them. Signed output is `release-artifacts/Social-Safe-Area.apk`, also ignored by Git.
+
+The release page provides a SHA-256 checksum and GitHub's source archive for the corresponding tag.
 
 ## Verification
 
@@ -125,7 +164,7 @@ adb shell am instrument -w it.pistacchissimo.socialoverlay.test/it.pistacchissim
 
 On Windows, use `.\gradlew.bat` instead of `./gradlew`.
 
-The instrumentation test requires overlay permission and the reference **1080 × 2340** display. It checks the actual overlay-window origin, 9:16 geometry, transparent margins, reversed-L boundaries, mask transparency and the home button's idempotent behavior. It also checks that resetting vertical alignment updates the slider and saved setting. Its output includes `PASS` or `FAIL`.
+The instrumentation test requires overlay permission and the reference **1080 × 2340** display. It checks the actual overlay-window origin, 9:16 geometry, transparent margins, reversed-L boundaries, mask transparency and the home button's idempotent behavior. It also checks profile proximity/fallbacks, preservation of manual settings, five translations plus English fallback, Reset and the creator-attribution page. Its output includes `PASS` or `FAIL`.
 
 Instrumentation can leave the already-enabled Accessibility service disconnected on the reference Samsung device. Reinstall the app APK and reopen Social Safe Area after the test to reconnect it before testing automatic following.
 
@@ -152,3 +191,5 @@ Social Safe Area is free software: you can redistribute it and/or modify it unde
 This program is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See [LICENSE](LICENSE) for the full terms.
 
 The Gradle Wrapper is third-party build tooling under the Apache License 2.0 and retains its original notices. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+Android is a trademark of Google LLC. The download button adapts Google's Android robot artwork under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/); this is not an endorsement.

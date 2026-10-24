@@ -51,7 +51,15 @@ final class MaskMode {
 
     /** Offset in dp: enough travel for different manufacturer camera previews. */
     static int verticalOffset(Context context) {
-        return preferences(context).getInt(VERTICAL_OFFSET, 0);
+        return preferences(context).getInt(VERTICAL_OFFSET, DeviceProfiles.defaultOffset(context));
+    }
+
+    static boolean hasVerticalOffsetOverride(Context context) {
+        return preferences(context).contains(VERTICAL_OFFSET);
+    }
+
+    static void resetVerticalOffset(Context context) {
+        preferences(context).edit().remove(VERTICAL_OFFSET).apply();
     }
 
     static void setVerticalOffset(Context context, int value) {

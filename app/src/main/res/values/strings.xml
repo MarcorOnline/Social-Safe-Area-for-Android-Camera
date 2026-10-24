@@ -1,3 +1,54 @@
 <resources>
-    <string name="app_watch_description">Mostra il bottone rapido Safe Area quando apri l’app selezionata e lo nasconde quando passi a un’altra app. Non legge il contenuto dello schermo.</string>
+    <string name="app_name" translatable="false">Social Safe Area</string>
+    <string name="home_title" translatable="false">SOCIAL\nSAFE AREA</string>
+    <string name="reels" translatable="false">Reels</string>
+    <string name="tiktok" translatable="false">TikTok</string>
+    <string name="both_platforms" translatable="false">Reels + TikTok</string>
+    <string name="quick_button_text" translatable="false">SAFE\nON/OFF</string>
+    <string name="description">Beta: composition guides for Reels and TikTok. Your video and camera controls remain touchable.</string>
+    <string name="mask_label">Mask</string>
+    <string name="mode_both">Both</string>
+    <string name="mask_picker_description">Choose the safe-area mask</string>
+    <string name="opacity_label">Mask opacity</string>
+    <string name="opacity_picker_description">Adjust mask opacity</string>
+    <string name="opacity_value">Mask opacity: %1$d%%</string>
+    <string name="vertical_label">Vertical position</string>
+    <string name="vertical_picker_description">Move the mask vertically</string>
+    <string name="vertical_default">Vertical position: default (%1$+d dp)</string>
+    <string name="vertical_value">Vertical position: %1$+d dp (custom)</string>
+    <string name="reset">Reset</string>
+    <string name="reset_description">Restore the detected default vertical position</string>
+    <string name="auto_label">Show quick button when I open</string>
+    <string name="auto_picker_description">Choose the app that shows the quick button</string>
+    <string name="no_app">No app</string>
+    <string name="auto_disabled">Camera detection: off</string>
+    <string name="auto_selected">Show quick button with: %1$s</string>
+    <string name="auto_enable_hint">\u0020(enable app detection)</string>
+    <string name="enable_detection">Enable camera detection</string>
+    <string name="show_quick_button">Show quick button</string>
+    <string name="mask_status">MASK: %1$s</string>
+    <string name="quick_button_description">Quick button: turn the safe-area guide on or off</string>
+    <string name="close_app">Close app</string>
+    <string name="notification_text">Quick button ready. Use Close app to remove it.</string>
+    <string name="channel_description">Control for closing the guide</string>
+    <string name="trash_target">DRAG HERE TO CLOSE</string>
+    <string name="watcher_name">Safe Area camera detection</string>
+    <string name="app_watch_description">Shows the Safe Area quick button when the selected app opens and hides it when you switch to another app. Does not read screen contents.</string>
+    <string name="information">About this app</string>
+    <string name="back">Back</string>
+    <string name="about_title">About Social Safe Area</string>
+    <string name="about_creator">Created by Marco Rinaldi (MarcorOnline)</string>
+    <string name="about_intro">A lightweight, independent composition guide for your Android camera. Tested on Samsung Galaxy S26 Ultra.</string>
+    <string name="creator_github">Creator on GitHub</string>
+    <string name="project_github">Project and source code on GitHub</string>
+    <string name="license_link">Read the GPLv3 license</string>
+    <string name="license_notice">Copyright © 2026 Marco Rinaldi. Free software under GPL version 3 only. Distributed without warranty. Includes Gradle Wrapper build tooling under Apache 2.0.</string>
+    <string name="calibration_title">Contribute a camera calibration</string>
+    <string name="device_details">Device: %1$s %2$s\nAndroid: %3$s (API %4$d)\nCamera: %5$s\nProfile offset: %6$+d dp\nCurrent offset: %7$+d dp</string>
+    <string name="profile_unknown">No usable profile: using 0 dp. Calibrate the mask and share the JSON through GitHub.</string>
+    <string name="copy_profile">Copy calibration JSON</string>
+    <string name="profile_copied">Calibration copied</string>
+    <string name="no_browser">No app is available to open this link.</string>
+    <string name="version_label">Version %1$s</string>
+    <string name="selected_profile">Suggested profile (closest match):\n%1$s</string>
 </resources>

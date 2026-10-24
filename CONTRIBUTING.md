@@ -21,6 +21,20 @@ Push your branch to your fork, then open a pull request with
 Describe the behavior before and after the change, and how you verified it.
 Keep each PR focused; maintainers may squash commits when integrating it.
 
+## Most useful contribution: camera offsets
+
+Please help verify vertical mask offsets for popular camera apps. The reference
+is Samsung Galaxy S26 Ultra (SM-S948B), Android 17 / API 37, Samsung Camera
+17.0.00.43, with a 9:16 portrait video preview.
+
+Calibrate the slider, open **ⓘ → Copy calibration JSON**, and add the object to
+[`camera-profiles.json`](app/src/main/assets/camera-profiles.json). A PR can be
+just this file change and a short description of your real-device check.
+See [profile fields and proximity rules](docs/camera-profiles.md).
+
+Translations are native Android resources under `app/src/main/res/values-*`;
+keep English defaults and formatting placeholders complete.
+
 ## Development checks
 
 Use the setup in [README.md](README.md), then run:

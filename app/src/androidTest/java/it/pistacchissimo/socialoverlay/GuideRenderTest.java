@@ -30,7 +30,9 @@ public final class GuideRenderTest extends Instrumentation {
         String originalMode = MaskMode.get(context);
         int originalOpacity = MaskMode.opacity(context);
         int originalOffset = MaskMode.verticalOffset(context);
+        boolean hadOverride = MaskMode.hasVerticalOffsetOverride(context);
         try {
+            DeviceProfilesTest.verify(this);
             QuickButtonTest.verify(this);
             onMain(() -> {
                 MaskMode.set(context, MaskMode.BOTH);
@@ -85,7 +87,8 @@ public final class GuideRenderTest extends Instrumentation {
                 }
                 MaskMode.set(context, originalMode);
                 MaskMode.setOpacity(context, originalOpacity);
-                MaskMode.setVerticalOffset(context, originalOffset);
+                if (hadOverride) MaskMode.setVerticalOffset(context, originalOffset);
+                else MaskMode.resetVerticalOffset(context);
             });
         }
         finish(result.getString("stream", "").startsWith("PASS") ? -1 : 0, result);

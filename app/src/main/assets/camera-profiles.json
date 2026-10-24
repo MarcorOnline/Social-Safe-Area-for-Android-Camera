@@ -1,0 +1,10 @@
+[
+  {
+    "manufacturer": "samsung",
+    "model": "SM-S948B",
+    "android_sdk": 37,
+    "camera_package": "com.sec.android.app.camera",
+    "camera_version": "17.0.00.43",
+    "vertical_offset_dp": 0
+  }
+]

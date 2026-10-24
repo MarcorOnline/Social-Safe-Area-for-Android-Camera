@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="56" viewBox="0 0 240 56" role="img" aria-label="SCARICA APK">
+  <title>SCARICA APK — Download Android APK</title>
+  <metadata>Android robot adapted from Google artwork under CC BY 3.0. https://creativecommons.org/licenses/by/3.0/</metadata>
+  <rect width="240" height="56" rx="8" fill="#3ddc84"/>
+  <g fill="#12251c" stroke="#12251c" stroke-width="2" stroke-linecap="round">
+    <path d="M18 27a14 14 0 0 1 28 0Z" stroke="none"/>
+    <path d="m23 14-4-6m22 6 4-6"/>
+    <rect x="18" y="30" width="28" height="13" rx="2" stroke="none"/>
+    <path d="M24 43v5m16-5v5M13 30v10m38-10v10" stroke-width="4"/>
+  </g>
+  <g fill="#3ddc84"><circle cx="26" cy="21" r="1.4"/><circle cx="38" cy="21" r="1.4"/></g>
+  <text x="69" y="34" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#12251c">SCARICA APK</text>
+</svg>

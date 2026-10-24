@@ -2,6 +2,37 @@ plugins {
     id 'com.android.application'
 }
 
+// Community data is shipped offline: reject malformed or ambiguous entries at build time.
+tasks.register('validateCameraProfiles') {
+    def source = file('src/main/assets/camera-profiles.json')
+    inputs.file(source)
+    doLast {
+        def profiles = new groovy.json.JsonSlurper().parse(source)
+        if (!(profiles instanceof List)) throw new GradleException('Camera profiles must be a JSON array')
+        def seen = [] as Set
+        profiles.each { profile ->
+            if (!(profile instanceof Map) || profile.keySet() !=
+                    ['manufacturer', 'model', 'android_sdk', 'camera_package', 'camera_version', 'vertical_offset_dp'] as Set) {
+                throw new GradleException('Each camera profile must contain exactly the six documented fields')
+            }
+            if (!(profile.manufacturer instanceof String) || !profile.manufacturer.trim()
+                    || !(profile.model instanceof String) || !profile.model.trim()
+                    || !(profile.android_sdk instanceof Integer) || profile.android_sdk < 26 || profile.android_sdk > 1000
+                    || !(profile.camera_package instanceof String)
+                    || !(profile.camera_package ==~ /[A-Za-z]\w*(\.[A-Za-z]\w*)+/)
+                    || !(profile.camera_version instanceof String) || !profile.camera_version.trim()
+                    || !(profile.vertical_offset_dp instanceof Integer)
+                    || profile.vertical_offset_dp < -360 || profile.vertical_offset_dp > 360) {
+                throw new GradleException('Invalid camera profile: ' + profile)
+            }
+            def key = [profile.manufacturer.toLowerCase(Locale.ROOT), profile.model.toLowerCase(Locale.ROOT),
+                    profile.android_sdk, profile.camera_package, profile.camera_version]
+            if (!seen.add(key)) throw new GradleException('Duplicate camera profile: ' + key)
+        }
+    }
+}
+tasks.named('preBuild') { dependsOn('validateCameraProfiles') }
+
 android {
     namespace 'it.pistacchissimo.socialoverlay'
     compileSdk 35
@@ -10,8 +41,8 @@ android {
         applicationId 'it.pistacchissimo.socialoverlay'
         minSdk 26
         targetSdk 35
-        versionCode 3
-        versionName '0.2.1-beta'
+        versionCode 4
+        versionName '0.3.0-beta'
         testInstrumentationRunner 'it.pistacchissimo.socialoverlay.GuideRenderTest'
     }
 }

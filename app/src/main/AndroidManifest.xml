@@ -3,9 +3,21 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
+    <queries>
+        <intent>
+            <action android:name="android.media.action.VIDEO_CAMERA" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="false"
-        android:label="Social Safe Area"
+        android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
+        android:supportsRtl="true"
         android:icon="@drawable/ic_social_safe_area"
         android:roundIcon="@drawable/ic_social_safe_area"
         android:theme="@style/AppTheme"
@@ -31,7 +43,7 @@
         <service
             android:name=".AppWatchAccessibilityService"
             android:exported="true"
-            android:label="Rilevamento app Safe Area"
+            android:label="@string/watcher_name"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
@@ -40,5 +52,6 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/app_watch_accessibility" />
         </service>
+        <activity android:name=".AboutActivity" android:exported="false" />
     </application>
 </manifest>

@@ -40,6 +40,7 @@ public final class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
+        DeviceProfiles.defaultOffset(this);
         setContentView(createContent());
         if (Settings.canDrawOverlays(this)) OverlayService.start(this);
     }
@@ -75,14 +76,14 @@ public final class MainActivity extends Activity {
         content.addView(modeStatus);
 
         TextView title = new TextView(this);
-        title.setText("SOCIAL\nSAFE AREA");
+        title.setText(R.string.home_title);
         title.setTextColor(getColor(R.color.brand));
         title.setTextSize(34);
         title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
         content.addView(title);
 
         TextView description = new TextView(this);
-        description.setText("Beta: una guida per comporre Reels e TikTok. Il video e i comandi della fotocamera restano toccabili.");
+        description.setText(R.string.description);
         description.setTextColor(getColor(R.color.on_surface));
         description.setTextSize(17);
         LinearLayout.LayoutParams descriptionParams = new LinearLayout.LayoutParams(-1, -2);
@@ -90,7 +91,7 @@ public final class MainActivity extends Activity {
         content.addView(description, descriptionParams);
 
         TextView modeLabel = new TextView(this);
-        modeLabel.setText("Maschera");
+        modeLabel.setText(R.string.mask_label);
         modeLabel.setTextColor(getColor(R.color.on_surface));
         modeLabel.setTextSize(15);
         LinearLayout.LayoutParams modeLabelParams = new LinearLayout.LayoutParams(-1, -2);
@@ -98,12 +99,12 @@ public final class MainActivity extends Activity {
         content.addView(modeLabel, modeLabelParams);
 
         Spinner modePicker = new Spinner(this);
-        String[] options = {"Reels", "TikTok", "Entrambi"};
+        String[] options = {getString(R.string.reels), getString(R.string.tiktok), getString(R.string.mode_both)};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, options);
         modePicker.setAdapter(adapter);
         modePicker.setSelection(selectionFor(MaskMode.get(this)));
-        modePicker.setContentDescription("Scegli la maschera safe area");
+        modePicker.setContentDescription(getString(R.string.mask_picker_description));
         modePicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -118,11 +119,11 @@ public final class MainActivity extends Activity {
         });
         content.addView(modePicker, new LinearLayout.LayoutParams(-1, -2));
 
-        opacityStatus = sectionLabel(content, "Opacità maschera");
+        opacityStatus = sectionLabel(content, getString(R.string.opacity_label));
         SeekBar opacity = new SeekBar(this);
         opacity.setMax(62);
         opacity.setProgress(MaskMode.opacity(this) - 8);
-        opacity.setContentDescription("Regola opacità della maschera");
+        opacity.setContentDescription(getString(R.string.opacity_picker_description));
         opacity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
                 MaskMode.setOpacity(MainActivity.this, progress + 8);
@@ -134,14 +135,14 @@ public final class MainActivity extends Activity {
         });
         content.addView(opacity, new LinearLayout.LayoutParams(-1, -2));
 
-        positionStatus = sectionLabel(content, "Posizione verticale");
-        SeekBar position = new SeekBar(this);
-        position.setMax(720);
-        position.setProgress(MaskMode.verticalOffset(this) + 360);
-        position.setContentDescription("Sposta verticalmente la maschera");
-        position.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        positionStatus = sectionLabel(content, getString(R.string.vertical_label));
+        SeekBar verticalPosition = new SeekBar(this);
+        verticalPosition.setMax(720);
+        verticalPosition.setProgress(MaskMode.verticalOffset(this) + 360);
+        verticalPosition.setContentDescription(getString(R.string.vertical_picker_description));
+        verticalPosition.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
-                MaskMode.setVerticalOffset(MainActivity.this, progress - 360);
+                if (fromUser) MaskMode.setVerticalOffset(MainActivity.this, progress - 360);
                 OverlayService.refreshMask(MainActivity.this);
                 refresh();
             }
@@ -150,29 +151,36 @@ public final class MainActivity extends Activity {
         });
         LinearLayout positionControls = new LinearLayout(this);
         positionControls.setGravity(Gravity.CENTER_VERTICAL);
-        positionControls.addView(position, new LinearLayout.LayoutParams(0, -2, 1f));
+        positionControls.addView(verticalPosition, new LinearLayout.LayoutParams(0, -2, 1f));
         Button resetPosition = new Button(this, null, android.R.attr.borderlessButtonStyle);
-        resetPosition.setText("Reset");
+        resetPosition.setText(R.string.reset);
         resetPosition.setTextSize(12);
         resetPosition.setAllCaps(false);
         resetPosition.setMinWidth(dp(64));
         resetPosition.setMinHeight(dp(48));
-        resetPosition.setContentDescription("Ripristina posizione verticale predefinita");
-        resetPosition.setOnClickListener(ignored -> position.setProgress(360));
+        resetPosition.setContentDescription(getString(R.string.reset_description));
+        resetPosition.setOnClickListener(ignored -> {
+            MaskMode.resetVerticalOffset(MainActivity.this);
+            verticalPosition.setProgress(MaskMode.verticalOffset(MainActivity.this) + 360);
+            OverlayService.refreshMask(MainActivity.this);
+            refresh();
+        });
         positionControls.addView(resetPosition, new LinearLayout.LayoutParams(-2, -2));
         content.addView(positionControls, new LinearLayout.LayoutParams(-1, -2));
 
-        autoStatus = sectionLabel(content, "Apri il bottone rapido quando apro");
+        autoStatus = sectionLabel(content, getString(R.string.auto_label));
         Spinner appPicker = new Spinner(this);
         List<TargetApp> apps = launchableApps();
         ArrayAdapter<TargetApp> appAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, apps);
         appPicker.setAdapter(appAdapter);
         appPicker.setSelection(targetSelection(apps, MaskMode.autoPackage(this)));
-        appPicker.setContentDescription("Scegli l'app che fa comparire il bottone rapido");
+        appPicker.setContentDescription(getString(R.string.auto_picker_description));
         appPicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 MaskMode.setAutoPackage(MainActivity.this, apps.get(position).packageName);
+                verticalPosition.setProgress(MaskMode.verticalOffset(MainActivity.this) + 360);
+                OverlayService.refreshMask(MainActivity.this);
                 refresh();
             }
             @Override public void onNothingSelected(AdapterView<?> parent) { }
@@ -181,18 +189,30 @@ public final class MainActivity extends Activity {
 
         Button accessibility = new Button(this);
         accessibility.setAllCaps(false);
-        accessibility.setText("Abilita rilevamento app");
+        accessibility.setText(R.string.enable_detection);
         accessibility.setOnClickListener(ignored -> startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)));
         content.addView(accessibility, new LinearLayout.LayoutParams(-1, -2));
 
         showButton = new Button(this);
         showButton.setAllCaps(false);
         showButton.setTextSize(17);
-        showButton.setText("Mostra bottone rapido");
+        showButton.setText(R.string.show_quick_button);
         showButton.setOnClickListener(ignored -> showQuickButton());
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(-1, -2);
         buttonParams.topMargin = dp(32);
         content.addView(showButton, buttonParams);
+        Button information = new Button(this, null, android.R.attr.borderlessButtonStyle);
+        information.setText("ⓘ");
+        information.setAllCaps(false);
+        information.setTextSize(24);
+        information.setMinWidth(dp(48));
+        information.setMinHeight(dp(48));
+        information.setContentDescription(getString(R.string.information));
+        information.setOnClickListener(ignored -> startActivity(new Intent(this, AboutActivity.class)));
+        LinearLayout.LayoutParams infoParams = new LinearLayout.LayoutParams(-2, -2);
+        infoParams.gravity = Gravity.CENTER_HORIZONTAL;
+        infoParams.topMargin = dp(12);
+        content.addView(information, infoParams);
         scroll.addView(content);
         return scroll;
     }
@@ -210,18 +230,19 @@ public final class MainActivity extends Activity {
 
     private void refresh() {
         if (modeStatus != null) {
-            modeStatus.setText("MASCHERA: " + MaskMode.label(MaskMode.get(this)).toUpperCase());
+            modeStatus.setText(getString(R.string.mask_status, MaskMode.label(MaskMode.get(this))));
         }
-        if (opacityStatus != null) opacityStatus.setText("Opacità maschera: " + MaskMode.opacity(this) + "%");
+        if (opacityStatus != null) opacityStatus.setText(getString(R.string.opacity_value, MaskMode.opacity(this)));
         if (positionStatus != null) {
             int offset = MaskMode.verticalOffset(this);
-            positionStatus.setText("Posizione verticale: " + (offset == 0 ? "predefinita" : (offset > 0 ? "+" : "") + offset + " dp"));
+            positionStatus.setText(getString(MaskMode.hasVerticalOffsetOverride(this)
+                    ? R.string.vertical_value : R.string.vertical_default, offset));
         }
         if (autoStatus != null) {
             String target = MaskMode.autoPackage(this);
-            autoStatus.setText(target.isEmpty() ? "Apri il bottone rapido quando apro: disattivato"
-                    : "Apri il bottone rapido quando apro: " + appLabel(target)
-                    + (isWatcherEnabled() ? "" : " (abilita rilevamento app)"));
+            autoStatus.setText(target.isEmpty() ? getString(R.string.auto_disabled)
+                    : getString(R.string.auto_selected, appLabel(target))
+                    + (isWatcherEnabled() ? "" : getString(R.string.auto_enable_hint)));
         }
     }
 
@@ -240,7 +261,7 @@ public final class MainActivity extends Activity {
         Intent launcher = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> resolved = getPackageManager().queryIntentActivities(launcher, 0);
         ArrayList<TargetApp> apps = new ArrayList<>();
-        apps.add(new TargetApp("", "Nessuna app"));
+        apps.add(new TargetApp("", getString(R.string.no_app)));
         HashSet<String> packages = new HashSet<>();
         for (ResolveInfo info : resolved) {
             String packageName = info.activityInfo.packageName;

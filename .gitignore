@@ -9,3 +9,5 @@ local.properties
 *.jks
 *.keystore
 captures/
+.signing/
+release-artifacts/
