@@ -2,11 +2,11 @@
 
 A lightweight Android overlay that helps you keep faces, captions and important details clear of the interface elements in Instagram Reels and TikTok.
 
-**Beta · Android 8.0+ (API 26) · GPL-3.0-only**
+**v1.0.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
-[![SCARICA APK — Download Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v0.3.0-beta/Social-Safe-Area.apk)
+[![SCARICA APK — Download Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v1.0.0/Social-Safe-Area.apk)
 
-**No compilation needed:** download the signed beta APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v0.3.0-beta).
+**No compilation needed:** download the signed APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v1.0.0).
 
 The app draws a transparent guide over your existing camera app. It does not record video, replace the camera or modify the recorded file. The guide is visible on the phone screen; it is not burned into camera recordings.
 
@@ -21,7 +21,7 @@ The app draws a transparent guide over your existing camera app. It does not rec
 - Tap-through guide: camera controls remain usable.
 - Native Android views and services, with no third-party runtime libraries, account, ads or analytics.
 
-The interface supports **English (default/fallback), Italian, French, Spanish and German**. It follows the device language; Android 13+ also provides a per-app language choice in system settings. The bottom **ⓘ** button opens creator attribution, GitHub links, the GPLv3 notice and calibration details.
+The interface supports **English (default/fallback), Italian, French, Spanish and German**. It follows the device language; Android 13+ also provides a per-app language choice in system settings. The bottom **ⓘ** button opens creator attribution, Instagram contact, project source, the GPLv3 notice and calibration details.
 
 ## Getting started
 
@@ -64,11 +64,11 @@ On Android 13 and later, the app does not request notification permission, so th
 
 ## Compatibility and current limits
 
-Android 8.0 or newer is required. The beta has been verified on a **Samsung Galaxy S26 Ultra (SM-S948B), Android 17 / API 37, Samsung Camera 17.0.00.43**, in portrait mode, with a **9:16** camera preview.
+Android 8.0 or newer is required. The app has been verified on a **Samsung Galaxy S26 Ultra (SM-S948B), Android 17 / API 37, Samsung Camera 17.0.00.43**, in portrait mode, with a **9:16** camera preview.
 
 The default reference is a 1080 × 2340 display with the actual video preview at `x=0…1080, y=184…2104`: a 1080 × 1920 frame. The mask is scaled uniformly, and Android window offsets are accounted for when drawing. Density is used for controls and the manual vertical adjustment.
 
-Other devices, camera layouts, aspect ratios and display settings may require vertical adjustment, even when a nearby profile is suggested. The beta does not automatically locate the camera preview, calibrate its width/height or adapt its geometry to landscape. Android or individual apps can also restrict overlays on protected screens.
+Other devices, camera layouts, aspect ratios and display settings may require vertical adjustment, even when a nearby profile is suggested. The app does not automatically locate the camera preview, calibrate its width/height or adapt its geometry to landscape. Android or individual apps can also restrict overlays on protected screens.
 
 The mask is a composition aid based on a fixed reference, not an official guarantee of safe placement. Reels and TikTok interfaces can vary. The project is independent and is not affiliated with Samsung, Instagram, Meta or TikTok.
 
@@ -86,7 +86,7 @@ See [the profile format and matching rules](docs/camera-profiles.md) for example
 
 ## Privacy and permissions
 
-The app has no network permission and does not upload data. Preferences stay on the device; Android backup is disabled. Profile detection uses model/OS/app metadata, not serial numbers or unique device identifiers. The calibration-copy action only writes that JSON to your clipboard; GitHub links open your external browser.
+The app has no network permission and does not upload data. Preferences stay on the device; Android backup is disabled. Profile detection uses model/OS/app metadata, not serial numbers or unique device identifiers. The calibration-copy action only writes that JSON to your clipboard; Instagram and GitHub links open your external browser.
 
 | Permission / service | Purpose |
 | --- | --- |

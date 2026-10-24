@@ -31,9 +31,9 @@
     <string name="information">À propos de l’application</string>
     <string name="back">Retour</string>
     <string name="about_title">À propos de Social Safe Area</string>
-    <string name="about_creator">Créée par Marco Rinaldi (MarcorOnline)</string>
+    <string name="about_creator">Créée par Marco Rinaldi</string>
     <string name="about_intro">Un guide de composition léger et indépendant pour votre caméra Android. Testé sur Samsung Galaxy S26 Ultra.</string>
-    <string name="creator_github">Créateur sur GitHub</string>
+    <string name="contact_instagram">Me contacter sur Instagram</string>
     <string name="project_github">Projet et code source sur GitHub</string>
     <string name="license_link">Lire la licence GPLv3</string>
     <string name="license_notice">Copyright © 2026 Marco Rinaldi. Logiciel libre sous GPL version 3 uniquement. Distribué sans garantie. Inclut les outils de compilation Gradle Wrapper sous Apache 2.0.</string>

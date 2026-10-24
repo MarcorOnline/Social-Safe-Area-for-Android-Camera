@@ -5,7 +5,8 @@
 param(
     [Parameter(Mandatory = $true)][string]$Tag,
     [Parameter(Mandatory = $true)][string]$Commit,
-    [Parameter(Mandatory = $true)][string]$NotesPath
+    [Parameter(Mandatory = $true)][string]$NotesPath,
+    [switch]$Prerelease
 )
 $ErrorActionPreference = 'Stop'
 $repo = 'MarcorOnline/Social-Safe-Area-for-Android-Camera'
@@ -37,7 +38,7 @@ try {
     if ($release -and !$release.draft) { throw 'Release is already public; published assets will not be replaced.' }
     if (!$release) {
         $body = @{ tag_name = $Tag; target_commitish = $Commit; name = "Social Safe Area $Tag";
-            body = (Get-Content -LiteralPath $NotesPath -Raw); draft = $true; prerelease = $true } | ConvertTo-Json
+            body = (Get-Content -LiteralPath $NotesPath -Raw); draft = $true; prerelease = $Prerelease.IsPresent } | ConvertTo-Json
         $release = Invoke-RestMethod -Method Post -Uri $api -Headers $headers -ContentType 'application/json' -Body $body
     }
     foreach ($asset in $assets) {
@@ -52,8 +53,9 @@ try {
         $null = Invoke-RestMethod -Method Post -Uri $upload -Headers $headers `
             -ContentType 'application/octet-stream' -InFile $path
     }
+    $latest = if ($Prerelease) { 'false' } else { 'true' }
     $result = Invoke-RestMethod -Method Patch -Uri "$api/$($release.id)" -Headers $headers `
-        -ContentType 'application/json' -Body (@{ draft = $false; prerelease = $true; make_latest = 'false' } | ConvertTo-Json)
+        -ContentType 'application/json' -Body (@{ draft = $false; prerelease = $Prerelease.IsPresent; make_latest = $latest } | ConvertTo-Json)
     Write-Output "Published: $($result.html_url)"
 } finally {
     $credentials.Clear()

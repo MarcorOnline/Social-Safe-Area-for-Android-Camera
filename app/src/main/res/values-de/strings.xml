@@ -31,9 +31,9 @@
     <string name="information">Über diese App</string>
     <string name="back">Zurück</string>
     <string name="about_title">Über Social Safe Area</string>
-    <string name="about_creator">Entwickelt von Marco Rinaldi (MarcorOnline)</string>
+    <string name="about_creator">Entwickelt von Marco Rinaldi</string>
     <string name="about_intro">Eine schlanke, unabhängige Bildhilfe für die Android-Kamera. Getestet auf Samsung Galaxy S26 Ultra.</string>
-    <string name="creator_github">Entwickler auf GitHub</string>
+    <string name="contact_instagram">Kontakt über Instagram</string>
     <string name="project_github">Projekt und Quellcode auf GitHub</string>
     <string name="license_link">GPLv3-Lizenz lesen</string>
     <string name="license_notice">Copyright © 2026 Marco Rinaldi. Freie Software unter GPL, ausschließlich Version 3. Ohne Gewährleistung. Enthält Gradle Wrapper Build-Werkzeuge unter Apache 2.0.</string>

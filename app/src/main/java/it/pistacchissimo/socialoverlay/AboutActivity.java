@@ -44,7 +44,7 @@ public final class AboutActivity extends Activity {
             throw new IllegalStateException(error);
         }
         text(content, getString(R.string.about_intro), 16);
-        link(content, R.string.creator_github, "https://github.com/MarcorOnline");
+        link(content, R.string.contact_instagram, "https://www.instagram.com/nonsolopistacchio/");
         link(content, R.string.project_github, PROJECT_URL);
         link(content, R.string.license_link, PROJECT_URL + "/blob/main/LICENSE");
         text(content, getString(R.string.license_notice), 13);
