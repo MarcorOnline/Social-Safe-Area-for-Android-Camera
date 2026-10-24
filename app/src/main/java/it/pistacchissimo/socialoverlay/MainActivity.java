@@ -1,0 +1,294 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Copyright (C) 2026 Marco Rinaldi (MarcorOnline)
+
+package it.pistacchissimo.socialoverlay;
+
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+
+/** The deliberately small control screen: Android owns the overlay permission flow. */
+public final class MainActivity extends Activity {
+    private static final int OVERLAY_PERMISSION_REQUEST = 100;
+    private Button showButton;
+    private TextView modeStatus;
+    private TextView opacityStatus;
+    private TextView positionStatus;
+    private TextView autoStatus;
+
+    @Override
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
+        setContentView(createContent());
+        if (Settings.canDrawOverlays(this)) OverlayService.start(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == OVERLAY_PERMISSION_REQUEST && Settings.canDrawOverlays(this)) {
+            OverlayService.start(this);
+        }
+    }
+
+    private View createContent() {
+        int padding = dp(28);
+        ScrollView scroll = new ScrollView(this);
+        scroll.setFillViewport(true);
+        scroll.setBackgroundColor(getColor(R.color.surface));
+        LinearLayout content = new LinearLayout(this);
+        content.setOrientation(LinearLayout.VERTICAL);
+        content.setGravity(Gravity.CENTER_VERTICAL);
+        content.setPadding(padding, padding, padding, padding);
+        content.setBackgroundColor(getColor(R.color.surface));
+
+        modeStatus = new TextView(this);
+        modeStatus.setTextColor(getColor(R.color.on_surface));
+        modeStatus.setTextSize(12);
+        content.addView(modeStatus);
+
+        TextView title = new TextView(this);
+        title.setText("SOCIAL\nSAFE AREA");
+        title.setTextColor(getColor(R.color.brand));
+        title.setTextSize(34);
+        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        content.addView(title);
+
+        TextView description = new TextView(this);
+        description.setText("Beta: una guida per comporre Reels e TikTok. Il video e i comandi della fotocamera restano toccabili.");
+        description.setTextColor(getColor(R.color.on_surface));
+        description.setTextSize(17);
+        LinearLayout.LayoutParams descriptionParams = new LinearLayout.LayoutParams(-1, -2);
+        descriptionParams.topMargin = dp(18);
+        content.addView(description, descriptionParams);
+
+        TextView modeLabel = new TextView(this);
+        modeLabel.setText("Maschera");
+        modeLabel.setTextColor(getColor(R.color.on_surface));
+        modeLabel.setTextSize(15);
+        LinearLayout.LayoutParams modeLabelParams = new LinearLayout.LayoutParams(-1, -2);
+        modeLabelParams.topMargin = dp(28);
+        content.addView(modeLabel, modeLabelParams);
+
+        Spinner modePicker = new Spinner(this);
+        String[] options = {"Reels", "TikTok", "Entrambi"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, options);
+        modePicker.setAdapter(adapter);
+        modePicker.setSelection(selectionFor(MaskMode.get(this)));
+        modePicker.setContentDescription("Scegli la maschera safe area");
+        modePicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                MaskMode.set(MainActivity.this, modeFor(position));
+                OverlayService.refreshMask(MainActivity.this);
+                refresh();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        content.addView(modePicker, new LinearLayout.LayoutParams(-1, -2));
+
+        opacityStatus = sectionLabel(content, "Opacità maschera");
+        SeekBar opacity = new SeekBar(this);
+        opacity.setMax(62);
+        opacity.setProgress(MaskMode.opacity(this) - 8);
+        opacity.setContentDescription("Regola opacità della maschera");
+        opacity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
+                MaskMode.setOpacity(MainActivity.this, progress + 8);
+                OverlayService.refreshMask(MainActivity.this);
+                refresh();
+            }
+            @Override public void onStartTrackingTouch(SeekBar bar) { }
+            @Override public void onStopTrackingTouch(SeekBar bar) { }
+        });
+        content.addView(opacity, new LinearLayout.LayoutParams(-1, -2));
+
+        positionStatus = sectionLabel(content, "Posizione verticale");
+        SeekBar position = new SeekBar(this);
+        position.setMax(720);
+        position.setProgress(MaskMode.verticalOffset(this) + 360);
+        position.setContentDescription("Sposta verticalmente la maschera");
+        position.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
+                MaskMode.setVerticalOffset(MainActivity.this, progress - 360);
+                OverlayService.refreshMask(MainActivity.this);
+                refresh();
+            }
+            @Override public void onStartTrackingTouch(SeekBar bar) { }
+            @Override public void onStopTrackingTouch(SeekBar bar) { }
+        });
+        LinearLayout positionControls = new LinearLayout(this);
+        positionControls.setGravity(Gravity.CENTER_VERTICAL);
+        positionControls.addView(position, new LinearLayout.LayoutParams(0, -2, 1f));
+        Button resetPosition = new Button(this, null, android.R.attr.borderlessButtonStyle);
+        resetPosition.setText("Reset");
+        resetPosition.setTextSize(12);
+        resetPosition.setAllCaps(false);
+        resetPosition.setMinWidth(dp(64));
+        resetPosition.setMinHeight(dp(48));
+        resetPosition.setContentDescription("Ripristina posizione verticale predefinita");
+        resetPosition.setOnClickListener(ignored -> position.setProgress(360));
+        positionControls.addView(resetPosition, new LinearLayout.LayoutParams(-2, -2));
+        content.addView(positionControls, new LinearLayout.LayoutParams(-1, -2));
+
+        autoStatus = sectionLabel(content, "Apri il bottone rapido quando apro");
+        Spinner appPicker = new Spinner(this);
+        List<TargetApp> apps = launchableApps();
+        ArrayAdapter<TargetApp> appAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, apps);
+        appPicker.setAdapter(appAdapter);
+        appPicker.setSelection(targetSelection(apps, MaskMode.autoPackage(this)));
+        appPicker.setContentDescription("Scegli l'app che fa comparire il bottone rapido");
+        appPicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                MaskMode.setAutoPackage(MainActivity.this, apps.get(position).packageName);
+                refresh();
+            }
+            @Override public void onNothingSelected(AdapterView<?> parent) { }
+        });
+        content.addView(appPicker, new LinearLayout.LayoutParams(-1, -2));
+
+        Button accessibility = new Button(this);
+        accessibility.setAllCaps(false);
+        accessibility.setText("Abilita rilevamento app");
+        accessibility.setOnClickListener(ignored -> startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)));
+        content.addView(accessibility, new LinearLayout.LayoutParams(-1, -2));
+
+        showButton = new Button(this);
+        showButton.setAllCaps(false);
+        showButton.setTextSize(17);
+        showButton.setText("Mostra bottone rapido");
+        showButton.setOnClickListener(ignored -> showQuickButton());
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(-1, -2);
+        buttonParams.topMargin = dp(32);
+        content.addView(showButton, buttonParams);
+        scroll.addView(content);
+        return scroll;
+    }
+
+    private void showQuickButton() {
+        if (!Settings.canDrawOverlays(this)) {
+            Intent permission = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivityForResult(permission, OVERLAY_PERMISSION_REQUEST);
+            return;
+        }
+        OverlayService.start(this);
+        refresh();
+    }
+
+    private void refresh() {
+        if (modeStatus != null) {
+            modeStatus.setText("MASCHERA: " + MaskMode.label(MaskMode.get(this)).toUpperCase());
+        }
+        if (opacityStatus != null) opacityStatus.setText("Opacità maschera: " + MaskMode.opacity(this) + "%");
+        if (positionStatus != null) {
+            int offset = MaskMode.verticalOffset(this);
+            positionStatus.setText("Posizione verticale: " + (offset == 0 ? "predefinita" : (offset > 0 ? "+" : "") + offset + " dp"));
+        }
+        if (autoStatus != null) {
+            String target = MaskMode.autoPackage(this);
+            autoStatus.setText(target.isEmpty() ? "Apri il bottone rapido quando apro: disattivato"
+                    : "Apri il bottone rapido quando apro: " + appLabel(target)
+                    + (isWatcherEnabled() ? "" : " (abilita rilevamento app)"));
+        }
+    }
+
+    private TextView sectionLabel(LinearLayout content, String text) {
+        TextView label = new TextView(this);
+        label.setText(text);
+        label.setTextColor(getColor(R.color.on_surface));
+        label.setTextSize(15);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+        params.topMargin = dp(24);
+        content.addView(label, params);
+        return label;
+    }
+
+    private List<TargetApp> launchableApps() {
+        Intent launcher = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> resolved = getPackageManager().queryIntentActivities(launcher, 0);
+        ArrayList<TargetApp> apps = new ArrayList<>();
+        apps.add(new TargetApp("", "Nessuna app"));
+        HashSet<String> packages = new HashSet<>();
+        for (ResolveInfo info : resolved) {
+            String packageName = info.activityInfo.packageName;
+            if (getPackageName().equals(packageName) || !packages.add(packageName)) continue;
+            apps.add(new TargetApp(packageName, String.valueOf(info.loadLabel(getPackageManager()))));
+        }
+        Collections.sort(apps.subList(1, apps.size()), Comparator.comparing(app -> app.label, String.CASE_INSENSITIVE_ORDER));
+        return apps;
+    }
+
+    private int targetSelection(List<TargetApp> apps, String packageName) {
+        for (int i = 0; i < apps.size(); i++) if (apps.get(i).packageName.equals(packageName)) return i;
+        return 0;
+    }
+
+    private String appLabel(String packageName) {
+        for (TargetApp app : launchableApps()) if (app.packageName.equals(packageName)) return app.label;
+        return packageName;
+    }
+
+    private boolean isWatcherEnabled() {
+        String enabled = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+        return enabled != null && enabled.contains(new ComponentName(this, AppWatchAccessibilityService.class).flattenToString());
+    }
+
+    private int dp(int value) {
+        return Math.round(value * getResources().getDisplayMetrics().density);
+    }
+
+    private static String modeFor(int position) {
+        if (position == 0) return MaskMode.REELS;
+        if (position == 1) return MaskMode.TIKTOK;
+        return MaskMode.BOTH;
+    }
+
+    private static int selectionFor(String mode) {
+        if (MaskMode.REELS.equals(mode)) return 0;
+        if (MaskMode.TIKTOK.equals(mode)) return 1;
+        return 2;
+    }
+
+    private static final class TargetApp {
+        final String packageName;
+        final String label;
+        TargetApp(String packageName, String label) {
+            this.packageName = packageName;
+            this.label = label;
+        }
+        @Override public String toString() { return label; }
+    }
+}

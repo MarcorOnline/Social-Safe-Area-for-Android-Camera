@@ -1,0 +1,3 @@
+<resources>
+    <string name="app_watch_description">Mostra il bottone rapido Safe Area quando apri l’app selezionata e lo nasconde quando passi a un’altra app. Non legge il contenuto dello schermo.</string>
+</resources>

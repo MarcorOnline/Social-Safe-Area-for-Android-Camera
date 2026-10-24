@@ -1,0 +1,107 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Copyright (C) 2026 Marco Rinaldi (MarcorOnline)
+
+package it.pistacchissimo.socialoverlay;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.os.Build;
+import android.view.View;
+import android.view.WindowManager;
+
+/** Draws a tap-through, resolution-independent 9:16 social composition guide. */
+final class SafeAreaGuideView extends View {
+    private static final int REELS = Color.rgb(255, 59, 123);
+    private static final int TIKTOK = Color.rgb(37, 244, 238);
+    private static final float FRAME_WIDTH = 1080f;
+    private static final float FRAME_HEIGHT = 1920f;
+    private static final float REFERENCE_SCREEN_HEIGHT = 2340f;
+    private static final float PREVIEW_TOP = 184f;
+    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final int[] windowOrigin = new int[2];
+    private final Point screenSize = new Point();
+    private float frameScale = 1f;
+
+    SafeAreaGuideView(Context context) {
+        super(context);
+        setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        readScreenSize();
+        getLocationOnScreen(windowOrigin);
+        frameScale = Math.min(screenSize.x / FRAME_WIDTH,
+                screenSize.y / REFERENCE_SCREEN_HEIGHT);
+        float left = (screenSize.x - FRAME_WIDTH * frameScale) / 2f;
+        float top = PREVIEW_TOP * frameScale
+                + MaskMode.verticalOffset(getContext()) * getResources().getDisplayMetrics().density;
+        canvas.save();
+        // Android may inset an overlay below the cutout/status bar. Convert screen to local pixels.
+        canvas.translate(left - windowOrigin[0], top - windowOrigin[1]);
+        canvas.scale(frameScale, frameScale);
+        canvas.clipRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        String mode = MaskMode.get(getContext());
+        if (!MaskMode.REELS.equals(mode)) {
+            drawSafeZone(canvas, TIKTOK, 173, 767, 842, 1382, 1748);
+        }
+        if (!MaskMode.TIKTOK.equals(mode)) {
+            drawSafeZone(canvas, REELS, 154, 806, 864, 1420, 1728);
+        }
+        if (!MaskMode.TIKTOK.equals(mode)) {
+            drawLabel(canvas, "Reels", REELS, 24, 60);
+        }
+        if (!MaskMode.REELS.equals(mode)) {
+            drawLabel(canvas, "TikTok", TIKTOK, 244, 60);
+        }
+        canvas.restore();
+    }
+
+    /** Draws the four forbidden bands that leave the platform's reverse-L safe area clear. */
+    private void drawSafeZone(Canvas canvas, int color, float topY, float sideY,
+            float sideX, float lowerY, float bottomY) {
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.argb(Math.round(MaskMode.opacity(getContext()) * 2.55f),
+                Color.red(color), Color.green(color), Color.blue(color)));
+        canvas.drawRect(0, 0, FRAME_WIDTH, topY, paint);
+        canvas.drawRect(sideX, sideY, FRAME_WIDTH, bottomY, paint);
+        canvas.drawRect(0, lowerY, sideX, bottomY, paint);
+        canvas.drawRect(0, bottomY, FRAME_WIDTH, FRAME_HEIGHT, paint);
+
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(dp(1) / frameScale);
+        paint.setColor(color);
+        canvas.drawLine(0, topY, FRAME_WIDTH, topY, paint);
+        canvas.drawLine(sideX, sideY, FRAME_WIDTH, sideY, paint);
+        canvas.drawLine(sideX, sideY, sideX, bottomY, paint);
+        canvas.drawLine(0, lowerY, sideX, lowerY, paint);
+        canvas.drawLine(0, bottomY, FRAME_WIDTH, bottomY, paint);
+    }
+
+    private void drawLabel(Canvas canvas, String text, int color, float x, float baseline) {
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(color);
+        paint.setTextSize(FRAME_WIDTH * .03f);
+        paint.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        canvas.drawText(text, x, baseline, paint);
+    }
+
+    private float dp(int value) {
+        return value * getResources().getDisplayMetrics().density;
+    }
+
+    @SuppressWarnings("deprecation")
+    private void readScreenSize() {
+        WindowManager manager = getContext().getSystemService(WindowManager.class);
+        if (Build.VERSION.SDK_INT >= 30) {
+            Rect bounds = manager.getMaximumWindowMetrics().getBounds();
+            screenSize.set(bounds.width(), bounds.height());
+        } else {
+            manager.getDefaultDisplay().getRealSize(screenSize);
+        }
+    }
+}
