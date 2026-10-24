@@ -4,7 +4,7 @@ A lightweight Android overlay that helps you keep faces, captions and important 
 
 **v1.0.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
-[![SCARICA APK — Download Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v1.0.0/Social-Safe-Area.apk)
+[![Download the Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v1.0.0/Social-Safe-Area.apk)
 
 **No compilation needed:** download the signed APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v1.0.0).
 
@@ -25,7 +25,7 @@ The interface supports **English (default/fallback), Italian, French, Spanish an
 
 ## Getting started
 
-Download the APK using **SCARICA APK** above. Android may ask you to allow installation from your browser or file manager; grant that permission for the source you are using, then open the APK. You can also build it yourself using the instructions below.
+Download the APK using **Download the Android APK** above. Android may ask you to allow installation from your browser or file manager; grant that permission for the source you are using, then open the APK. You can also build it yourself using the instructions below.
 
 ### Allow display on top of the camera
 
@@ -192,4 +192,4 @@ This program is distributed in the hope that it will be useful, but **WITHOUT AN
 
 The Gradle Wrapper is third-party build tooling under the Apache License 2.0 and retains its original notices. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-Android is a trademark of Google LLC. The download button adapts Google's Android robot artwork under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/); this is not an endorsement.
+Android is a trademark of Google LLC. The Android robot is reproduced from work created and shared by Google and used according to the [Creative Commons Attribution 3.0 License](https://creativecommons.org/licenses/by/3.0/); this is not an endorsement.
