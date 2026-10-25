@@ -5,6 +5,7 @@ package it.pistacchissimo.socialoverlay;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.content.pm.PackageManager;
@@ -21,12 +22,14 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 /** The deliberately small control screen: Android owns the overlay permission flow. */
 public final class MainActivity extends Activity {
@@ -36,6 +39,8 @@ public final class MainActivity extends Activity {
     private TextView opacityStatus;
     private TextView positionStatus;
     private TextView autoStatus;
+    private Button updateButton;
+    private final Consumer<UpdateChecker.Release> updateResult = this::showUpdate;
 
     @Override
     public void onCreate(Bundle state) {
@@ -49,6 +54,7 @@ public final class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         refresh();
+        UpdateChecker.check(this, updateResult);
     }
 
     @Override
@@ -89,6 +95,11 @@ public final class MainActivity extends Activity {
         LinearLayout.LayoutParams descriptionParams = new LinearLayout.LayoutParams(-1, -2);
         descriptionParams.topMargin = dp(18);
         content.addView(description, descriptionParams);
+
+        updateButton = new Button(this, null, android.R.attr.borderlessButtonStyle);
+        updateButton.setAllCaps(false);
+        updateButton.setVisibility(View.GONE);
+        content.addView(updateButton, new LinearLayout.LayoutParams(-1, -2));
 
         TextView modeLabel = new TextView(this);
         modeLabel.setText(R.string.mask_label);
@@ -226,6 +237,27 @@ public final class MainActivity extends Activity {
         }
         OverlayService.start(this);
         refresh();
+    }
+
+    private void showUpdate(UpdateChecker.Release release) {
+        if (isFinishing() || isDestroyed()) return;
+        String installed;
+        try {
+            installed = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException ignored) {
+            return;
+        }
+        boolean available = release != null && release.isNewerThan(installed);
+        updateButton.setVisibility(available ? View.VISIBLE : View.GONE);
+        if (!available) return;
+        updateButton.setText(getString(R.string.update_available, release.versionName));
+        updateButton.setOnClickListener(ignored -> {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(release.releaseUrl)));
+            } catch (ActivityNotFoundException error) {
+                Toast.makeText(this, R.string.no_browser, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void refresh() {

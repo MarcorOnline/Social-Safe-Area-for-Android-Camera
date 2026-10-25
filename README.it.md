@@ -1,14 +1,17 @@
-# Social Safe Area for Android Camera
+# Social Safe Area — Camera overlay for Reels and TikTok
 
 [English](README.md) · [Italiano](README.it.md)
 
 Una maschera leggera per Android che ti aiuta a tenere volti, scritte e dettagli importanti lontani dagli elementi dell’interfaccia di Instagram Reels e TikTok.
 
-**v1.0.1 · Android 8.0+ (API 26) · GPL-3.0-only**
+**v1.1.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
-[![Scarica l’APK per Android](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v1.0.1/Social-Safe-Area-1.0.1.apk)
+Sul telefono l’app si chiama **Safe Area**. Il nome preparato per Google Play è
+**Safe Area: Reels & TikTok**; la distribuzione su Google Play non è ancora disponibile.
 
-**Non serve compilare:** scarica l’APK firmato, aprilo sul telefono e segui le istruzioni di installazione di Android. Consulta le [note di rilascio e i checksum](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v1.0.1).
+[![Scarica l’APK per Android](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v1.1.0/Social-Safe-Area-1.1.0.apk)
+
+**Non serve compilare:** scarica l’APK firmato, aprilo sul telefono e segui le istruzioni di installazione di Android. Consulta le [note di rilascio e i checksum](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v1.1.0).
 
 L’app disegna una guida trasparente sopra la fotocamera che usi già. Non registra video, non sostituisce la fotocamera e non modifica il file registrato. La guida compare sullo schermo del telefono, ma non viene impressa nelle registrazioni della fotocamera.
 
@@ -20,6 +23,7 @@ L’app disegna una guida trasparente sopra la fotocamera che usi già. Non regi
 - Opacità della maschera dall’8% al 70%, con valore predefinito del 23%.
 - Profili per dispositivo, versione Android e fotocamera, con selezione del più simile, più regolazione verticale manuale da −360 a +360 dp. **Reset** ripristina il profilo suggerito.
 - Visualizzazione automatica facoltativa quando si apre l’app selezionata, con scomparsa quando si passa a un’altra app o alla schermata Home.
+- Dalla v1.1.0: controllo aggiornamenti settimanale all’apertura dell’app, con un link discreto quando è disponibile una nuova versione.
 - La guida lascia passare i tocchi: i comandi della fotocamera restano utilizzabili.
 - Interfaccia e servizi Android nativi, senza librerie di terze parti a runtime, account, pubblicità o analisi dell’utilizzo.
 
@@ -31,7 +35,7 @@ Scarica l’APK con il pulsante di download qui sopra. Android potrebbe chiedert
 
 ### Consenti la visualizzazione sopra la fotocamera
 
-Apri **Social Safe Area** e tocca **Mostra bottone rapido**. Nella pagina dei permessi di Android, seleziona Social Safe Area e attiva **Mostra sopra altre app** / **Comparsa in primo piano**, poi torna all’app. Su Samsung lo stesso interruttore si trova in **Impostazioni → Applicazioni → Accesso speciale → Comparsa in primo piano**; i nomi possono variare in base alla versione di Android.
+Apri **Safe Area** e tocca **Mostra bottone rapido**. Nella pagina dei permessi di Android, seleziona Safe Area e attiva **Mostra sopra altre app** / **Comparsa in primo piano**, poi torna all’app. Su Samsung lo stesso interruttore si trova in **Impostazioni → Applicazioni → Accesso speciale → Comparsa in primo piano**; i nomi possono variare in base alla versione di Android. Le versioni pubblicate prima della v1.1.0 si chiamano Social Safe Area.
 
 Questo permesso serve per disegnare sopra la fotocamera. L’accessibilità è un permesso separato e facoltativo.
 
@@ -41,20 +45,20 @@ Questo permesso serve per disegnare sopra la fotocamera. L’accessibilità è u
 4. Usa il bottone flottante `SAFE / ON/OFF` per accendere o spegnere la maschera. Solo questo bottone cambia tale stato.
 5. Trascina il bottone rapido per spostarlo. Per chiudere la maschera e il bottone, trascinalo sul cestino che compare in basso.
 
-Aprire Social Safe Area ripristina anche il bottone rapido se il permesso di sovrapposizione è già concesso. La maschera scelta, l’opacità, l’allineamento verticale, la posizione del bottone e lo stato ON/OFF vengono salvati sul dispositivo.
+Aprire Safe Area ripristina anche il bottone rapido se il permesso di sovrapposizione è già concesso. La maschera scelta, l’opacità, l’allineamento verticale, la posizione del bottone e lo stato ON/OFF vengono salvati sul dispositivo.
 
 ### Segui automaticamente l’app fotocamera
 
 1. In **Apri il bottone rapido quando apro**, seleziona la tua app fotocamera.
 2. Tocca **Abilita rilevamento fotocamera** per aprire le impostazioni di accessibilità di Android.
 3. Cerca **Rilevamento app Safe Area** tra le app o i servizi installati/scaricati, attivalo e conferma la richiesta di Android.
-4. Torna in Social Safe Area, poi apri la fotocamera selezionata.
+4. Torna in Safe Area, poi apri la fotocamera selezionata.
 
 Se Android blocca l’accessibilità per un’app installata tramite APK, potrebbe essere necessario abilitare **Informazioni app → ⋮ → Consenti impostazioni con limitazioni**. Fallo solo per una versione di cui ti fidi; consulta la [spiegazione di Android sulle impostazioni con limitazioni](https://support.google.com/android/answer/12623953). I nomi dei menu dipendono dal sistema e dal produttore.
 
 Aprire l’app selezionata mostra il bottone rapido e ripristina lo stato salvato della maschera. Passare a un’altra app o alla Home nasconde sia il bottone sia la maschera. Tornare all’app selezionata li ripristina senza cambiare ON/OFF.
 
-Chiudere esplicitamente la sovrapposizione con il cestino o con **Chiudi app** nella notifica sospende la riapertura automatica finché non riapri Social Safe Area. Seleziona **Nessuna app** per disattivare questa funzione.
+Chiudere esplicitamente la sovrapposizione con il cestino o con **Chiudi app** nella notifica sospende la riapertura automatica finché non riapri Safe Area. Seleziona **Nessuna app** per disattivare questa funzione.
 
 Il rilevamento usa gli eventi di cambio finestra a schermo intero. Popup e pannelli parziali non vengono considerati un’uscita dalla fotocamera. Il contenuto dello schermo non viene esaminato.
 
@@ -88,10 +92,15 @@ Consulta [formato dei profili e regole di selezione](docs/camera-profiles.md) pe
 
 ## Privacy e permessi
 
-L’app non ha il permesso di accesso alla rete e non carica dati. Le preferenze restano sul dispositivo; il backup Android è disabilitato. Il rilevamento dei profili usa metadati di modello, sistema e app, senza seriali o identificatori univoci del dispositivo. Il comando di copia della calibrazione scrive solo quel JSON negli appunti; i link a Instagram e GitHub si aprono nel browser esterno.
+Dalla v1.1.0 l’app usa il permesso Internet per controllare direttamente l’ultima release stabile su GitHub quando apri la schermata dei comandi, al massimo una volta ogni sette giorni, anche se il tentativo fallisce. Non invia identificatori del dispositivo, calibrazioni, account o versione installata. GitHub e i suoi fornitori di rete ricevono i normali metadati di connessione, come l’indirizzo IP. Le versioni pubblicate in precedenza non hanno il permesso di accesso alla rete.
+
+Se esiste una versione più recente, compare il pulsante **Vedi aggiornamento**, che apre GitHub solo al tocco. Non ci sono popup, notifiche di aggiornamento, download automatici o richieste pianificate in background. Assenza di rete, 404, limiti di GitHub e risposte malformate non interrompono l’app. Consulta [funzionamento e istruzioni di rilascio](docs/app-updates.md).
+
+Le preferenze e l’ultimo risultato valido del controllo restano sul dispositivo; il backup Android è disabilitato. Il rilevamento dei profili usa metadati di modello, sistema e app, senza seriali o identificatori univoci del dispositivo. Il comando di copia della calibrazione scrive solo quel JSON negli appunti; i link esterni si aprono nel browser.
 
 | Permesso / servizio | Scopo |
 | --- | --- |
+| Internet (dalla v1.1.0) | Controllare l’ultima release stabile GitHub via HTTPS, al massimo settimanalmente all’apertura dell’app. |
 | Visualizzazione sopra altre app | Disegnare la guida e il bottone rapido sopra la fotocamera. |
 | Servizio in primo piano (`specialUse` nelle versioni Android recenti) | Mantenere attiva la sovrapposizione mentre un’altra app è in primo piano. |
 | Servizio di accessibilità, facoltativo e attivato dall’utente | Ricevere eventi di cambio finestra per seguire l’app selezionata. Il recupero del contenuto delle finestre è disabilitato. |

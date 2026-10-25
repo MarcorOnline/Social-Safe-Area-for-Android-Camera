@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name" translatable="false">Social Safe Area</string>
-    <string name="home_title" translatable="false">SOCIAL\nSAFE AREA</string>
+    <string name="app_name" translatable="false">Safe Area</string>
+    <string name="home_title" translatable="false">SAFE AREA</string>
     <string name="reels" translatable="false">Reels</string>
     <string name="tiktok" translatable="false">TikTok</string>
     <string name="both_platforms" translatable="false">Reels + TikTok</string>
@@ -54,4 +54,5 @@
     <string name="no_browser">No app is available to open this link.</string>
     <string name="version_label">Version %1$s</string>
     <string name="selected_profile">Suggested profile (closest match):\n%1$s</string>
+    <string name="update_available">Version %1$s available · View update</string>
 </resources>

@@ -48,4 +48,5 @@
     <string name="no_browser">Keine App zum Öffnen dieses Links verfügbar.</string>
     <string name="version_label">Version %1$s</string>
     <string name="selected_profile">Vorgeschlagenes Profil (ähnlichster Treffer):\n%1$s</string>
+    <string name="update_available">Version %1$s verfügbar · Update ansehen</string>
 </resources>

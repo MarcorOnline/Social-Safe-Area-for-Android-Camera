@@ -5,4 +5,7 @@
     <instrumentation
         android:name="it.pistacchissimo.socialoverlay.GuideRotationTest"
         android:targetPackage="it.pistacchissimo.socialoverlay" />
+    <instrumentation
+        android:name="it.pistacchissimo.socialoverlay.UpdateCheckTest"
+        android:targetPackage="it.pistacchissimo.socialoverlay" />
 </manifest>

@@ -1,14 +1,17 @@
-# Social Safe Area for Android Camera
+# Social Safe Area — Camera overlay for Reels and TikTok
 
 [English](README.md) · [Italiano](README.it.md)
 
 A lightweight Android overlay that helps you keep faces, captions and important details clear of the interface elements in Instagram Reels and TikTok.
 
-**v1.0.1 · Android 8.0+ (API 26) · GPL-3.0-only**
+**v1.1.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
-[![Download the Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v1.0.1/Social-Safe-Area-1.0.1.apk)
+The app appears as **Safe Area** on your phone. The prepared Google Play title is
+**Safe Area: Reels & TikTok**; Google Play distribution is not available yet.
 
-**No compilation needed:** download the signed APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v1.0.1).
+[![Download the Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v1.1.0/Social-Safe-Area-1.1.0.apk)
+
+**No compilation needed:** download the signed APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v1.1.0).
 
 The app draws a transparent guide over your existing camera app. It does not record video, replace the camera or modify the recorded file. The guide is visible on the phone screen; it is not burned into camera recordings.
 
@@ -20,6 +23,7 @@ The app draws a transparent guide over your existing camera app. It does not rec
 - Mask opacity from 8% to 70%, defaulting to 23%.
 - Device/Android/camera profiles with proximity matching, plus manual vertical alignment from −360 to +360 dp. **Reset** restores the suggested profile.
 - Optional automatic display when a selected app opens, and automatic hiding when you switch to another app or the launcher.
+- From v1.1.0: a weekly update check when opening the app, with a quiet inline link when a newer release is available.
 - Tap-through guide: camera controls remain usable.
 - Native Android views and services, with no third-party runtime libraries, account, ads or analytics.
 
@@ -31,7 +35,7 @@ Download the APK using **Download the Android APK** above. Android may ask you t
 
 ### Allow display on top of the camera
 
-Open **Social Safe Area**, then tap **Show quick button**. On Android's permission page, select Social Safe Area and enable **Display over other apps** / **Appear on top**, then return to the app. On Samsung, the same switch is available under **Settings → Apps → Special access → Appear on top**; wording can vary by Android version.
+Open **Safe Area**, then tap **Show quick button**. On Android's permission page, select Safe Area and enable **Display over other apps** / **Appear on top**, then return to the app. On Samsung, the same switch is available under **Settings → Apps → Special access → Appear on top**; wording can vary by Android version. Published builds before v1.1.0 use the label Social Safe Area.
 
 This permission is required to draw over your camera. Accessibility is a separate, optional permission.
 
@@ -41,20 +45,20 @@ This permission is required to draw over your camera. Accessibility is a separat
 4. Use the floating `SAFE / ON/OFF` button to turn the mask on or off. Only this button changes that state.
 5. Drag the quick button to reposition it. Drag it onto the bottom trash target to close the overlay.
 
-Opening Social Safe Area also restores the quick button when overlay permission is already granted. Mask choice, opacity, vertical alignment, quick-button position and ON/OFF state are stored locally.
+Opening Safe Area also restores the quick button when overlay permission is already granted. Mask choice, opacity, vertical alignment, quick-button position and ON/OFF state are stored locally.
 
 ### Automatically follow your camera app
 
 1. In **Show quick button when I open**, select your camera app.
 2. Tap **Enable camera detection** to open Android Accessibility settings.
 3. Find **Safe Area camera detection** under installed/downloaded apps or services, switch it on and confirm Android's prompt.
-4. Return to Social Safe Area, then open the selected camera.
+4. Return to Safe Area, then open the selected camera.
 
 If Android blocks Accessibility for a sideloaded app, its **App info → ⋮ → Allow restricted settings** option may need to be enabled first. Only do this for a build you trust; see [Android's explanation of restricted settings](https://support.google.com/android/answer/12623953). Menu names depend on the OS and manufacturer.
 
 Opening the selected app shows the quick button and restores the saved mask state. Switching to another app or the launcher hides both the button and the mask. Returning to the selected app restores them without changing ON/OFF.
 
-Closing the overlay explicitly using the trash target or the notification's **Close app** action suspends automatic reopening until you reopen Social Safe Area. Select **No app** to disable automatic following.
+Closing the overlay explicitly using the trash target or the notification's **Close app** action suspends automatic reopening until you reopen Safe Area. Select **No app** to disable automatic following.
 
 Detection uses full-screen window-change events. Partial popups and panels do not count as leaving the camera. It does not inspect the contents of the screen.
 
@@ -88,10 +92,15 @@ See [the profile format and matching rules](docs/camera-profiles.md) for example
 
 ## Privacy and permissions
 
-The app has no network permission and does not upload data. Preferences stay on the device; Android backup is disabled. Profile detection uses model/OS/app metadata, not serial numbers or unique device identifiers. The calibration-copy action only writes that JSON to your clipboard; Instagram and GitHub links open your external browser.
+From v1.1.0, the app uses Internet permission to request GitHub's latest stable release when opening the control screen, at most once every seven days (including failed attempts). It sends no device identifiers, calibration data, account or installed version. GitHub and its network providers see normal connection metadata such as the client's IP address. Earlier published versions have no network permission.
+
+A newer release appears as an inline **View update** button, which opens GitHub only when tapped. There are no update popups, notifications, automatic downloads or scheduled background requests. Offline, 404, GitHub rate limits and malformed responses do not interrupt the app. See [update behavior and release instructions](docs/app-updates.md).
+
+Preferences and the last valid update result stay on the device; Android backup is disabled. Profile detection uses model/OS/app metadata, not serial numbers or unique device identifiers. The calibration-copy action only writes that JSON to your clipboard; external links open your browser.
 
 | Permission / service | Purpose |
 | --- | --- |
+| Internet (from v1.1.0) | Check the latest stable GitHub release over HTTPS, at most weekly when opening the app. |
 | Display over other apps | Draw the guide and quick button above the camera. |
 | Foreground service (`specialUse` on recent Android versions) | Keep the overlay running while another app is in front. |
 | Accessibility service, optional and user-enabled | Receive window-change events to follow the selected app. Window-content retrieval is disabled. |
