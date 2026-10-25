@@ -8,8 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
-import android.os.Build;
+import android.hardware.display.DisplayManager;
+import android.view.Display;
+import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -25,24 +26,60 @@ final class SafeAreaGuideView extends View {
     private final int[] windowOrigin = new int[2];
     private final Point screenSize = new Point();
     private float frameScale = 1f;
+    private final DisplayManager.DisplayListener displayListener = new DisplayManager.DisplayListener() {
+        @Override public void onDisplayAdded(int displayId) { }
+        @Override public void onDisplayRemoved(int displayId) { }
+        @Override public void onDisplayChanged(int displayId) { invalidate(); }
+    };
 
     SafeAreaGuideView(Context context) {
         super(context);
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
     }
 
+    @Override protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        getContext().getSystemService(DisplayManager.class).registerDisplayListener(displayListener, getHandler());
+    }
+
+    @Override protected void onDetachedFromWindow() {
+        getContext().getSystemService(DisplayManager.class).unregisterDisplayListener(displayListener);
+        super.onDetachedFromWindow();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
-        readScreenSize();
+        int rotation = readScreenSize();
         getLocationOnScreen(windowOrigin);
-        frameScale = Math.min(screenSize.x / FRAME_WIDTH,
-                screenSize.y / REFERENCE_SCREEN_HEIGHT);
-        float left = (screenSize.x - FRAME_WIDTH * frameScale) / 2f;
+        boolean sideways = rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270;
+        int panelWidth = sideways ? screenSize.y : screenSize.x;
+        int panelHeight = sideways ? screenSize.x : screenSize.y;
+        frameScale = Math.min(panelWidth / FRAME_WIDTH,
+                panelHeight / REFERENCE_SCREEN_HEIGHT);
+        float left = (panelWidth - FRAME_WIDTH * frameScale) / 2f;
         float top = PREVIEW_TOP * frameScale
                 + MaskMode.verticalOffset(getContext()) * getResources().getDisplayMetrics().density;
         canvas.save();
         // Android may inset an overlay below the cutout/status bar. Convert screen to local pixels.
-        canvas.translate(left - windowOrigin[0], top - windowOrigin[1]);
+        canvas.translate(-windowOrigin[0], -windowOrigin[1]);
+        // Keep the guide anchored to the physical panel, undoing Android's display rotation.
+        switch (rotation) {
+            case Surface.ROTATION_90:
+                canvas.translate(0, screenSize.y);
+                canvas.rotate(-90);
+                break;
+            case Surface.ROTATION_180:
+                canvas.translate(screenSize.x, screenSize.y);
+                canvas.rotate(180);
+                break;
+            case Surface.ROTATION_270:
+                canvas.translate(screenSize.x, 0);
+                canvas.rotate(90);
+                break;
+            default:
+                break;
+        }
+        canvas.translate(left, top);
         canvas.scale(frameScale, frameScale);
         canvas.clipRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
         String mode = MaskMode.get(getContext());
@@ -95,13 +132,10 @@ final class SafeAreaGuideView extends View {
     }
 
     @SuppressWarnings("deprecation")
-    private void readScreenSize() {
-        WindowManager manager = getContext().getSystemService(WindowManager.class);
-        if (Build.VERSION.SDK_INT >= 30) {
-            Rect bounds = manager.getMaximumWindowMetrics().getBounds();
-            screenSize.set(bounds.width(), bounds.height());
-        } else {
-            manager.getDefaultDisplay().getRealSize(screenSize);
-        }
+    private int readScreenSize() {
+        Display display = getDisplay();
+        if (display == null) display = getContext().getSystemService(WindowManager.class).getDefaultDisplay();
+        display.getRealSize(screenSize);
+        return display.getRotation();
     }
 }

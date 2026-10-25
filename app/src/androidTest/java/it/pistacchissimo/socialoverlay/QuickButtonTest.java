@@ -66,7 +66,10 @@ final class QuickButtonTest {
                 ArrayList<View> attribution = new ArrayList<>();
                 View root = about[0].getWindow().getDecorView();
                 root.findViewsWithText(attribution, about[0].getString(R.string.about_creator), View.FIND_VIEWS_WITH_TEXT);
-                if (attribution.isEmpty() || findButton(root, about[0].getString(R.string.project_github)) == null) {
+                if (attribution.isEmpty() || findButton(root, about[0].getString(R.string.project_github)) == null
+                        || findButton(root, about[0].getString(R.string.pistacchissimo_article)) == null
+                        || findButton(root, about[0].getString(R.string.pistacchissimo_instagram)) == null
+                        || findButton(root, about[0].getString(R.string.contact_instagram)) == null) {
                     failure[0] = new AssertionError("Missing creator or source attribution");
                 }
             });

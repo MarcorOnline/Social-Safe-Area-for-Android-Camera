@@ -40,7 +40,9 @@ try {
     $output = Join-Path $root 'release-artifacts'
     New-Item -ItemType Directory -Force -Path $output | Out-Null
     $aligned = Join-Path $output 'aligned.apk'
-    $signed = Join-Path $output 'Social-Safe-Area.apk'
+    $metadata = Get-Content -LiteralPath 'app/build/outputs/apk/release/output-metadata.json' -Raw | ConvertFrom-Json
+    $version = $metadata.elements[0].versionName
+    $signed = Join-Path $output "Social-Safe-Area-$version.apk"
     & "$tools/zipalign.exe" -f -p 4 'app/build/outputs/apk/release/app-release-unsigned.apk' $aligned
     if ($LASTEXITCODE -ne 0) { throw 'APK alignment failed.' }
     & "$tools/apksigner.bat" sign --ks $keystore --ks-key-alias socialsafearea `
@@ -48,7 +50,9 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'APK signing failed.' }
     & "$tools/apksigner.bat" verify --verbose --print-certs $signed
     if ($LASTEXITCODE -ne 0) { throw 'APK verification failed.' }
-    Get-FileHash -Algorithm SHA256 -LiteralPath $signed | Select-Object Algorithm, Hash
+    $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $signed).Hash.ToLowerInvariant()
+    "$hash  $(Split-Path $signed -Leaf)" | Set-Content -LiteralPath (Join-Path $output 'SHA256SUMS.txt') -Encoding ascii
+    Write-Output "SHA256: $hash"
     Write-Output "Signed APK: $signed"
 } finally {
     Remove-Item Env:SSA_RELEASE_PASSWORD -ErrorAction SilentlyContinue

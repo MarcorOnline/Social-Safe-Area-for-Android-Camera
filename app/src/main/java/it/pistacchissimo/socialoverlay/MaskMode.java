@@ -6,7 +6,7 @@ package it.pistacchissimo.socialoverlay;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/** Small persisted state for the deliberately single-purpose Beta. */
+/** Small persisted state for the composition guide. */
 final class MaskMode {
     static final String REELS = "reels";
     static final String TIKTOK = "tiktok";

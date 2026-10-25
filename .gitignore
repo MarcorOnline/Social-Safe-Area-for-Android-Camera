@@ -11,3 +11,6 @@ local.properties
 captures/
 .signing/
 release-artifacts/
+
+# Local agent instructions (not part of the public project).
+/AGENTS.md

@@ -1,5 +1,5 @@
 <resources>
-    <string name="description">Bêta : des repères pour composer vos Reels et TikTok. La vidéo et les commandes de la caméra restent accessibles.</string>
+    <string name="description">Des repères pour composer vos Reels et TikTok. La vidéo et les commandes de la caméra restent accessibles.</string>
     <string name="mask_label">Masque</string>
     <string name="mode_both">Les deux</string>
     <string name="mask_picker_description">Choisir le masque de zone sûre</string>
@@ -33,7 +33,10 @@
     <string name="about_title">À propos de Social Safe Area</string>
     <string name="about_creator">Créée par Marco Rinaldi</string>
     <string name="about_intro">Un guide de composition léger et indépendant pour votre caméra Android. Testé sur Samsung Galaxy S26 Ultra.</string>
-    <string name="contact_instagram">Me contacter sur Instagram</string>
+    <string name="about_idea">Née d’une idée de Pistacchissimo pour la création de contenu.</string>
+    <string name="pistacchissimo_article">Lire l’article sur Pistacchissimo</string>
+    <string name="pistacchissimo_instagram">Profil @pistacchissimo</string>
+    <string name="contact_instagram">Profil personnel (@nonsolopistacchio)</string>
     <string name="project_github">Projet et code source sur GitHub</string>
     <string name="license_link">Lire la licence GPLv3</string>
     <string name="license_notice">Copyright © 2026 Marco Rinaldi. Logiciel libre sous GPL version 3 uniquement. Distribué sans garantie. Inclut les outils de compilation Gradle Wrapper sous Apache 2.0.</string>

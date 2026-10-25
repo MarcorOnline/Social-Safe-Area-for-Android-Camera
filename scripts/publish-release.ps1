@@ -11,9 +11,17 @@ param(
 $ErrorActionPreference = 'Stop'
 $repo = 'MarcorOnline/Social-Safe-Area-for-Android-Camera'
 $root = Split-Path $PSScriptRoot -Parent
-$assets = @('Social-Safe-Area.apk', 'SHA256SUMS.txt')
+$metadata = Get-Content -LiteralPath (Join-Path $root 'app/build/outputs/apk/release/output-metadata.json') -Raw | ConvertFrom-Json
+$version = $metadata.elements[0].versionName
+if ($Tag -cne "v$version") { throw 'Release tag must match the built APK version.' }
+$apkName = "Social-Safe-Area-$version.apk"
+$assets = @($apkName, 'SHA256SUMS.txt')
 foreach ($asset in $assets) {
     if (!(Test-Path -LiteralPath (Join-Path $root "release-artifacts/$asset"))) { throw "Missing $asset" }
+}
+$hash = (Get-FileHash -LiteralPath (Join-Path $root "release-artifacts/$apkName") -Algorithm SHA256).Hash.ToLowerInvariant()
+if ((Get-Content -LiteralPath (Join-Path $root 'release-artifacts/SHA256SUMS.txt') -Raw).Trim() -cne "$hash  $apkName") {
+    throw 'APK checksum does not match SHA256SUMS.txt.'
 }
 # Git's configured credential helper supplies authentication; never print its output.
 $lines = "protocol=https`nhost=github.com`n`n" | git credential fill

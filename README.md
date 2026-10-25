@@ -2,11 +2,11 @@
 
 A lightweight Android overlay that helps you keep faces, captions and important details clear of the interface elements in Instagram Reels and TikTok.
 
-**v1.0.0 · Android 8.0+ (API 26) · GPL-3.0-only**
+**v1.0.1 · Android 8.0+ (API 26) · GPL-3.0-only**
 
-[![Download the Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v1.0.0/Social-Safe-Area.apk)
+[![Download the Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v1.0.1/Social-Safe-Area-1.0.1.apk)
 
-**No compilation needed:** download the signed APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v1.0.0).
+**No compilation needed:** download the signed APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v1.0.1).
 
 The app draws a transparent guide over your existing camera app. It does not record video, replace the camera or modify the recorded file. The guide is visible on the phone screen; it is not burned into camera recordings.
 
@@ -21,7 +21,7 @@ The app draws a transparent guide over your existing camera app. It does not rec
 - Tap-through guide: camera controls remain usable.
 - Native Android views and services, with no third-party runtime libraries, account, ads or analytics.
 
-The interface supports **English (default/fallback), Italian, French, Spanish and German**. It follows the device language; Android 13+ also provides a per-app language choice in system settings. The bottom **ⓘ** button opens creator attribution, Instagram contact, project source, the GPLv3 notice and calibration details.
+The interface supports **English (default/fallback), Italian, French, Spanish and German**. It follows the device language; Android 13+ also provides a per-app language choice in system settings. The bottom **ⓘ** button opens creator attribution, the app's origin at Pistacchissimo and its blog article, the @pistacchissimo and personal Instagram profiles, project source, the GPLv3 notice and calibration details.
 
 ## Getting started
 
@@ -68,7 +68,7 @@ Android 8.0 or newer is required. The app has been verified on a **Samsung Galax
 
 The default reference is a 1080 × 2340 display with the actual video preview at `x=0…1080, y=184…2104`: a 1080 × 1920 frame. The mask is scaled uniformly, and Android window offsets are accounted for when drawing. Density is used for controls and the manual vertical adjustment.
 
-Other devices, camera layouts, aspect ratios and display settings may require vertical adjustment, even when a nearby profile is suggested. The app does not automatically locate the camera preview, calibrate its width/height or adapt its geometry to landscape. Android or individual apps can also restrict overlays on protected screens.
+Other devices, camera layouts, aspect ratios and display settings may require vertical adjustment, even when a nearby profile is suggested. The guide stays fixed to the physical display when Android rotates, preserving its scale and saved vertical alignment. It does not automatically locate the camera preview, calibrate its width/height or provide a separate landscape-video layout. Android or individual apps can also restrict overlays on protected screens.
 
 The mask is a composition aid based on a fixed reference, not an official guarantee of safe placement. Reels and TikTok interfaces can vary. The project is independent and is not affiliated with Samsung, Instagram, Meta or TikTok.
 
@@ -147,7 +147,7 @@ On Windows / PowerShell, maintainers can build and sign a release with:
 ./scripts/build-release.ps1
 ```
 
-The first run generates a private key under ignored `.signing/`; its password is protected with Windows DPAPI for the current Windows account. Preserve the key and credentials securely for future updates. They are not portable to a different Windows account without exporting the password on the original account. The script never commits them. Signed output is `release-artifacts/Social-Safe-Area.apk`, also ignored by Git.
+The first run generates a private key under ignored `.signing/`; its password is protected with Windows DPAPI for the current Windows account. Preserve the key and credentials securely for future updates. They are not portable to a different Windows account without exporting the password on the original account. The script never commits them. Signed output is `release-artifacts/Social-Safe-Area-<version>.apk`, also ignored by Git.
 
 The release page provides a SHA-256 checksum and GitHub's source archive for the corresponding tag.
 
@@ -160,6 +160,7 @@ Build and install the instrumentation APK:
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 adb install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 adb shell am instrument -w it.pistacchissimo.socialoverlay.test/it.pistacchissimo.socialoverlay.GuideRenderTest
+adb shell am instrument -w it.pistacchissimo.socialoverlay.test/it.pistacchissimo.socialoverlay.GuideRotationTest
 ```
 
 On Windows, use `.\gradlew.bat` instead of `./gradlew`.
@@ -167,6 +168,8 @@ On Windows, use `.\gradlew.bat` instead of `./gradlew`.
 The instrumentation test requires overlay permission and the reference **1080 × 2340** display. It checks the actual overlay-window origin, 9:16 geometry, transparent margins, reversed-L boundaries, mask transparency and the home button's idempotent behavior. It also checks profile proximity/fallbacks, preservation of manual settings, five translations plus English fallback, Reset and the creator-attribution page. Its output includes `PASS` or `FAIL`.
 
 Instrumentation can leave the already-enabled Accessibility service disconnected on the reference Samsung device. Reinstall the app APK and reopen Social Safe Area after the test to reconnect it before testing automatic following.
+
+The rotation test requires the reference display to be awake and unlocked. It compares mask pixels in physical panel coordinates at 0°, 90°, 180° and 270°, including a manual vertical offset, then restores the saved preferences and rotation policy.
 
 For a connected Samsung device with **Camera** selected and Accessibility enabled:
 

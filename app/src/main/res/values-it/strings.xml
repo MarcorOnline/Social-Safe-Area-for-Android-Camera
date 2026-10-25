@@ -1,5 +1,5 @@
 <resources>
-    <string name="description">Beta: una guida per comporre Reels e TikTok. Il video e i comandi della fotocamera restano toccabili.</string>
+    <string name="description">Una guida per comporre Reels e TikTok. Il video e i comandi della fotocamera restano toccabili.</string>
     <string name="mask_label">Maschera</string>
     <string name="mode_both">Entrambi</string>
     <string name="mask_picker_description">Scegli la maschera safe area</string>
@@ -33,7 +33,10 @@
     <string name="about_title">Informazioni su Social Safe Area</string>
     <string name="about_creator">Creata da Marco Rinaldi</string>
     <string name="about_intro">Una guida di composizione leggera e indipendente per la fotocamera Android. Testata su Samsung Galaxy S26 Ultra.</string>
-    <string name="contact_instagram">Contattami su Instagram</string>
+    <string name="about_idea">Nata da un’idea di Pistacchissimo per la creazione di contenuti.</string>
+    <string name="pistacchissimo_article">Leggi l’articolo su Pistacchissimo</string>
+    <string name="pistacchissimo_instagram">Profilo @pistacchissimo</string>
+    <string name="contact_instagram">Profilo personale (@nonsolopistacchio)</string>
     <string name="project_github">Progetto e codice sorgente su GitHub</string>
     <string name="license_link">Leggi la licenza GPLv3</string>
     <string name="license_notice">Copyright © 2026 Marco Rinaldi. Software libero con licenza GPL versione 3. Distribuito senza garanzie. Include gli strumenti di build Gradle Wrapper con licenza Apache 2.0.</string>

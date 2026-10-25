@@ -5,7 +5,7 @@
     <string name="tiktok" translatable="false">TikTok</string>
     <string name="both_platforms" translatable="false">Reels + TikTok</string>
     <string name="quick_button_text" translatable="false">SAFE\nON/OFF</string>
-    <string name="description">Beta: composition guides for Reels and TikTok. Your video and camera controls remain touchable.</string>
+    <string name="description">Composition guides for Reels and TikTok. Your video and camera controls remain touchable.</string>
     <string name="mask_label">Mask</string>
     <string name="mode_both">Both</string>
     <string name="mask_picker_description">Choose the safe-area mask</string>
@@ -39,7 +39,10 @@
     <string name="about_title">About Social Safe Area</string>
     <string name="about_creator">Created by Marco Rinaldi</string>
     <string name="about_intro">A lightweight, independent composition guide for your Android camera. Tested on Samsung Galaxy S26 Ultra.</string>
-    <string name="contact_instagram">Contact me on Instagram</string>
+    <string name="about_idea">Born from an idea by Pistacchissimo to help create content.</string>
+    <string name="pistacchissimo_article">Read the article on Pistacchissimo</string>
+    <string name="pistacchissimo_instagram">Profile @pistacchissimo</string>
+    <string name="contact_instagram">Personal profile (@nonsolopistacchio)</string>
     <string name="project_github">Project and source code on GitHub</string>
     <string name="license_link">Read the GPLv3 license</string>
     <string name="license_notice">Copyright © 2026 Marco Rinaldi. Free software under GPL version 3 only. Distributed without warranty. Includes Gradle Wrapper build tooling under Apache 2.0.</string>
