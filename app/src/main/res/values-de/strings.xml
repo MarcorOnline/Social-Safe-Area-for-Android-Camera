@@ -1,8 +1,8 @@
 <resources>
     <string name="description">Bildhilfen für Reels und TikTok. Video und Kamerabedienelemente bleiben bedienbar.</string>
-    <string name="mask_label">Maske</string>
-    <string name="mode_both">Beide</string>
-    <string name="mask_picker_description">Maske für den sicheren Bereich wählen</string>
+    <string name="mask_label">Masken</string>
+    <string name="subtitles">Untertitel</string>
+    <string name="no_masks">Keine</string>
     <string name="opacity_label">Deckkraft der Maske</string>
     <string name="opacity_picker_description">Deckkraft der Maske einstellen</string>
     <string name="opacity_value">Deckkraft der Maske: %1$d%%</string>
@@ -31,9 +31,11 @@
     <string name="information">Über diese App</string>
     <string name="back">Zurück</string>
     <string name="about_title">Über Social Safe Area</string>
-    <string name="about_creator">Entwickelt von Marco Rinaldi</string>
+    <string name="about_creator">Entwickelt von Marco Rinaldi, Gründer von Pistacchissimo</string>
     <string name="about_intro">Eine schlanke, unabhängige Bildhilfe für die Android-Kamera. Getestet auf Samsung Galaxy S26 Ultra.</string>
-    <string name="about_idea">Entstanden aus einer Idee von Pistacchissimo zur Erstellung von Inhalten.</string>
+    <string name="about_idea">Social Safe Area entstand aus meinem eigenen Bedarf beim Filmen für Pistacchissimo. Ich habe mich entschieden, die App kostenlos und als Open Source mit der Community zu teilen.</string>
+    <string name="about_support">Wenn dir die App hilft, kannst du meine Arbeit unterstützen, indem du Pistacchissimo folgst oder den Shop besuchst.</string>
+    <string name="pistacchissimo_shop">Den Pistacchissimo-Shop entdecken</string>
     <string name="pistacchissimo_article">Artikel auf Pistacchissimo lesen</string>
     <string name="pistacchissimo_instagram">Profil @pistacchissimo</string>
     <string name="contact_instagram">Persönliches Profil (@nonsolopistacchio)</string>

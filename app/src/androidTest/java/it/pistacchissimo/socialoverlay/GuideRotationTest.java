@@ -26,7 +26,7 @@ public final class GuideRotationTest extends Instrumentation {
         Context context = getTargetContext();
         WindowManager manager = context.getSystemService(WindowManager.class);
         SafeAreaGuideView[] guide = new SafeAreaGuideView[1];
-        String originalMode = MaskMode.get(context);
+        int originalMode = MaskMode.get(context);
         int originalOffset = MaskMode.verticalOffset(context);
         boolean hadOverride = MaskMode.hasVerticalOffsetOverride(context);
         int originalOpacity = MaskMode.opacity(context);
@@ -40,7 +40,7 @@ public final class GuideRotationTest extends Instrumentation {
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             rotate(manager, 0);
             runOnMainSync(() -> {
-                MaskMode.set(context, MaskMode.BOTH);
+                MaskMode.set(context, MaskMode.BOTH | MaskMode.SUBTITLES);
                 MaskMode.setOpacity(context, 23);
                 MaskMode.setVerticalOffset(context, 42);
                 guide[0] = new SafeAreaGuideView(context);

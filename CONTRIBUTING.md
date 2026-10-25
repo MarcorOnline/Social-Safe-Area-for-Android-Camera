@@ -9,15 +9,15 @@ Thanks for helping make Social Safe Area useful on more Android devices.
 - Feature and fix branches: create them from `develop` in your fork.
 
 ```sh
-git clone https://github.com/YOUR_USERNAME/Social-Safe-Area-for-Android-Camera.git
-cd Social-Safe-Area-for-Android-Camera
-git remote add upstream https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera.git
+git clone https://github.com/YOUR_USERNAME/SocialSafeArea.git
+cd SocialSafeArea
+git remote add upstream https://github.com/MarcorOnline/SocialSafeArea.git
 git fetch upstream
 git switch -c fix/short-description upstream/develop
 ```
 
 Push your branch to your fork, then open a pull request with
-`MarcorOnline/Social-Safe-Area-for-Android-Camera:develop` as its base.
+`MarcorOnline/SocialSafeArea:develop` as its base.
 Describe the behavior before and after the change, and how you verified it.
 Keep each PR focused; maintainers may squash commits when integrating it.
 

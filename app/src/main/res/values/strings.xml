@@ -1,14 +1,13 @@
 <resources>
     <string name="app_name" translatable="false">Safe Area</string>
     <string name="home_title" translatable="false">SAFE AREA</string>
-    <string name="reels" translatable="false">Reels</string>
+    <string name="reels" translatable="false">Reel</string>
     <string name="tiktok" translatable="false">TikTok</string>
-    <string name="both_platforms" translatable="false">Reels + TikTok</string>
     <string name="quick_button_text" translatable="false">SAFE\nON/OFF</string>
     <string name="description">Composition guides for Reels and TikTok. Your video and camera controls remain touchable.</string>
-    <string name="mask_label">Mask</string>
-    <string name="mode_both">Both</string>
-    <string name="mask_picker_description">Choose the safe-area mask</string>
+    <string name="mask_label">Masks</string>
+    <string name="subtitles">Subtitles</string>
+    <string name="no_masks">None</string>
     <string name="opacity_label">Mask opacity</string>
     <string name="opacity_picker_description">Adjust mask opacity</string>
     <string name="opacity_value">Mask opacity: %1$d%%</string>
@@ -37,9 +36,11 @@
     <string name="information">About this app</string>
     <string name="back">Back</string>
     <string name="about_title">About Social Safe Area</string>
-    <string name="about_creator">Created by Marco Rinaldi</string>
+    <string name="about_creator">Created by Marco Rinaldi, creator of Pistacchissimo</string>
     <string name="about_intro">A lightweight, independent composition guide for your Android camera. Tested on Samsung Galaxy S26 Ultra.</string>
-    <string name="about_idea">Born from an idea by Pistacchissimo to help create content.</string>
+    <string name="about_idea">Social Safe Area grew out of my own needs when filming content for Pistacchissimo. I chose to make it free and open source to share it with the community.</string>
+    <string name="about_support">If the app is useful to you, you can support my work by following Pistacchissimo or exploring its shop.</string>
+    <string name="pistacchissimo_shop">Explore the Pistacchissimo shop</string>
     <string name="pistacchissimo_article">Read the article on Pistacchissimo</string>
     <string name="pistacchissimo_instagram">Profile @pistacchissimo</string>
     <string name="contact_instagram">Personal profile (@nonsolopistacchio)</string>

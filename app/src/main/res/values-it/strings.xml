@@ -1,8 +1,8 @@
 <resources>
     <string name="description">Una guida per comporre Reels e TikTok. Il video e i comandi della fotocamera restano toccabili.</string>
-    <string name="mask_label">Maschera</string>
-    <string name="mode_both">Entrambi</string>
-    <string name="mask_picker_description">Scegli la maschera safe area</string>
+    <string name="mask_label">Maschere</string>
+    <string name="subtitles">Sottotitoli</string>
+    <string name="no_masks">Nessuna</string>
     <string name="opacity_label">Opacità maschera</string>
     <string name="opacity_picker_description">Regola opacità della maschera</string>
     <string name="opacity_value">Opacità maschera: %1$d%%</string>
@@ -31,9 +31,11 @@
     <string name="information">Informazioni sull’app</string>
     <string name="back">Indietro</string>
     <string name="about_title">Informazioni su Social Safe Area</string>
-    <string name="about_creator">Creata da Marco Rinaldi</string>
+    <string name="about_creator">Creata da Marco Rinaldi, creatore di Pistacchissimo</string>
     <string name="about_intro">Una guida di composizione leggera e indipendente per la fotocamera Android. Testata su Samsung Galaxy S26 Ultra.</string>
-    <string name="about_idea">Nata da un’idea di Pistacchissimo per la creazione di contenuti.</string>
+    <string name="about_idea">Social Safe Area nasce dalle mie esigenze quando giro contenuti per Pistacchissimo. Ho scelto di renderla gratuita e open source per condividerla con la community.</string>
+    <string name="about_support">Se l’app ti è utile, puoi sostenere il mio lavoro seguendo Pistacchissimo o scoprendo il suo shop.</string>
+    <string name="pistacchissimo_shop">Scopri lo shop Pistacchissimo</string>
     <string name="pistacchissimo_article">Leggi l’articolo su Pistacchissimo</string>
     <string name="pistacchissimo_instagram">Profilo @pistacchissimo</string>
     <string name="contact_instagram">Profilo personale (@nonsolopistacchio)</string>

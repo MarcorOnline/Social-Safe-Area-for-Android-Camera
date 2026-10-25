@@ -16,8 +16,6 @@ import android.view.WindowManager;
 
 /** Draws a tap-through, resolution-independent 9:16 social composition guide. */
 final class SafeAreaGuideView extends View {
-    private static final int REELS = Color.rgb(255, 59, 123);
-    private static final int TIKTOK = Color.rgb(37, 244, 238);
     private static final float FRAME_WIDTH = 1080f;
     private static final float FRAME_HEIGHT = 1920f;
     private static final float REFERENCE_SCREEN_HEIGHT = 2340f;
@@ -82,18 +80,35 @@ final class SafeAreaGuideView extends View {
         canvas.translate(left, top);
         canvas.scale(frameScale, frameScale);
         canvas.clipRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-        String mode = MaskMode.get(getContext());
-        if (!MaskMode.REELS.equals(mode)) {
-            drawSafeZone(canvas, TIKTOK, 173, 767, 842, 1382, 1748);
+        int mode = MaskMode.get(getContext());
+        int reels = getContext().getColor(R.color.mask_reels);
+        int tiktok = getContext().getColor(R.color.mask_tiktok);
+        if ((mode & MaskMode.TIKTOK) != 0) {
+            drawSafeZone(canvas, tiktok, 173, 767, 842, 1382, 1748);
         }
-        if (!MaskMode.TIKTOK.equals(mode)) {
-            drawSafeZone(canvas, REELS, 154, 806, 864, 1420, 1728);
+        if ((mode & MaskMode.REELS) != 0) {
+            drawSafeZone(canvas, reels, 154, 806, 864, 1420, 1728);
         }
-        if (!MaskMode.TIKTOK.equals(mode)) {
-            drawLabel(canvas, "Reels", REELS, 24, 60);
+        if ((mode & MaskMode.SUBTITLES) != 0) {
+            int subtitles = getContext().getColor(R.color.mask_subtitles);
+            // Centre on the full frame, with a 24-unit gap above TikTok's lower band.
+            float subtitleLeft = (FRAME_WIDTH - 560f) / 2f;
+            float subtitleRight = FRAME_WIDTH - subtitleLeft;
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(subtitles);
+            paint.setAlpha(Math.round(MaskMode.opacity(getContext()) * 2.55f));
+            canvas.drawRect(subtitleLeft, 1178, subtitleRight, 1358, paint);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(dp(1) / frameScale);
+            paint.setColor(subtitles);
+            canvas.drawRect(subtitleLeft, 1178, subtitleRight, 1358, paint);
+            drawLabel(canvas, getContext().getString(R.string.subtitles), subtitles, 464, 60);
         }
-        if (!MaskMode.REELS.equals(mode)) {
-            drawLabel(canvas, "TikTok", TIKTOK, 244, 60);
+        if ((mode & MaskMode.REELS) != 0) {
+            drawLabel(canvas, getContext().getString(R.string.reels), reels, 24, 60);
+        }
+        if ((mode & MaskMode.TIKTOK) != 0) {
+            drawLabel(canvas, getContext().getString(R.string.tiktok), tiktok, 244, 60);
         }
         canvas.restore();
     }

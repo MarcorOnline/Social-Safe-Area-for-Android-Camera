@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 /** Creator attribution, license and shareable, non-identifying camera calibration. */
 public final class AboutActivity extends Activity {
-    static final String PROJECT_URL = "https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera";
+    static final String PROJECT_URL = "https://github.com/MarcorOnline/SocialSafeArea";
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -45,9 +45,11 @@ public final class AboutActivity extends Activity {
         }
         text(content, getString(R.string.about_intro), 16);
         text(content, getString(R.string.about_idea), 16);
+        text(content, getString(R.string.about_support), 16);
         link(content, R.string.pistacchissimo_article,
                 "https://www.pistacchissimo.it/news/social-safe-area-lapp-per-girare-reels-e-tiktok-migliori-gratis/");
         link(content, R.string.pistacchissimo_instagram, "https://www.instagram.com/pistacchissimo/");
+        link(content, R.string.pistacchissimo_shop, "https://shop.pistacchissimo.it/");
         link(content, R.string.contact_instagram, "https://www.instagram.com/nonsolopistacchio/");
         link(content, R.string.project_github, PROJECT_URL);
         link(content, R.string.license_link, PROJECT_URL + "/blob/main/LICENSE");

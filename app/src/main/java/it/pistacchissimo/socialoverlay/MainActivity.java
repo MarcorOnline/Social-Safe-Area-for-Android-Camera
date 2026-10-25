@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
@@ -109,26 +110,9 @@ public final class MainActivity extends Activity {
         modeLabelParams.topMargin = dp(28);
         content.addView(modeLabel, modeLabelParams);
 
-        Spinner modePicker = new Spinner(this);
-        String[] options = {getString(R.string.reels), getString(R.string.tiktok), getString(R.string.mode_both)};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item, options);
-        modePicker.setAdapter(adapter);
-        modePicker.setSelection(selectionFor(MaskMode.get(this)));
-        modePicker.setContentDescription(getString(R.string.mask_picker_description));
-        modePicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                MaskMode.set(MainActivity.this, modeFor(position));
-                OverlayService.refreshMask(MainActivity.this);
-                refresh();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        content.addView(modePicker, new LinearLayout.LayoutParams(-1, -2));
+        addMaskCheckbox(content, R.string.reels, R.color.mask_reels, MaskMode.REELS);
+        addMaskCheckbox(content, R.string.tiktok, R.color.mask_tiktok, MaskMode.TIKTOK);
+        addMaskCheckbox(content, R.string.subtitles, R.color.mask_subtitles, MaskMode.SUBTITLES);
 
         opacityStatus = sectionLabel(content, getString(R.string.opacity_label));
         SeekBar opacity = new SeekBar(this);
@@ -262,7 +246,7 @@ public final class MainActivity extends Activity {
 
     private void refresh() {
         if (modeStatus != null) {
-            modeStatus.setText(getString(R.string.mask_status, MaskMode.label(MaskMode.get(this))));
+            modeStatus.setText(getString(R.string.mask_status, MaskMode.label(this, MaskMode.get(this))));
         }
         if (opacityStatus != null) opacityStatus.setText(getString(R.string.opacity_value, MaskMode.opacity(this)));
         if (positionStatus != null) {
@@ -323,16 +307,20 @@ public final class MainActivity extends Activity {
         return Math.round(value * getResources().getDisplayMetrics().density);
     }
 
-    private static String modeFor(int position) {
-        if (position == 0) return MaskMode.REELS;
-        if (position == 1) return MaskMode.TIKTOK;
-        return MaskMode.BOTH;
-    }
-
-    private static int selectionFor(String mode) {
-        if (MaskMode.REELS.equals(mode)) return 0;
-        if (MaskMode.TIKTOK.equals(mode)) return 1;
-        return 2;
+    private void addMaskCheckbox(LinearLayout content, int label, int color, int mask) {
+        CheckBox checkbox = new CheckBox(this);
+        checkbox.setText(label);
+        checkbox.setTextColor(getColor(R.color.on_surface));
+        checkbox.setButtonTintList(android.content.res.ColorStateList.valueOf(getColor(color)));
+        checkbox.setMinHeight(dp(48));
+        checkbox.setChecked((MaskMode.get(this) & mask) != 0);
+        checkbox.setOnCheckedChangeListener((button, checked) -> {
+            int selection = MaskMode.get(this);
+            MaskMode.set(this, checked ? selection | mask : selection & ~mask);
+            OverlayService.refreshMask(this);
+            refresh();
+        });
+        content.addView(checkbox, new LinearLayout.LayoutParams(-1, -2));
     }
 
     private static final class TargetApp {

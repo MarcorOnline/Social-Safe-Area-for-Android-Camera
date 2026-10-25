@@ -2,4 +2,7 @@
     <color name="brand">#B5F219</color>
     <color name="surface">#10120F</color>
     <color name="on_surface">#E5E8E1</color>
+    <color name="mask_reels">#FF3B7B</color>
+    <color name="mask_tiktok">#25F4EE</color>
+    <color name="mask_subtitles">#40A4FF</color>
 </resources>

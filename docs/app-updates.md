@@ -4,8 +4,12 @@ From version 1.1.0, opening the app checks GitHub's public latest stable release
 endpoint at most once every seven days:
 
 ```text
-https://api.github.com/repos/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/latest
+https://api.github.com/repos/MarcorOnline/SocialSafeArea/releases/latest
 ```
+
+The app uses the current repository name directly. Repository-rename redirects
+are not followed, and accepted release links must belong to
+`https://github.com/MarcorOnline/SocialSafeArea`.
 
 There is no separate update file to upload or maintain on Pistacchissimo. Publishing
 a stable GitHub release makes it discoverable automatically. The JSON file used

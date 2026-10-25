@@ -2,22 +2,31 @@
 
 [English](README.md) · [Italiano](README.it.md)
 
+![Social Safe Area — free Android app with Reels and TikTok composition guides over your native camera](docs/social-safe-area-cover.jpg)
+
 A lightweight Android overlay that helps you keep faces, captions and important details clear of the interface elements in Instagram Reels and TikTok.
 
-**v1.1.0 · Android 8.0+ (API 26) · GPL-3.0-only**
+**v1.2.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
 The app appears as **Safe Area** on your phone. The prepared Google Play title is
 **Safe Area: Reels & TikTok**; Google Play distribution is not available yet.
 
-[![Download the Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v1.1.0/Social-Safe-Area-1.1.0.apk)
+[![Download the Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.2.0/Social-Safe-Area-1.2.0.apk)
 
-**No compilation needed:** download the signed APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v1.1.0).
+**No compilation needed:** download the signed APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.2.0).
 
 The app draws a transparent guide over your existing camera app. It does not record video, replace the camera or modify the recorded file. The guide is visible on the phone screen; it is not burned into camera recordings.
 
+## Why I made it
+
+I'm Marco Rinaldi, the creator of [Pistacchissimo](https://www.pistacchissimo.it/). Social Safe Area grew out of my own needs when filming content for Pistacchissimo. I chose to make it free and open source to share it with the community.
+
+If the app is useful to you, you can support my work by [following @pistacchissimo on Instagram](https://www.instagram.com/pistacchissimo/) or [exploring the Pistacchissimo shop](https://shop.pistacchissimo.it/).
+
 ## Features
 
-- Three saved mask choices: **Reels**, **TikTok** or **both**, with distinct pink and turquoise guides.
+- Three independent, saved checkboxes: **Reel** (pink), **TikTok** (turquoise) and **Subtitles** (blue). Only Reel and TikTok are enabled on first install; all masks can also be switched off.
+- A subtitle rectangle centred on the screen, just above the lower TikTok band, sharing the other guides’ opacity and vertical alignment.
 - Reference-shaped unsafe bands at the top, bottom and lower right; the useful composition area stays clear.
 - A small, draggable **quick button** marked `SAFE / ON/OFF`, with its position saved between sessions.
 - Mask opacity from 8% to 70%, defaulting to 23%.
@@ -39,7 +48,7 @@ Open **Safe Area**, then tap **Show quick button**. On Android's permission page
 
 This permission is required to draw over your camera. Accessibility is a separate, optional permission.
 
-1. Choose **Reels**, **TikTok** or **Both**.
+1. Turn the **Reel**, **TikTok** and **Subtitles** checkboxes on or off as needed.
 2. Adjust **Mask opacity** and **Vertical position**, if needed. **Reset** restores the detected profile's default alignment.
 3. Tap **Show quick button**. This action only shows the button; repeated taps do not change the mask's ON/OFF state.
 4. Use the floating `SAFE / ON/OFF` button to turn the mask on or off. Only this button changes that state.
@@ -118,8 +127,8 @@ Use Android Studio, or a command-line installation with:
 Clone the repository:
 
 ```sh
-git clone https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera.git
-cd Social-Safe-Area-for-Android-Camera
+git clone https://github.com/MarcorOnline/SocialSafeArea.git
+cd SocialSafeArea
 ```
 
 Set `JAVA_HOME` to your JDK and `ANDROID_HOME` to your Android SDK directory. Alternatively, let Android Studio create an untracked `local.properties` containing `sdk.dir=...`.
@@ -194,7 +203,7 @@ Pass `-Adb PATH_TO_ADB` if `adb` is not on your PATH. This PowerShell check veri
 
 Use **`develop` as the base branch for pull requests**. `main` holds published snapshots; `develop` is the integration branch for ongoing work. Both start from the same squashed initial snapshot.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and checks. Report reproducible issues through [GitHub Issues](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/issues), including Android version, device, camera app, preview ratio and steps to reproduce. Remove personal information from screenshots and logs.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and checks. Report reproducible issues through [GitHub Issues](https://github.com/MarcorOnline/SocialSafeArea/issues), including Android version, device, camera app, preview ratio and steps to reproduce. Remove personal information from screenshots and logs.
 
 ## License
 

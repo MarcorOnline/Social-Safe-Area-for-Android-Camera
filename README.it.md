@@ -2,22 +2,31 @@
 
 [English](README.md) · [Italiano](README.it.md)
 
+![Social Safe Area — app Android gratuita con guide per Reels e TikTok sopra la fotocamera](docs/social-safe-area-cover.jpg)
+
 Una maschera leggera per Android che ti aiuta a tenere volti, scritte e dettagli importanti lontani dagli elementi dell’interfaccia di Instagram Reels e TikTok.
 
-**v1.1.0 · Android 8.0+ (API 26) · GPL-3.0-only**
+**v1.2.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
 Sul telefono l’app si chiama **Safe Area**. Il nome preparato per Google Play è
 **Safe Area: Reels & TikTok**; la distribuzione su Google Play non è ancora disponibile.
 
-[![Scarica l’APK per Android](docs/download-apk.svg)](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/download/v1.1.0/Social-Safe-Area-1.1.0.apk)
+[![Scarica l’APK per Android](docs/download-apk.svg)](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.2.0/Social-Safe-Area-1.2.0.apk)
 
-**Non serve compilare:** scarica l’APK firmato, aprilo sul telefono e segui le istruzioni di installazione di Android. Consulta le [note di rilascio e i checksum](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/tag/v1.1.0).
+**Non serve compilare:** scarica l’APK firmato, aprilo sul telefono e segui le istruzioni di installazione di Android. Consulta le [note di rilascio e i checksum](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.2.0).
 
 L’app disegna una guida trasparente sopra la fotocamera che usi già. Non registra video, non sostituisce la fotocamera e non modifica il file registrato. La guida compare sullo schermo del telefono, ma non viene impressa nelle registrazioni della fotocamera.
 
+## Perché ho creato quest’app
+
+Sono Marco Rinaldi, il creatore di [Pistacchissimo](https://www.pistacchissimo.it/). Social Safe Area nasce dalle mie esigenze quando giro contenuti per Pistacchissimo. Ho scelto di renderla gratuita e open source per condividerla con la community.
+
+Se l’app ti è utile, puoi sostenere il mio lavoro [seguendo @pistacchissimo su Instagram](https://www.instagram.com/pistacchissimo/) o [scoprendo lo shop Pistacchissimo](https://shop.pistacchissimo.it/).
+
 ## Funzioni
 
-- Tre maschere selezionabili e salvate: **Reels**, **TikTok** o **entrambe**, con guide distinte rosa e turchesi.
+- Tre checkbox indipendenti e salvati: **Reel** (rosa), **TikTok** (turchese) e **Sottotitoli** (azzurro). Alla prima installazione sono attivi solo Reel e TikTok; è possibile spegnere anche tutte le maschere.
+- Un rettangolo per i sottotitoli centrato sullo schermo, poco sopra la fascia inferiore di TikTok, con la stessa opacità e lo stesso allineamento verticale delle altre guide.
 - Fasce da evitare in alto, in basso e nella parte inferiore destra, secondo il modello di riferimento; l’area utile per la composizione resta libera.
 - Un piccolo **bottone rapido** trascinabile con la scritta `SAFE / ON/OFF`, la cui posizione viene salvata tra una sessione e l’altra.
 - Opacità della maschera dall’8% al 70%, con valore predefinito del 23%.
@@ -39,7 +48,7 @@ Apri **Safe Area** e tocca **Mostra bottone rapido**. Nella pagina dei permessi 
 
 Questo permesso serve per disegnare sopra la fotocamera. L’accessibilità è un permesso separato e facoltativo.
 
-1. Scegli **Reels**, **TikTok** o **Entrambi**.
+1. Attiva o disattiva a piacere i checkbox **Reel**, **TikTok** e **Sottotitoli**.
 2. Se necessario, regola **Opacità maschera** e **Posizione verticale**. **Reset** ripristina l’allineamento predefinito del profilo rilevato.
 3. Tocca **Mostra bottone rapido**. Questa azione mostra solo il bottone: premerlo più volte non cambia lo stato ON/OFF della maschera.
 4. Usa il bottone flottante `SAFE / ON/OFF` per accendere o spegnere la maschera. Solo questo bottone cambia tale stato.
@@ -118,8 +127,8 @@ Usa Android Studio oppure un ambiente da riga di comando con:
 Clona il repository:
 
 ```sh
-git clone https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera.git
-cd Social-Safe-Area-for-Android-Camera
+git clone https://github.com/MarcorOnline/SocialSafeArea.git
+cd SocialSafeArea
 ```
 
 Imposta `JAVA_HOME` sulla cartella del JDK e `ANDROID_HOME` su quella dell’SDK Android. In alternativa, lascia che Android Studio crei un file `local.properties` non tracciato con `sdk.dir=...`.
@@ -194,7 +203,7 @@ Passa `-Adb PATH_TO_ADB` se `adb` non è nel PATH. Questo controllo PowerShell v
 
 Usa **`develop` come ramo di destinazione delle pull request**. `main` contiene le versioni pubblicate; `develop` è il ramo di integrazione per il lavoro in corso. Entrambi partono dalla stessa versione iniziale riunita in un unico commit.
 
-Consulta [CONTRIBUTING.md](CONTRIBUTING.md) per il flusso di lavoro e le verifiche. Segnala problemi riproducibili nelle [issue di GitHub](https://github.com/MarcorOnline/Social-Safe-Area-for-Android-Camera/issues), indicando versione Android, dispositivo, app fotocamera, rapporto d’aspetto dell’anteprima e passaggi per riprodurli. Rimuovi dati personali da schermate e log.
+Consulta [CONTRIBUTING.md](CONTRIBUTING.md) per il flusso di lavoro e le verifiche. Segnala problemi riproducibili nelle [issue di GitHub](https://github.com/MarcorOnline/SocialSafeArea/issues), indicando versione Android, dispositivo, app fotocamera, rapporto d’aspetto dell’anteprima e passaggi per riprodurli. Rimuovi dati personali da schermate e log.
 
 ## Licenza
 

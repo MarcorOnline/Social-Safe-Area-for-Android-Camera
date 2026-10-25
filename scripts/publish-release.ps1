@@ -9,7 +9,7 @@ param(
     [switch]$Prerelease
 )
 $ErrorActionPreference = 'Stop'
-$repo = 'MarcorOnline/Social-Safe-Area-for-Android-Camera'
+$repo = 'MarcorOnline/SocialSafeArea'
 $root = Split-Path $PSScriptRoot -Parent
 $metadata = Get-Content -LiteralPath (Join-Path $root 'app/build/outputs/apk/release/output-metadata.json') -Raw | ConvertFrom-Json
 $version = $metadata.elements[0].versionName

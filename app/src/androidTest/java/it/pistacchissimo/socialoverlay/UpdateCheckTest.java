@@ -91,6 +91,10 @@ public final class UpdateCheckTest extends Instrumentation {
     }
 
     private void verify() throws Exception {
+        check("https://api.github.com/repos/MarcorOnline/SocialSafeArea/releases/latest"
+                .equals(UpdateChecker.RELEASE_URL), "query renamed repository directly");
+        check("https://github.com/MarcorOnline/SocialSafeArea".equals(AboutActivity.PROJECT_URL),
+                "release links and project page use renamed repository");
         long now = 2 * UpdateChecker.INTERVAL_MS;
         check(UpdateChecker.isDue(0, now), "first opening");
         check(!UpdateChecker.isDue(now, now), "same opening");
@@ -119,6 +123,7 @@ public final class UpdateCheckTest extends Instrumentation {
                 manifest("v99.0.0", false, false, "http://github.com/MarcorOnline/releases/tag/v99.0.0"),
                 manifest("v99.0.0", false, false, "https://github.com.evil.example/releases/tag/v99.0.0"),
                 manifest("v99.0.0", false, false, "https://evil.example/update.apk"),
+                manifest("v99.0.0", false, false, "https://github.com/MarcorOnline/OtherRepo/releases/tag/v99.0.0"),
                 manifest("v99.0.0", false, false, AboutActivity.PROJECT_URL + "/releases/tag/../../evil"),
                 manifest("v99.0.0", false, false, RELEASE_URL + "?redirect=evil"),
                 manifest("v99.0.0", false, false, RELEASE_URL + "#fragment"),

@@ -27,12 +27,13 @@ public final class GuideRenderTest extends Instrumentation {
         Context context = getTargetContext();
         WindowManager manager = context.getSystemService(WindowManager.class);
         SafeAreaGuideView[] guide = new SafeAreaGuideView[1];
-        String originalMode = MaskMode.get(context);
+        int originalMode = MaskMode.get(context);
         int originalOpacity = MaskMode.opacity(context);
         int originalOffset = MaskMode.verticalOffset(context);
         boolean hadOverride = MaskMode.hasVerticalOffsetOverride(context);
         try {
             DeviceProfilesTest.verify(this);
+            MaskSelectionTest.verify(this);
             QuickButtonTest.verify(this);
             onMain(() -> {
                 MaskMode.set(context, MaskMode.BOTH);
@@ -74,8 +75,41 @@ public final class GuideRenderTest extends Instrumentation {
                         "TikTok lower boundary matches GIUSTO");
                 check(render.getPixel(500, 1604) == Color.rgb(255, 59, 123),
                         "Reels lower boundary matches GIUSTO");
+                for (int selection = 0; selection < 8; selection++) {
+                    MaskMode.set(context, selection);
+                    render.eraseColor(Color.TRANSPARENT);
+                    guide[0].draw(canvas);
+                    check((render.getPixel(500, 338) == Color.rgb(255, 59, 123))
+                            == ((selection & MaskMode.REELS) != 0), "independent Reel boundary");
+                    check((Color.alpha(render.getPixel(500, 1580)) > 0)
+                            == ((selection & MaskMode.TIKTOK) != 0), "independent TikTok mask");
+                    check((Color.alpha(render.getPixel(540, 1452)) > 0)
+                            == ((selection & MaskMode.SUBTITLES) != 0), "independent subtitle box");
+                    check(Color.alpha(render.getPixel(540, 1350)) == 0
+                            && Color.alpha(render.getPixel(540, 1554)) == 0
+                            && Color.alpha(render.getPixel(250, 1452)) == 0
+                            && Color.alpha(render.getPixel(830, 1452)) == 0,
+                            "subtitle box leaves a small gap above TikTok and clears its side band");
+                    if ((selection & MaskMode.SUBTITLES) != 0) {
+                        int fill = render.getPixel(540, 1452);
+                        check(Color.alpha(fill) == Math.round(23 * 2.55f)
+                                && Color.blue(fill) > Color.green(fill)
+                                && Color.green(fill) > Color.red(fill), "translucent blue subtitles");
+                        check(render.getPixel(540, 1542) == context.getColor(R.color.mask_subtitles),
+                                "subtitle bottom is 24 reference pixels above TikTok boundary");
+                    }
+                    if (selection == MaskMode.SUBTITLES) {
+                        int first = 0;
+                        int last = render.getWidth() - 1;
+                        while (first < last && Color.alpha(render.getPixel(first, 1452)) == 0) first++;
+                        while (last > first && Color.alpha(render.getPixel(last, 1452)) == 0) last--;
+                        // Rasterised stroke edges may differ by one pixel due to antialiasing.
+                        check(Math.abs(first + last - (render.getWidth() - 1)) <= 1,
+                                "subtitle box must be centred on the full screen");
+                    }
+                }
                 result.putString("stream", "PASS: actual window origin=" + origin[0] + "," + origin[1]
-                        + "; 9:16 mask at [0,184]-[1080,2104], controls clear, L geometry and transparency correct; home only shows quick button; vertical reset saves default.\n");
+                        + "; legacy migration, defaults, checkbox persistence and all 8 mask combinations correct; subtitle box blue and inside safe area; controls, transparency, quick button and vertical reset correct.\n");
                 render.recycle();
             });
         } catch (Throwable error) {

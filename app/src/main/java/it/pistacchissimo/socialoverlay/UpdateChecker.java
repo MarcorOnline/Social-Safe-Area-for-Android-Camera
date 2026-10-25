@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 
 /** One best-effort request per week, only when the control screen is opened. */
 final class UpdateChecker {
-    static final String RELEASE_URL = "https://api.github.com/repos/MarcorOnline/Social-Safe-Area-for-Android-Camera/releases/latest";
+    static final String RELEASE_URL = "https://api.github.com/repos/MarcorOnline/SocialSafeArea/releases/latest";
     static final long INTERVAL_MS = 7L * 24 * 60 * 60 * 1000;
     static final int MAX_BYTES = 128 * 1024;
     private static final int TIMEOUT_MS = 5000;

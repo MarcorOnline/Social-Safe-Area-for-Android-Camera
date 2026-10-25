@@ -8,11 +8,13 @@ import android.content.SharedPreferences;
 
 /** Small persisted state for the composition guide. */
 final class MaskMode {
-    static final String REELS = "reels";
-    static final String TIKTOK = "tiktok";
-    static final String BOTH = "both";
+    static final int REELS = 1;
+    static final int TIKTOK = 2;
+    static final int SUBTITLES = 4;
+    static final int BOTH = REELS | TIKTOK;
     private static final String PREFERENCES = "social_overlay";
     private static final String KEY = "mask_mode";
+    private static final String SELECTION = "mask_selection";
     private static final String BUTTON_X = "button_x";
     private static final String BUTTON_Y = "button_y";
     private static final String GUIDE_VISIBLE = "guide_visible";
@@ -24,21 +26,26 @@ final class MaskMode {
     private MaskMode() {
     }
 
-    static String get(Context context) {
-        String mode = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-                .getString(KEY, BOTH);
-        return REELS.equals(mode) || TIKTOK.equals(mode) || BOTH.equals(mode) ? mode : BOTH;
+    static int get(Context context) {
+        SharedPreferences prefs = preferences(context);
+        if (prefs.contains(SELECTION)) return prefs.getInt(SELECTION, BOTH) & (BOTH | SUBTITLES);
+        // Preserve the platform chosen before independent mask switches were introduced.
+        String legacy = prefs.getString(KEY, "both");
+        if ("reels".equals(legacy)) return REELS;
+        if ("tiktok".equals(legacy)) return TIKTOK;
+        return BOTH;
     }
 
-    static void set(Context context, String mode) {
-        context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-                .edit().putString(KEY, mode).apply();
+    static void set(Context context, int mode) {
+        preferences(context).edit().putInt(SELECTION, mode & (BOTH | SUBTITLES)).apply();
     }
 
-    static String label(String mode) {
-        if (REELS.equals(mode)) return "Reels";
-        if (TIKTOK.equals(mode)) return "TikTok";
-        return "Reels + TikTok";
+    static String label(Context context, int mode) {
+        java.util.ArrayList<String> labels = new java.util.ArrayList<>();
+        if ((mode & REELS) != 0) labels.add(context.getString(R.string.reels));
+        if ((mode & TIKTOK) != 0) labels.add(context.getString(R.string.tiktok));
+        if ((mode & SUBTITLES) != 0) labels.add(context.getString(R.string.subtitles));
+        return labels.isEmpty() ? context.getString(R.string.no_masks) : String.join(" + ", labels);
     }
 
     static int opacity(Context context) {
