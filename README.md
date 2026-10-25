@@ -1,5 +1,7 @@
 # Social Safe Area for Android Camera
 
+[English](README.md) · [Italiano](README.it.md)
+
 A lightweight Android overlay that helps you keep faces, captions and important details clear of the interface elements in Instagram Reels and TikTok.
 
 **v1.0.1 · Android 8.0+ (API 26) · GPL-3.0-only**
