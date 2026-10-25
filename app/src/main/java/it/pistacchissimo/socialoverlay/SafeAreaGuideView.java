@@ -91,9 +91,11 @@ final class SafeAreaGuideView extends View {
         }
         if ((mode & MaskMode.SUBTITLES) != 0) {
             int subtitles = getContext().getColor(R.color.mask_subtitles);
-            // Centre on the full frame, with a 24-unit gap above TikTok's lower band.
+            // Default: centred, with a 24-unit gap above TikTok's lower band.
             float subtitleLeft = (FRAME_WIDTH - 560f) / 2f;
             float subtitleRight = FRAME_WIDTH - subtitleLeft;
+            canvas.save();
+            canvas.translate(0, dp(MaskMode.subtitleOffset(getContext())) / frameScale);
             paint.setStyle(Paint.Style.FILL);
             paint.setColor(subtitles);
             paint.setAlpha(Math.round(MaskMode.opacity(getContext()) * 2.55f));
@@ -102,6 +104,7 @@ final class SafeAreaGuideView extends View {
             paint.setStrokeWidth(dp(1) / frameScale);
             paint.setColor(subtitles);
             canvas.drawRect(subtitleLeft, 1178, subtitleRight, 1358, paint);
+            canvas.restore();
             drawLabel(canvas, getContext().getString(R.string.subtitles), subtitles, 464, 60);
         }
         if ((mode & MaskMode.REELS) != 0) {

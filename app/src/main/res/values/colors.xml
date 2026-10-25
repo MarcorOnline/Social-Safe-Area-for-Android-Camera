@@ -2,6 +2,12 @@
     <color name="brand">#B5F219</color>
     <color name="surface">#10120F</color>
     <color name="on_surface">#E5E8E1</color>
+    <color name="on_primary">#182200</color>
+    <color name="surface_container">#1C231A</color>
+    <color name="surface_high">#283224</color>
+    <color name="outline">#52604B</color>
+    <color name="disabled_content">#7D8776</color>
+    <color name="disabled_container">#252B22</color>
     <color name="mask_reels">#FF3B7B</color>
     <color name="mask_tiktok">#25F4EE</color>
     <color name="mask_subtitles">#40A4FF</color>

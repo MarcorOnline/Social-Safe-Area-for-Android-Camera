@@ -1,4 +1,6 @@
 <resources>
+    <string name="customize_mask">Personnaliser le masque</string>
+    <string name="automatic_opening">Ouverture automatique</string>
     <string name="description">Des repères pour composer vos Reels et TikTok. La vidéo et les commandes de la caméra restent accessibles.</string>
     <string name="mask_label">Masques</string>
     <string name="subtitles">Sous-titres</string>
@@ -6,10 +8,14 @@
     <string name="opacity_label">Opacité du masque</string>
     <string name="opacity_picker_description">Régler l’opacité du masque</string>
     <string name="opacity_value">Opacité du masque : %1$d%%</string>
-    <string name="vertical_label">Position verticale</string>
-    <string name="vertical_picker_description">Déplacer le masque verticalement</string>
-    <string name="vertical_default">Position verticale : par défaut (%1$+d dp)</string>
-    <string name="vertical_value">Position verticale : %1$+d dp (personnalisée)</string>
+    <string name="vertical_label">Position verticale générale</string>
+    <string name="vertical_picker_description">Déplacer tous les masques verticalement</string>
+    <string name="vertical_default">Position verticale générale : par défaut (%1$+d dp)</string>
+    <string name="vertical_value">Position verticale générale : %1$+d dp (personnalisée)</string>
+    <string name="subtitle_vertical_label">Position verticale des sous-titres</string>
+    <string name="subtitle_vertical_picker_description">Déplacer le cadre des sous-titres par rapport à la position générale</string>
+    <string name="subtitle_vertical_value">Position verticale des sous-titres : %1$+d dp</string>
+    <string name="subtitle_reset_description">Rétablir la position des sous-titres par rapport à la position générale</string>
     <string name="reset">Réinitialiser</string>
     <string name="reset_description">Rétablir la position verticale par défaut détectée</string>
     <string name="auto_label">Afficher le bouton rapide à l’ouverture de</string>

@@ -6,4 +6,42 @@
         <item name="android:statusBarColor">@color/surface</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
+    <style name="SafeAreaButton" parent="android:style/Widget.Material.Button">
+        <item name="android:background">@drawable/button_secondary</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:textColor">@color/button_content</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="SafeAreaButton.Primary">
+        <item name="android:background">@drawable/button_primary</item>
+        <item name="android:textColor">@color/button_primary_content</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+    </style>
+    <style name="SafeAreaButton.Text">
+        <item name="android:background">@drawable/button_text</item>
+        <item name="android:textColor">@color/button_accent</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+    </style>
+    <style name="SafeAreaButton.Accordion">
+        <item name="android:background">@drawable/accordion_background</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:drawablePadding">16dp</item>
+    </style>
 </resources>

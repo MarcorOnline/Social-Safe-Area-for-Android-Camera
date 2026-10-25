@@ -7,9 +7,12 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.CheckBox;
+import android.widget.SeekBar;
 
 /** Checks upgrades and the actual independent controls without clearing other user settings. */
 final class MaskSelectionTest {
@@ -20,8 +23,19 @@ final class MaskSelectionTest {
         int original = MaskMode.get(context);
         boolean hadLegacy = prefs.contains("mask_mode");
         String legacy = prefs.getString("mask_mode", "both");
+        boolean hadSubtitleOffset = prefs.contains("subtitle_offset");
+        int originalSubtitleOffset = MaskMode.subtitleOffset(context);
+        boolean hadGeneralOffset = MaskMode.hasVerticalOffsetOverride(context);
+        int originalGeneralOffset = MaskMode.verticalOffset(context);
         MainActivity[] activity = new MainActivity[1];
         try {
+            MaskMode.resetSubtitleOffset(context);
+            check(MaskMode.subtitleOffset(context) == 0, "existing installs keep the original subtitle position");
+            MaskMode.setSubtitleOffset(context, -9999);
+            check(MaskMode.subtitleOffset(context) == -MaskMode.SUBTITLE_OFFSET_LIMIT, "lower subtitle limit");
+            MaskMode.setSubtitleOffset(context, 9999);
+            check(MaskMode.subtitleOffset(context) == MaskMode.SUBTITLE_OFFSET_LIMIT, "upper subtitle limit");
+            MaskMode.resetSubtitleOffset(context);
             prefs.edit().remove("mask_selection").remove("mask_mode").commit();
             check(MaskMode.get(context) == MaskMode.BOTH, "fresh install enables only Reel and TikTok");
             String[] oldModes = {"reels", "tiktok", "both", "unknown"};
@@ -40,6 +54,7 @@ final class MaskSelectionTest {
                     setCheckbox(root, context.getString(R.string.tiktok), (mode & MaskMode.TIKTOK) != 0);
                     setCheckbox(root, context.getString(R.string.subtitles), (mode & MaskMode.SUBTITLES) != 0);
                     check(MaskMode.get(context) == mode, "checkboxes save every combination, including none");
+                    checkSubtitleControls(root, context, (mode & MaskMode.SUBTITLES) != 0);
                     activity[0].finish();
                 });
                 activity[0] = open(test, context);
@@ -51,8 +66,35 @@ final class MaskSelectionTest {
                             == ((mode & MaskMode.TIKTOK) != 0), "TikTok restored");
                     check(find(root, context.getString(R.string.subtitles)).isChecked()
                             == ((mode & MaskMode.SUBTITLES) != 0), "subtitles restored");
+                    checkSubtitleControls(root, context, (mode & MaskMode.SUBTITLES) != 0);
                 });
             }
+            onMain(test, () -> {
+                View root = activity[0].getWindow().getDecorView();
+                SeekBar slider = (SeekBar) described(root, context, R.string.subtitle_vertical_picker_description);
+                Bundle value = new Bundle();
+                value.putFloat(AccessibilityNodeInfo.ACTION_ARGUMENT_PROGRESS_VALUE, MaskMode.SUBTITLE_OFFSET_LIMIT - 400);
+                check(slider.performAccessibilityAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SET_PROGRESS.getId(), value),
+                        "subtitle slider accepts accessible user input");
+                check(MaskMode.subtitleOffset(context) == -400, "subtitle slider saves relative dp");
+                described(root, context, R.string.reset_description).performClick();
+                check(MaskMode.subtitleOffset(context) == -400, "general reset preserves subtitle offset");
+                setCheckbox(root, context.getString(R.string.subtitles), false);
+                checkSubtitleControls(root, context, false);
+                setCheckbox(root, context.getString(R.string.subtitles), true);
+                check(slider.getProgress() == MaskMode.SUBTITLE_OFFSET_LIMIT - 400, "toggle preserves subtitle position");
+                activity[0].finish();
+            });
+            activity[0] = open(test, context);
+            onMain(test, () -> {
+                View root = activity[0].getWindow().getDecorView();
+                SeekBar slider = (SeekBar) described(root, context, R.string.subtitle_vertical_picker_description);
+                check(slider.getProgress() == MaskMode.SUBTITLE_OFFSET_LIMIT - 400, "subtitle position restored on reopen");
+                MaskMode.setVerticalOffset(context, 57);
+                described(root, context, R.string.subtitle_reset_description).performClick();
+                check(MaskMode.subtitleOffset(context) == 0 && slider.getProgress() == MaskMode.SUBTITLE_OFFSET_LIMIT
+                        && MaskMode.verticalOffset(context) == 57, "subtitle reset leaves general position alone");
+            });
         } finally {
             test.runOnMainSync(() -> {
                 if (activity[0] != null) activity[0].finish();
@@ -62,6 +104,10 @@ final class MaskSelectionTest {
             else restore.remove("mask_selection");
             if (hadLegacy) restore.putString("mask_mode", legacy);
             else restore.remove("mask_mode");
+            if (hadSubtitleOffset) restore.putInt("subtitle_offset", originalSubtitleOffset);
+            else restore.remove("subtitle_offset");
+            if (hadGeneralOffset) restore.putInt("vertical_offset", originalGeneralOffset);
+            else restore.remove("vertical_offset");
             restore.commit();
         }
     }
@@ -70,7 +116,27 @@ final class MaskSelectionTest {
         MainActivity activity = (MainActivity) test.startActivitySync(new Intent(context, MainActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
         test.waitForIdleSync();
+        onMain(test, () -> {
+            java.util.ArrayList<View> headers = new java.util.ArrayList<>();
+            activity.getWindow().getDecorView().findViewsWithText(headers,
+                    context.getString(R.string.customize_mask), View.FIND_VIEWS_WITH_TEXT);
+            check(headers.size() == 1, "customize accordion header available");
+            headers.get(0).performClick();
+        });
         return activity;
+    }
+
+    private static View described(View root, Context context, int description) {
+        java.util.ArrayList<View> matches = new java.util.ArrayList<>();
+        root.findViewsWithText(matches, context.getString(description), View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
+        check(matches.size() == 1, "missing or ambiguous control");
+        return matches.get(0);
+    }
+
+    private static void checkSubtitleControls(View root, Context context, boolean enabled) {
+        check(described(root, context, R.string.subtitle_vertical_picker_description).isEnabled() == enabled
+                && described(root, context, R.string.subtitle_reset_description).isEnabled() == enabled,
+                "subtitle slider and reset enabled only with subtitles selected");
     }
 
     private static void setCheckbox(View root, String text, boolean checked) {

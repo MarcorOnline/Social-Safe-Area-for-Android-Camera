@@ -31,6 +31,9 @@ public final class GuideRenderTest extends Instrumentation {
         int originalOpacity = MaskMode.opacity(context);
         int originalOffset = MaskMode.verticalOffset(context);
         boolean hadOverride = MaskMode.hasVerticalOffsetOverride(context);
+        android.content.SharedPreferences prefs = context.getSharedPreferences("social_overlay", Context.MODE_PRIVATE);
+        boolean hadSubtitleOffset = prefs.contains("subtitle_offset");
+        int originalSubtitleOffset = MaskMode.subtitleOffset(context);
         try {
             DeviceProfilesTest.verify(this);
             MaskSelectionTest.verify(this);
@@ -39,6 +42,7 @@ public final class GuideRenderTest extends Instrumentation {
                 MaskMode.set(context, MaskMode.BOTH);
                 MaskMode.setOpacity(context, 23);
                 MaskMode.setVerticalOffset(context, 0);
+                MaskMode.resetSubtitleOffset(context);
                 guide[0] = new SafeAreaGuideView(context);
                 WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                         -1, -1, WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
@@ -108,8 +112,42 @@ public final class GuideRenderTest extends Instrumentation {
                                 "subtitle box must be centred on the full screen");
                     }
                 }
+                // Offset only the subtitle box, then move the entire guide: both shifts must add up.
+                float density = context.getResources().getDisplayMetrics().density;
+                MaskMode.set(context, MaskMode.BOTH | MaskMode.SUBTITLES);
+                MaskMode.setSubtitleOffset(context, -Math.round(1000 / density));
+                render.eraseColor(Color.TRANSPARENT);
+                guide[0].draw(canvas);
+                int subtitleY = Math.round(1452 + MaskMode.subtitleOffset(context) * density);
+                check(Color.blue(render.getPixel(540, subtitleY)) > Color.green(render.getPixel(540, subtitleY)),
+                        "subtitles can move to the top of the frame");
+                check(Color.alpha(render.getPixel(540, 1452)) == 0, "old subtitle position is cleared");
+                check(render.getPixel(500, 338) == context.getColor(R.color.mask_reels)
+                        && render.getPixel(500, 1566) == context.getColor(R.color.mask_tiktok),
+                        "subtitle offset leaves social masks fixed");
+                MaskMode.set(context, MaskMode.SUBTITLES);
+                MaskMode.setVerticalOffset(context, 40);
+                render.eraseColor(Color.TRANSPARENT);
+                guide[0].draw(canvas);
+                int generalShift = Math.round(40 * density);
+                check(Color.blue(render.getPixel(540, subtitleY + generalShift))
+                                > Color.green(render.getPixel(540, subtitleY + generalShift))
+                        && Color.alpha(render.getPixel(540, subtitleY - 80)) == 0,
+                        "general offset moves the already-offset subtitles");
+                MaskMode.setVerticalOffset(context, 0);
+                MaskMode.setSubtitleOffset(context, 60);
+                render.eraseColor(Color.TRANSPARENT);
+                guide[0].draw(canvas);
+                check(Color.blue(render.getPixel(540, Math.round(1452 + 60 * density)))
+                                > Color.green(render.getPixel(540, Math.round(1452 + 60 * density))),
+                        "positive subtitle offset moves the box down");
+                MaskMode.resetSubtitleOffset(context);
+                render.eraseColor(Color.TRANSPARENT);
+                guide[0].draw(canvas);
+                check(render.getPixel(540, 1542) == context.getColor(R.color.mask_subtitles),
+                        "subtitle reset restores original geometry");
                 result.putString("stream", "PASS: actual window origin=" + origin[0] + "," + origin[1]
-                        + "; legacy migration, defaults, checkbox persistence and all 8 mask combinations correct; subtitle box blue and inside safe area; controls, transparency, quick button and vertical reset correct.\n");
+                        + "; all 8 mask combinations, subtitle control enablement, persistence, relative offsets, top placement and independent resets correct; geometry, transparency and quick button correct.\n");
                 render.recycle();
             });
         } catch (Throwable error) {
@@ -123,6 +161,8 @@ public final class GuideRenderTest extends Instrumentation {
                 MaskMode.setOpacity(context, originalOpacity);
                 if (hadOverride) MaskMode.setVerticalOffset(context, originalOffset);
                 else MaskMode.resetVerticalOffset(context);
+                if (hadSubtitleOffset) MaskMode.setSubtitleOffset(context, originalSubtitleOffset);
+                else MaskMode.resetSubtitleOffset(context);
             });
         }
         finish(result.getString("stream", "").startsWith("PASS") ? -1 : 0, result);

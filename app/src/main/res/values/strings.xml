@@ -1,4 +1,6 @@
 <resources>
+    <string name="customize_mask">Customize mask</string>
+    <string name="automatic_opening">Automatic opening</string>
     <string name="app_name" translatable="false">Safe Area</string>
     <string name="home_title" translatable="false">SAFE AREA</string>
     <string name="reels" translatable="false">Reel</string>
@@ -11,10 +13,14 @@
     <string name="opacity_label">Mask opacity</string>
     <string name="opacity_picker_description">Adjust mask opacity</string>
     <string name="opacity_value">Mask opacity: %1$d%%</string>
-    <string name="vertical_label">Vertical position</string>
-    <string name="vertical_picker_description">Move the mask vertically</string>
-    <string name="vertical_default">Vertical position: default (%1$+d dp)</string>
-    <string name="vertical_value">Vertical position: %1$+d dp (custom)</string>
+    <string name="vertical_label">General vertical position</string>
+    <string name="vertical_picker_description">Move all masks vertically</string>
+    <string name="vertical_default">General vertical position: default (%1$+d dp)</string>
+    <string name="vertical_value">General vertical position: %1$+d dp (custom)</string>
+    <string name="subtitle_vertical_label">Subtitles vertical position</string>
+    <string name="subtitle_vertical_picker_description">Move the subtitle box relative to the general position</string>
+    <string name="subtitle_vertical_value">Subtitles vertical position: %1$+d dp</string>
+    <string name="subtitle_reset_description">Reset the subtitle position relative to the general position</string>
     <string name="reset">Reset</string>
     <string name="reset_description">Restore the detected default vertical position</string>
     <string name="auto_label">Show quick button when I open</string>

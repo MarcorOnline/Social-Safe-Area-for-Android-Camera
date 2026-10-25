@@ -30,6 +30,9 @@ public final class GuideRotationTest extends Instrumentation {
         int originalOffset = MaskMode.verticalOffset(context);
         boolean hadOverride = MaskMode.hasVerticalOffsetOverride(context);
         int originalOpacity = MaskMode.opacity(context);
+        android.content.SharedPreferences prefs = context.getSharedPreferences("social_overlay", Context.MODE_PRIVATE);
+        boolean hadSubtitleOffset = prefs.contains("subtitle_offset");
+        int originalSubtitleOffset = MaskMode.subtitleOffset(context);
         boolean autoRotation = Settings.System.getInt(context.getContentResolver(),
                 Settings.System.ACCELEROMETER_ROTATION, 1) != 0;
         int userRotation = Settings.System.getInt(context.getContentResolver(),
@@ -43,6 +46,7 @@ public final class GuideRotationTest extends Instrumentation {
                 MaskMode.set(context, MaskMode.BOTH | MaskMode.SUBTITLES);
                 MaskMode.setOpacity(context, 23);
                 MaskMode.setVerticalOffset(context, 42);
+                MaskMode.setSubtitleOffset(context, -240);
                 guide[0] = new SafeAreaGuideView(context);
                 WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                         -1, -1, WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
@@ -81,7 +85,7 @@ public final class GuideRotationTest extends Instrumentation {
                 actual.recycle();
             }
             reference.recycle();
-            result.putString("stream", "PASS: guide stays fixed on panel at 0/90/180/270 degrees, including manual offset.\n");
+            result.putString("stream", "PASS: guide stays fixed on panel at 0/90/180/270 degrees, including general and subtitle offsets.\n");
         } catch (Throwable error) {
             result.putString("stream", "FAIL: " + error + "\n");
         } finally {
@@ -92,6 +96,8 @@ public final class GuideRotationTest extends Instrumentation {
                 MaskMode.setOpacity(context, originalOpacity);
                 if (hadOverride) MaskMode.setVerticalOffset(context, originalOffset);
                 else MaskMode.resetVerticalOffset(context);
+                if (hadSubtitleOffset) MaskMode.setSubtitleOffset(context, originalSubtitleOffset);
+                else MaskMode.resetSubtitleOffset(context);
             });
             getUiAutomation().setRotation(autoRotation ? -2 : userRotation);
         }

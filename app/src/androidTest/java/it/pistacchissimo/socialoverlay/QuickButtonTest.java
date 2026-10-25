@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
 import android.widget.SeekBar;
 
@@ -31,9 +32,51 @@ final class QuickButtonTest {
             test.runOnMainSync(() -> {
                 try {
                     View root = screen.getWindow().getDecorView();
+                    ArrayList<View> statuses = new ArrayList<>();
+                    root.findViewsWithText(statuses, screen.getString(R.string.mask_status,
+                            MaskMode.label(screen, MaskMode.get(screen))), View.FIND_VIEWS_WITH_TEXT);
+                    int[] statusLocation = new int[2];
+                    int[] rootLocation = new int[2];
+                    statuses.get(0).getLocationOnScreen(statusLocation);
+                    root.getLocationOnScreen(rootLocation);
+                    int safeTop = rootLocation[1] + root.getRootWindowInsets().getSystemWindowInsetTop();
+                    int padding = Math.round(28 * screen.getResources().getDisplayMetrics().density);
+                    if (statusLocation[1] < safeTop + padding) {
+                        throw new AssertionError("Home top padding must start below system bars: actual="
+                                + statusLocation[1] + ", minimum=" + (safeTop + padding));
+                    }
                     String showText = screen.getString(R.string.show_quick_button);
                     Button show = findButton(root, showText);
                     if (show == null) throw new AssertionError("Home must keep Mostra bottone rapido");
+                    Button customize = findButton(root, screen.getString(R.string.customize_mask));
+                    Button automatic = findButton(root, screen.getString(R.string.automatic_opening));
+                    ViewGroup sections = (ViewGroup) customize.getParent();
+                    View maskSection = sections.getChildAt(sections.indexOfChild(customize) + 1);
+                    View autoSection = sections.getChildAt(sections.indexOfChild(automatic) + 1);
+                    if (maskSection.getVisibility() != View.GONE || autoSection.getVisibility() != View.GONE
+                            || !show.isShown()) {
+                        throw new AssertionError("Home must start compact with primary action visible");
+                    }
+                    customize.performClick();
+                    if (maskSection.getVisibility() != View.VISIBLE || autoSection.getVisibility() != View.GONE) {
+                        throw new AssertionError("Customize must open its own section");
+                    }
+                    automatic.performClick();
+                    if (maskSection.getVisibility() != View.GONE || autoSection.getVisibility() != View.VISIBLE) {
+                        throw new AssertionError("Opening automatic must close customize");
+                    }
+                    customize.performClick();
+                    if (maskSection.getVisibility() != View.VISIBLE || autoSection.getVisibility() != View.GONE) {
+                        throw new AssertionError("Opening customize must close automatic");
+                    }
+                    customize.performAccessibilityAction(AccessibilityNodeInfo.ACTION_COLLAPSE, null);
+                    if (maskSection.getVisibility() != View.GONE || autoSection.getVisibility() != View.GONE) {
+                        throw new AssertionError("Expanded section must also collapse independently");
+                    }
+                    customize.performAccessibilityAction(AccessibilityNodeInfo.ACTION_EXPAND, null);
+                    if (maskSection.getVisibility() != View.VISIBLE || !show.isShown()) {
+                        throw new AssertionError("Accessible expand must preserve primary action");
+                    }
                     show.performClick();
                     show.performClick();
                     if (!showText.contentEquals(show.getText())) {
@@ -62,9 +105,19 @@ final class QuickButtonTest {
             if (failure[0] != null) throw new AssertionError(failure[0]);
             about[0] = test.waitForMonitorWithTimeout(aboutMonitor, 5000);
             if (about[0] == null) throw new AssertionError("Information did not open attribution page");
+            test.waitForIdleSync();
             test.runOnMainSync(() -> {
                 ArrayList<View> attribution = new ArrayList<>();
                 View root = about[0].getWindow().getDecorView();
+                int[] backLocation = new int[2];
+                findButton(root, about[0].getString(R.string.back)).getLocationOnScreen(backLocation);
+                int[] rootLocation = new int[2];
+                root.getLocationOnScreen(rootLocation);
+                int minimum = rootLocation[1] + root.getRootWindowInsets().getSystemWindowInsetTop()
+                        + Math.round(24 * about[0].getResources().getDisplayMetrics().density);
+                if (backLocation[1] < minimum) {
+                    failure[0] = new AssertionError("About top padding must also start below system bars");
+                }
                 root.findViewsWithText(attribution, about[0].getString(R.string.about_creator), View.FIND_VIEWS_WITH_TEXT);
                 if (attribution.isEmpty() || findButton(root, about[0].getString(R.string.project_github)) == null
                         || findButton(root, about[0].getString(R.string.pistacchissimo_article)) == null

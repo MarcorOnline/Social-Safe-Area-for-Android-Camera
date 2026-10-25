@@ -1,4 +1,6 @@
 <resources>
+    <string name="customize_mask">Maske anpassen</string>
+    <string name="automatic_opening">Automatisches Öffnen</string>
     <string name="description">Bildhilfen für Reels und TikTok. Video und Kamerabedienelemente bleiben bedienbar.</string>
     <string name="mask_label">Masken</string>
     <string name="subtitles">Untertitel</string>
@@ -6,10 +8,14 @@
     <string name="opacity_label">Deckkraft der Maske</string>
     <string name="opacity_picker_description">Deckkraft der Maske einstellen</string>
     <string name="opacity_value">Deckkraft der Maske: %1$d%%</string>
-    <string name="vertical_label">Vertikale Position</string>
-    <string name="vertical_picker_description">Maske vertikal verschieben</string>
-    <string name="vertical_default">Vertikale Position: Standard (%1$+d dp)</string>
-    <string name="vertical_value">Vertikale Position: %1$+d dp (angepasst)</string>
+    <string name="vertical_label">Allgemeine vertikale Position</string>
+    <string name="vertical_picker_description">Alle Masken vertikal verschieben</string>
+    <string name="vertical_default">Allgemeine vertikale Position: Standard (%1$+d dp)</string>
+    <string name="vertical_value">Allgemeine vertikale Position: %1$+d dp (angepasst)</string>
+    <string name="subtitle_vertical_label">Vertikale Position der Untertitel</string>
+    <string name="subtitle_vertical_picker_description">Untertitelrahmen relativ zur allgemeinen Position verschieben</string>
+    <string name="subtitle_vertical_value">Vertikale Position der Untertitel: %1$+d dp</string>
+    <string name="subtitle_reset_description">Untertitelposition relativ zur allgemeinen Position zurücksetzen</string>
     <string name="reset">Zurücksetzen</string>
     <string name="reset_description">Erkannten Standard für die vertikale Position wiederherstellen</string>
     <string name="auto_label">Schnelltaste anzeigen beim Öffnen von</string>

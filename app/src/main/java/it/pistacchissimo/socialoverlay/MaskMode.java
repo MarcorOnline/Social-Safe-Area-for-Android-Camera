@@ -12,6 +12,7 @@ final class MaskMode {
     static final int TIKTOK = 2;
     static final int SUBTITLES = 4;
     static final int BOTH = REELS | TIKTOK;
+    static final int SUBTITLE_OFFSET_LIMIT = 720;
     private static final String PREFERENCES = "social_overlay";
     private static final String KEY = "mask_mode";
     private static final String SELECTION = "mask_selection";
@@ -20,6 +21,7 @@ final class MaskMode {
     private static final String GUIDE_VISIBLE = "guide_visible";
     private static final String OPACITY = "opacity";
     private static final String VERTICAL_OFFSET = "vertical_offset";
+    private static final String SUBTITLE_OFFSET = "subtitle_offset";
     private static final String AUTO_PACKAGE = "auto_package";
     private static final String DISMISSED = "dismissed";
 
@@ -72,6 +74,20 @@ final class MaskMode {
     static void setVerticalOffset(Context context, int value) {
         preferences(context).edit()
                 .putInt(VERTICAL_OFFSET, Math.max(-360, Math.min(360, value))).apply();
+    }
+
+    /** Additional dp relative to the general guide position; zero preserves the original box. */
+    static int subtitleOffset(Context context) {
+        return preferences(context).getInt(SUBTITLE_OFFSET, 0);
+    }
+
+    static void setSubtitleOffset(Context context, int value) {
+        preferences(context).edit().putInt(SUBTITLE_OFFSET,
+                Math.max(-SUBTITLE_OFFSET_LIMIT, Math.min(SUBTITLE_OFFSET_LIMIT, value))).apply();
+    }
+
+    static void resetSubtitleOffset(Context context) {
+        preferences(context).edit().remove(SUBTITLE_OFFSET).apply();
     }
 
     static boolean guideVisible(Context context) {

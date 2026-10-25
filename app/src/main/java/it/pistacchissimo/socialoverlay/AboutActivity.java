@@ -26,6 +26,7 @@ public final class AboutActivity extends Activity {
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
         ScrollView scroll = new ScrollView(this);
+        scroll.setFitsSystemWindows(true);
         scroll.setFillViewport(true);
         scroll.setBackgroundColor(getColor(R.color.surface));
         LinearLayout content = new LinearLayout(this);
@@ -90,7 +91,7 @@ public final class AboutActivity extends Activity {
     }
 
     private Button button(LinearLayout parent, int label) {
-        Button button = new Button(this, null, android.R.attr.borderlessButtonStyle);
+        Button button = new Button(this, null, 0, R.style.SafeAreaButton_Text);
         button.setText(label);
         button.setAllCaps(false);
         parent.addView(button, new LinearLayout.LayoutParams(-1, -2));

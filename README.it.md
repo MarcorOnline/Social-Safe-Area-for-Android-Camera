@@ -2,18 +2,18 @@
 
 [English](README.md) · [Italiano](README.it.md)
 
-![Social Safe Area — app Android gratuita con guide per Reels e TikTok sopra la fotocamera](docs/social-safe-area-cover.jpg)
+<img src="docs/social-safe-area-cover.jpg" alt="Social Safe Area — app Android gratuita con guide per Reels e TikTok sopra la fotocamera" width="560">
 
 Una maschera leggera per Android che ti aiuta a tenere volti, scritte e dettagli importanti lontani dagli elementi dell’interfaccia di Instagram Reels e TikTok.
 
-**v1.2.0 · Android 8.0+ (API 26) · GPL-3.0-only**
+**v1.3.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
 Sul telefono l’app si chiama **Safe Area**. Il nome preparato per Google Play è
 **Safe Area: Reels & TikTok**; la distribuzione su Google Play non è ancora disponibile.
 
-[![Scarica l’APK per Android](docs/download-apk.svg)](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.2.0/Social-Safe-Area-1.2.0.apk)
+[![Scarica l’APK per Android](docs/download-apk.svg)](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.3.0/Social-Safe-Area-1.3.0.apk)
 
-**Non serve compilare:** scarica l’APK firmato, aprilo sul telefono e segui le istruzioni di installazione di Android. Consulta le [note di rilascio e i checksum](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.2.0).
+**Non serve compilare:** scarica l’APK firmato, aprilo sul telefono e segui le istruzioni di installazione di Android. Consulta le [note di rilascio e i checksum](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.3.0).
 
 L’app disegna una guida trasparente sopra la fotocamera che usi già. Non registra video, non sostituisce la fotocamera e non modifica il file registrato. La guida compare sullo schermo del telefono, ma non viene impressa nelle registrazioni della fotocamera.
 
@@ -26,7 +26,7 @@ Se l’app ti è utile, puoi sostenere il mio lavoro [seguendo @pistacchissimo s
 ## Funzioni
 
 - Tre checkbox indipendenti e salvati: **Reel** (rosa), **TikTok** (turchese) e **Sottotitoli** (azzurro). Alla prima installazione sono attivi solo Reel e TikTok; è possibile spegnere anche tutte le maschere.
-- Un rettangolo per i sottotitoli centrato sullo schermo, poco sopra la fascia inferiore di TikTok, con la stessa opacità e lo stesso allineamento verticale delle altre guide.
+- Un rettangolo per i sottotitoli centrato sullo schermo, inizialmente poco sopra la fascia inferiore di TikTok. Condivide opacità e posizione generale delle guide, con una regolazione verticale aggiuntiva salvata da −720 a +720 dp per spostare solo il box, anche verso l’alto.
 - Fasce da evitare in alto, in basso e nella parte inferiore destra, secondo il modello di riferimento; l’area utile per la composizione resta libera.
 - Un piccolo **bottone rapido** trascinabile con la scritta `SAFE / ON/OFF`, la cui posizione viene salvata tra una sessione e l’altra.
 - Opacità della maschera dall’8% al 70%, con valore predefinito del 23%.
@@ -48,8 +48,10 @@ Apri **Safe Area** e tocca **Mostra bottone rapido**. Nella pagina dei permessi 
 
 Questo permesso serve per disegnare sopra la fotocamera. L’accessibilità è un permesso separato e facoltativo.
 
-1. Attiva o disattiva a piacere i checkbox **Reel**, **TikTok** e **Sottotitoli**.
-2. Se necessario, regola **Opacità maschera** e **Posizione verticale**. **Reset** ripristina l’allineamento predefinito del profilo rilevato.
+Le impostazioni sono raccolte in due sezioni, **Personalizza maschera** e **Apertura automatica**, inizialmente chiuse: aprendo una sezione si chiude l’altra. **Mostra bottone rapido** resta sempre disponibile in alto.
+
+1. Apri **Personalizza maschera** e attiva o disattiva a piacere i checkbox **Reel**, **TikTok** e **Sottotitoli**.
+2. Se necessario, regola **Opacità maschera** e **Posizione verticale generale**. Il relativo **Reset** ripristina l’allineamento predefinito del profilo rilevato. **Posizione verticale sottotitoli** sposta solo il box rispetto alla posizione generale; il suo **Reset** azzera lo scostamento aggiuntivo. Il cursore sottotitoli e il suo Reset sono disabilitati quando **Sottotitoli** non è selezionato, conservando la posizione salvata per la prossima attivazione.
 3. Tocca **Mostra bottone rapido**. Questa azione mostra solo il bottone: premerlo più volte non cambia lo stato ON/OFF della maschera.
 4. Usa il bottone flottante `SAFE / ON/OFF` per accendere o spegnere la maschera. Solo questo bottone cambia tale stato.
 5. Trascina il bottone rapido per spostarlo. Per chiudere la maschera e il bottone, trascinalo sul cestino che compare in basso.
@@ -58,7 +60,7 @@ Aprire Safe Area ripristina anche il bottone rapido se il permesso di sovrapposi
 
 ### Segui automaticamente l’app fotocamera
 
-1. In **Apri il bottone rapido quando apro**, seleziona la tua app fotocamera.
+1. Apri **Apertura automatica** e, in **Apri il bottone rapido quando apro**, seleziona la tua app fotocamera.
 2. Tocca **Abilita rilevamento fotocamera** per aprire le impostazioni di accessibilità di Android.
 3. Cerca **Rilevamento app Safe Area** tra le app o i servizi installati/scaricati, attivalo e conferma la richiesta di Android.
 4. Torna in Safe Area, poi apri la fotocamera selezionata.
