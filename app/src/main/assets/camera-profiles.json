@@ -5,6 +5,56 @@
     "android_sdk": 37,
     "camera_package": "com.sec.android.app.camera",
     "camera_version": "17.0.00.43",
-    "vertical_offset_dp": 0
+    "vertical_offset_dp": 0,
+    "mode_detection": {
+      "orientation": "portrait",
+      "rules": [
+        {
+          "mode": "video",
+          "view_id": "com.sec.android.app.camera:id/shooting_mode_list",
+          "content_description": "Video, Modalità"
+        },
+        {
+          "mode": "photo",
+          "view_id": "com.sec.android.app.camera:id/shooting_mode_list",
+          "content_description": "Fotografia, Modalità"
+        },
+        {
+          "mode": "video",
+          "view_id": "com.sec.android.app.camera:id/shooting_mode_list",
+          "content_description": "Video, Mode"
+        },
+        {
+          "mode": "photo",
+          "view_id": "com.sec.android.app.camera:id/shooting_mode_list",
+          "content_description": "Photo, Mode"
+        },
+        {
+          "mode": "video",
+          "view_id": "com.sec.android.app.camera:id/shooting_mode_list",
+          "content_description": "Vidéo, Mode"
+        },
+        {
+          "mode": "video",
+          "view_id": "com.sec.android.app.camera:id/shooting_mode_list",
+          "content_description": "Vídeo, Modo"
+        },
+        {
+          "mode": "photo",
+          "view_id": "com.sec.android.app.camera:id/shooting_mode_list",
+          "content_description": "Foto, Modo"
+        },
+        {
+          "mode": "video",
+          "view_id": "com.sec.android.app.camera:id/shooting_mode_list",
+          "content_description": "Video, Modus"
+        },
+        {
+          "mode": "photo",
+          "view_id": "com.sec.android.app.camera:id/shooting_mode_list",
+          "content_description": "Foto, Modus"
+        }
+      ]
+    }
   }
 ]

@@ -4,6 +4,7 @@
 package it.pistacchissimo.socialoverlay;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -12,6 +13,11 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.graphics.Paint;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -47,6 +53,7 @@ public final class MainActivity extends Activity {
     private Button updateButton;
     private Button expandedHeader;
     private LinearLayout expandedSection;
+    private TextView experimentalStatus;
     private final Consumer<UpdateChecker.Release> updateResult = this::showUpdate;
 
     @Override
@@ -236,10 +243,37 @@ public final class MainActivity extends Activity {
         Button accessibility = new Button(this, null, 0, R.style.SafeAreaButton);
         accessibility.setAllCaps(false);
         accessibility.setText(R.string.enable_detection);
-        accessibility.setOnClickListener(ignored -> startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)));
+        accessibility.setOnClickListener(ignored -> openAccessibilitySettings());
         LinearLayout.LayoutParams accessibilityParams = new LinearLayout.LayoutParams(-1, -2);
         accessibilityParams.topMargin = dp(16);
         autoSettings.addView(accessibility, accessibilityParams);
+
+        LinearLayout experimental = addAccordion(content, R.string.experimental_features);
+        LinearLayout videoOnlyRow = new LinearLayout(this);
+        videoOnlyRow.setGravity(Gravity.CENTER_VERTICAL);
+        CheckBox videoOnly = new CheckBox(this);
+        videoOnly.setText(R.string.experimental_video_only);
+        videoOnly.setTextColor(getColor(R.color.on_surface));
+        videoOnly.setMinHeight(dp(48));
+        videoOnly.setChecked(MaskMode.videoOnly(this));
+        videoOnly.setOnCheckedChangeListener((button, checked) -> {
+            if (!checked) {
+                MaskMode.setVideoOnly(this, false);
+                OverlayService.refreshMask(this);
+                refresh();
+            } else if (!MaskMode.videoOnly(this)) {
+                showVideoModeInfo(videoOnly);
+            }
+        });
+        videoOnlyRow.addView(videoOnly, new LinearLayout.LayoutParams(0, -2, 1f));
+        Button help = new Button(this, null, 0, R.style.SafeAreaButton_Text);
+        help.setText("?");
+        help.setContentDescription(getString(R.string.experimental_video_help_description));
+        help.setOnClickListener(ignored -> showVideoModeInfo(null));
+        videoOnlyRow.addView(help, new LinearLayout.LayoutParams(dp(48), -2));
+        experimental.addView(videoOnlyRow, new LinearLayout.LayoutParams(-1, -2));
+        experimentalStatus = sectionLabel(experimental, "");
+        experimentalStatus.setMinHeight(dp(48));
 
         Button information = new Button(this, null, 0, R.style.SafeAreaButton_Text);
         information.setText("ⓘ");
@@ -266,6 +300,57 @@ public final class MainActivity extends Activity {
         }
         OverlayService.start(this);
         refresh();
+    }
+
+    private void showVideoModeInfo(CheckBox option) {
+        SpannableString message = new SpannableString(getString(R.string.experimental_video_help));
+        int github = message.toString().lastIndexOf("GitHub");
+        if (github >= 0) {
+            message.setSpan(new ClickableSpan() {
+                @Override public void onClick(View widget) {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(AboutActivity.PROJECT_URL
+                                + "/blob/develop/CONTRIBUTING.md#contribute-experimental-mode-detection")));
+                    } catch (ActivityNotFoundException error) {
+                        Toast.makeText(MainActivity.this, R.string.no_browser, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }, github, github + "GitHub".length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle(R.string.experimental_video_only).setMessage(message);
+        if (option == null) builder.setPositiveButton(android.R.string.ok, null);
+        else builder.setPositiveButton(R.string.experimental_enable, (dialog, which) -> {
+                    MaskMode.setVideoOnly(this, true);
+                    refresh();
+                })
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> option.setChecked(false))
+                .setOnCancelListener(dialog -> option.setChecked(false));
+        TextView text = builder.show().findViewById(android.R.id.message);
+        text.setText(message, TextView.BufferType.SPANNABLE);
+        text.setMovementMethod(LinkMovementMethod.getInstance());
+        text.setLinksClickable(true);
+        text.setClickable(true);
+        text.setLinkTextColor(getColor(R.color.brand));
+    }
+
+    private void openAccessibilitySettings() {
+        String component = new ComponentName(this, AppWatchAccessibilityService.class).flattenToString();
+        try {
+            // This settings intent is provided by AOSP and some OEMs, but is not a public SDK constant.
+            startActivity(new Intent("android.settings.ACCESSIBILITY_DETAILS_SETTINGS")
+                    .putExtra(Intent.EXTRA_COMPONENT_NAME, component));
+        } catch (ActivityNotFoundException | SecurityException unavailable) {
+            try {
+                Bundle arguments = new Bundle();
+                arguments.putString(":settings:fragment_args_key", component);
+                startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                        .putExtra(":settings:fragment_args_key", component)
+                        .putExtra(":settings:show_fragment_args", arguments));
+            } catch (ActivityNotFoundException | SecurityException error) {
+                Toast.makeText(this, R.string.experimental_enable_accessibility, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private void showUpdate(UpdateChecker.Release release) {
@@ -312,6 +397,20 @@ public final class MainActivity extends Activity {
             autoStatus.setText(target.isEmpty() ? getString(R.string.auto_disabled)
                     : getString(R.string.auto_selected, appLabel(target))
                     + (isWatcherEnabled() ? "" : getString(R.string.auto_enable_hint)));
+        }
+        if (experimentalStatus != null) {
+            boolean needsAccessibility = !MaskMode.autoPackage(this).isEmpty() && !isWatcherEnabled();
+            experimentalStatus.setText(MaskMode.autoPackage(this).isEmpty()
+                    ? R.string.experimental_choose_camera : !isWatcherEnabled()
+                    ? R.string.experimental_enable_accessibility : DeviceProfiles.modeDetection(this) == null
+                    ? R.string.experimental_no_profile : R.string.experimental_profile_ready);
+            experimentalStatus.setOnClickListener(needsAccessibility ? ignored -> openAccessibilitySettings() : null);
+            experimentalStatus.setClickable(needsAccessibility);
+            experimentalStatus.setFocusable(needsAccessibility);
+            experimentalStatus.setTextColor(getColor(needsAccessibility ? R.color.brand : R.color.on_surface));
+            experimentalStatus.setPaintFlags(needsAccessibility
+                    ? experimentalStatus.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG
+                    : experimentalStatus.getPaintFlags() & ~Paint.UNDERLINE_TEXT_FLAG);
         }
     }
 

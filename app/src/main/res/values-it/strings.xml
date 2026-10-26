@@ -1,4 +1,13 @@
 <resources>
+    <string name="experimental_features">Funzioni sperimentali</string>
+    <string name="experimental_video_only">Mostra la maschera solo in modalità \"Video\"</string>
+    <string name="experimental_video_help_description">Informazioni sul rilevamento sperimentale della modalità</string>
+    <string name="experimental_video_help">La maschera serve solo quando si registrano i Video.\nPertanto è possibile farla sparire quando la fotocamera passa in modalità Foto.\n\nPer funzionare sfrutta le funzioni di accessibilità di Android: l’app della fotocamera comunica la modalità attiva e Safe Area la rileva per accendere / spegnere la maschera.\n\nProfili automatici attualmente supportati:\n• Samsung Galaxy S26 Ultra (SM-S948B), Android 17 / API 37, Samsung Camera 17.0.00.43: in verticale, in italiano, inglese, francese, spagnolo e tedesco.\nPer gli altri rimane il controllo manuale.\n\nSe sei uno sviluppatore puoi contribuire aggiungendo profili su GitHub.</string>
+    <string name="experimental_enable">Attiva funzione</string>
+    <string name="experimental_choose_camera">Seleziona la fotocamera in Apertura automatica.</string>
+    <string name="experimental_enable_accessibility">Abilita il rilevamento fotocamera nelle impostazioni di accessibilità di Android.</string>
+    <string name="experimental_no_profile">Nessun profilo esatto per questo dispositivo e questa versione della fotocamera. Resta disponibile il controllo manuale.</string>
+    <string name="experimental_profile_ready">Profilo compatibile disponibile. Il rilevamento dipende da lingua e orientamento della fotocamera.</string>
     <string name="customize_mask">Personalizza maschera</string>
     <string name="automatic_opening">Apertura automatica</string>
     <string name="description">Una guida per comporre Reels e TikTok. Il video e i comandi della fotocamera restano toccabili.</string>
@@ -33,7 +42,7 @@
     <string name="channel_description">Comando per chiudere la guida</string>
     <string name="trash_target">TRASCINA QUI PER CHIUDERE</string>
     <string name="watcher_name">Rilevamento app Safe Area</string>
-    <string name="app_watch_description">Mostra il bottone rapido Safe Area quando apri l’app selezionata e lo nasconde quando passi a un’altra app. Non legge il contenuto dello schermo.</string>
+    <string name="app_watch_description">Mostra il bottone rapido con l’app selezionata. Se attivi il rilevamento sperimentale della modalità, legge anche i comandi accessibili di quella fotocamera, localmente. Non acquisisce screenshot, non salva né invia il testo dei comandi.</string>
     <string name="information">Informazioni sull’app</string>
     <string name="back">Indietro</string>
     <string name="about_title">Informazioni su Social Safe Area</string>

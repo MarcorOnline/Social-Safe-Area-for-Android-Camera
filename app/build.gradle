@@ -11,9 +11,10 @@ tasks.register('validateCameraProfiles') {
         if (!(profiles instanceof List)) throw new GradleException('Camera profiles must be a JSON array')
         def seen = [] as Set
         profiles.each { profile ->
-            if (!(profile instanceof Map) || profile.keySet() !=
-                    ['manufacturer', 'model', 'android_sdk', 'camera_package', 'camera_version', 'vertical_offset_dp'] as Set) {
-                throw new GradleException('Each camera profile must contain exactly the six documented fields')
+            def required = ['manufacturer', 'model', 'android_sdk', 'camera_package', 'camera_version', 'vertical_offset_dp'] as Set
+            if (!(profile instanceof Map) || !profile.keySet().containsAll(required)
+                    || !(['mode_detection'] as Set).containsAll(profile.keySet() - required)) {
+                throw new GradleException('Camera profiles require the six documented fields and optional mode_detection')
             }
             if (!(profile.manufacturer instanceof String) || !profile.manufacturer.trim()
                     || !(profile.model instanceof String) || !profile.model.trim()
@@ -28,6 +29,43 @@ tasks.register('validateCameraProfiles') {
             def key = [profile.manufacturer.toLowerCase(Locale.ROOT), profile.model.toLowerCase(Locale.ROOT),
                     profile.android_sdk, profile.camera_package, profile.camera_version]
             if (!seen.add(key)) throw new GradleException('Duplicate camera profile: ' + key)
+            if (profile.containsKey('mode_detection')) {
+                def detection = profile.mode_detection
+                if (!(detection instanceof Map) || detection.keySet() != ['orientation', 'rules'] as Set
+                        || !(detection.orientation in ['portrait', 'landscape'])
+                        || !(detection.rules instanceof List) || detection.rules.isEmpty() || detection.rules.size() > 16) {
+                    throw new GradleException('Invalid mode_detection configuration')
+                }
+                detection.rules.each { rule ->
+                    def allowed = ['mode', 'view_id', 'text', 'content_description', 'selected', 'bounds'] as Set
+                    if (!(rule instanceof Map) || !allowed.containsAll(rule.keySet())
+                            || !(rule.mode in ['video', 'photo']) || !(rule.view_id instanceof String)
+                            || !rule.view_id.startsWith(profile.camera_package + ':id/')
+                            || rule.view_id.length() <= profile.camera_package.length() + 4
+                            || !rule.keySet().any { it in ['text', 'content_description', 'selected', 'bounds'] }) {
+                        throw new GradleException('Mode rules need a camera view ID and at least one predicate')
+                    }
+                    ['text', 'content_description'].each { field ->
+                        if (rule.containsKey(field) && (!(rule[field] instanceof String) || !rule[field].trim())) {
+                            throw new GradleException('Mode text predicates must be non-empty strings')
+                        }
+                    }
+                    if (rule.containsKey('selected') && rule.selected != true) {
+                        throw new GradleException('selected must be true when present')
+                    }
+                    if (rule.containsKey('bounds')) {
+                        def box = rule.bounds
+                        if (!(box instanceof List) || box.size() != 4
+                                || !box.every { it instanceof Number && it >= 0 && it <= 1 }
+                                || box[0] >= box[2] || box[1] >= box[3]) {
+                            throw new GradleException('Mode bounds must be [left, top, right, bottom] within 0..1')
+                        }
+                    }
+                }
+                if (!(detection.rules.collect { it.mode } as Set).containsAll(['video', 'photo'])) {
+                    throw new GradleException('Mode detection must recognize both video and photo')
+                }
+            }
         }
     }
 }
@@ -41,8 +79,8 @@ android {
         applicationId 'it.pistacchissimo.socialoverlay'
         minSdk 26
         targetSdk 35
-        versionCode 9
-        versionName '1.3.0'
+        versionCode 10
+        versionName '1.4.0'
         testInstrumentationRunner 'it.pistacchissimo.socialoverlay.GuideRenderTest'
     }
 }

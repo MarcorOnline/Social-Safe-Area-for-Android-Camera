@@ -4,7 +4,8 @@ Our main calibration priority is correct vertical alignment for common camera
 apps on real devices. Use portrait orientation and a **9:16 video preview**.
 
 Edit [`camera-profiles.json`](../app/src/main/assets/camera-profiles.json).
-It is a JSON array; each object has these six required fields:
+It is a JSON array; each object has these six required fields and may include
+the optional `mode_detection` object described below:
 
 ```json
 {
@@ -66,6 +67,130 @@ The user's manual override always wins, including after updates. Reset removes
 it and uses the current suggestion. Without a selected app, lookup uses the
 default video camera. Profiles ship offline with the next app build.
 
-This file only changes vertical position. It does not calibrate frame width,
-height or landscape, and the base geometry remains 9:16. Do not mistake the
-camera's rule-of-thirds grid for the actual video boundaries.
+Offset calibration only changes vertical position. It does not calibrate frame
+width, height or landscape, and the base geometry remains 9:16. Do not mistake
+the camera's rule-of-thirds grid for the actual video boundaries.
+
+## Experimental camera-mode detection
+
+The optional **Experimental features → Show the mask only in "Video" mode** setting is
+off by default. It needs the selected camera and the accessibility service.
+It reads accessible camera controls after UI events, without screenshots, OCR,
+periodic polling, storing control text or sending it over the network. Event
+bursts are coalesced into at most one node lookup per 200 ms. An unrecognized
+state releases any previous Photo suppression after 1.5 seconds; manual ON/OFF
+is never overwritten. The quick button remains available in Photo mode.
+
+Unlike offset suggestions, mode detection requires an exact manufacturer,
+model, Android API, camera package and camera version match. No similar-device
+fallback is allowed. Rules also depend on the camera's own language and layout;
+the initial Samsung profile was verified on the reference device in Italian,
+English, French, Spanish and German, in portrait orientation. Camera language is
+independent of Safe Area's language. Language alternatives sharing a view ID
+reuse a single lookup within each detection pass.
+Unsupported languages, orientations and modes fall back to manual control.
+
+Example optional object, using the Samsung mode selector's accessible description:
+
+```json
+"mode_detection": {
+  "orientation": "portrait",
+  "rules": [
+    {
+      "mode": "video",
+      "view_id": "com.sec.android.app.camera:id/shooting_mode_list",
+      "content_description": "Video, Modalità"
+    },
+    {
+      "mode": "photo",
+      "view_id": "com.sec.android.app.camera:id/shooting_mode_list",
+      "content_description": "Fotografia, Modalità"
+    }
+  ]
+}
+```
+
+`orientation` is `portrait` or `landscape`. Supply 1–16 rules, including both
+`video` and `photo`. Each rule requires a full `view_id` belonging to the same
+camera package and at least one predicate:
+
+| Predicate | Meaning |
+| --- | --- |
+| `text` | Exact accessible text, ignoring case and outer whitespace. |
+| `content_description` | Exact accessible description, with the same comparison. |
+| `selected` | If present, must be `true`; require the node's selected state. |
+| `bounds` | `[left, top, right, bottom]` within 0–1 of the camera root window; the node's centre must lie inside it. |
+
+All predicates on a rule must match a visible node. Conflicting Photo and Video
+matches yield an unknown state. A Video label beside Photo is not enough: use a
+selected state, a description of the active mode, or a calibrated bounding box.
+Bounds filter node matches; they do not restrict the Android accessibility
+permission. Prefer semantic descriptions or IDs when they distinguish the mode.
+
+Test transitions in both directions, reopening the camera, manual OFF, missing
+selectors and recording controls before contributing rules. Do not infer Photo
+from the absence of a Video label. The calibration export preserves mode rules
+only when they belong to the exact selected camera profile; it does not invent
+rules from a nearby profile or learn them automatically.
+
+### Collect controls for a contribution
+
+The inspector works with a normal installed camera and does not require a
+debug build of Safe Area. With Android platform-tools installed and USB debugging
+authorized, open the camera in **Photo**, then run:
+
+```powershell
+./scripts/inspect-camera-controls.ps1 -Serial DEVICE_SERIAL -CameraPackage CAMERA_PACKAGE
+```
+
+Use `camera_package` from the copied calibration JSON for `CAMERA_PACKAGE`.
+Repeat in **Video** and compare only the mode selector. The inspector prints
+camera control IDs, text, descriptions, selected states and normalized bounds,
+plus orientation. It captures no images, deletes its temporary XML on the phone,
+and never prints the device serial. Inspect the output before sharing: camera
+controls can still contain private information, so share only selector entries.
+The output is observations, not a complete `mode_detection` object.
+
+Choose a stable view ID with a description that changes between Photo and Video,
+or a selected state. If the camera exposes only carousel labels, use the node's
+position to distinguish the centred mode from adjacent ones. Do not copy
+`selected: false` from the observations into a rule: omit the predicate instead.
+
+Add the `mode_detection` object to the matching calibration entry, using the
+example above. For another language on the same device/API/camera version, append
+another Photo/Video pair to its `rules`; do not create a duplicate profile. Rules
+are alternatives, so matching any Video rule recognizes Video regardless of the
+Safe Area app language. Match the camera's actual accessible strings rather than
+translating them by hand. A node matching both modes is treated as unknown.
+
+Run `./gradlew.bat :app:validateCameraProfiles` (or `./gradlew` on Unix), then build
+and install the APK to test it. Validation checks structure, allowed predicates,
+coordinates and duplicate metadata; a successful build does not prove that the
+rules match the real camera. In the PR state device/API/camera version, languages,
+orientation and which transitions you actually checked.
+
+For the Samsung profile with the camera in Italian, enable the experiment and accessibility,
+turn the guide ON, then run this real-device transition check:
+
+```powershell
+./scripts/verify-camera-mode.ps1 -Serial DEVICE_SERIAL
+```
+
+For another supported camera language, supply its actual carousel labels:
+
+| Camera language | Additional arguments |
+| --- | --- |
+| English | `-PhotoLabel PHOTO -VideoLabel VIDEO` |
+| French | `-PhotoLabel PHOTO -VideoLabel VIDÉO` |
+| Spanish | `-PhotoLabel FOTO -VideoLabel VÍDEO` |
+| German | `-PhotoLabel FOTO -VideoLabel VIDEO` |
+
+These labels control the test's taps; runtime detection still uses the community
+profile's accessible descriptions. Do not change the phone's system language to
+match Safe Area: only the camera's actual control strings matter.
+
+It checks Video → Photo → Video, keeps manual ON, restores the initial camera
+mode and returns Home. It does not start recording or take photos. Its diagnostic
+node dumps are temporary; no control text is committed. The general instrumentation
+test also covers default-off, exact matching, label/bounds predicates and preserving
+manual OFF. These checks are functional tests, not battery or recording benchmarks.

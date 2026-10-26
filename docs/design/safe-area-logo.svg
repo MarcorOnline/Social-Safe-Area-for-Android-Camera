@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">
+  <title>Safe Area — Spazio condiviso</title>
+  <rect width="108" height="108" rx="23" fill="#10120F"/>
+  <path fill="#25F4EE" d="M72.5,34C76.5,34.5 79,38 79,42V84Q79,92 71,92H44.5Q37,92 36.5,84.5H64.5Q72.5,84.5 72.5,76.5Z"/>
+  <path fill="#B5F219" fill-rule="evenodd" d="M36,19H64Q71,19 71,26V76Q71,83 64,83H36Q29,83 29,76V26Q29,19 36,19ZM37.5,26Q34.5,26 34.5,29V66Q34.5,69 37.5,69H59Q62,69 62,66V29Q62,26 59,26Z"/>
+</svg>

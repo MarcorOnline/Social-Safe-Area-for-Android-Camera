@@ -38,6 +38,7 @@ public final class GuideRenderTest extends Instrumentation {
             DeviceProfilesTest.verify(this);
             MaskSelectionTest.verify(this);
             QuickButtonTest.verify(this);
+            CameraModeTest.verify(this);
             onMain(() -> {
                 MaskMode.set(context, MaskMode.BOTH);
                 MaskMode.setOpacity(context, 23);

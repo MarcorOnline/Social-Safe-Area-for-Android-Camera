@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.TextView;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
 
 /** Owns the two system windows: a non-interactive guide and the quick button. */
 public final class OverlayService extends Service {
@@ -33,6 +35,7 @@ public final class OverlayService extends Service {
     private static final String ACTION_CLOSE = "it.pistacchissimo.socialoverlay.CLOSE";
     private static volatile boolean running;
     private static volatile boolean guideVisible;
+    private static boolean photoMode;
 
     private WindowManager windowManager;
     private View guide;
@@ -83,6 +86,12 @@ public final class OverlayService extends Service {
         }
     }
 
+    static void setPhotoMode(Context context, boolean photo) {
+        if (photoMode == photo) return;
+        photoMode = photo;
+        refreshMask(context);
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (!Settings.canDrawOverlays(this)) {
@@ -100,10 +109,9 @@ public final class OverlayService extends Service {
         }
         if (!running) {
             showWindows();
-            guideVisible = MaskMode.guideVisible(this);
-            if (!guideVisible) hideGuide();
         }
         running = true;
+        updateGuideVisibility();
         if (ACTION_REFRESH.equals(intent == null ? null : intent.getAction()) && guideVisible) {
             guide.invalidate();
         }
@@ -139,9 +147,14 @@ public final class OverlayService extends Service {
         return null;
     }
 
+    @Override
+    protected void dump(FileDescriptor fd, PrintWriter writer, String[] args) {
+        writer.println("guideVisible=" + guideVisible + " manualEnabled=" + MaskMode.guideVisible(this)
+                + " photoMode=" + photoMode);
+    }
+
     private void showWindows() {
         windowManager = getSystemService(WindowManager.class);
-        addGuide();
 
         TextView button = new TextView(this);
         button.setText(R.string.quick_button_text);
@@ -225,14 +238,15 @@ public final class OverlayService extends Service {
     }
 
     private void toggleGuide() {
-        if (guideVisible) {
-            hideGuide();
-            guideVisible = false;
-        } else {
-            addGuide();
-            guideVisible = true;
-        }
-        MaskMode.setGuideVisible(this, guideVisible);
+        MaskMode.setGuideVisible(this, !MaskMode.guideVisible(this));
+        updateGuideVisibility();
+    }
+
+    private void updateGuideVisibility() {
+        boolean visible = MaskMode.guideVisible(this) && !(MaskMode.videoOnly(this) && photoMode);
+        if (visible && guide == null) addGuide();
+        if (!visible) hideGuide();
+        guideVisible = visible;
     }
 
     private Notification notification() {
@@ -243,13 +257,13 @@ public final class OverlayService extends Service {
         PendingIntent content = PendingIntent.getActivity(this, 1, open,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         return new Notification.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_social_safe_area)
+                .setSmallIcon(R.drawable.ic_safe_area_notification)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.notification_text))
                 .setContentIntent(content)
                 .setOngoing(true)
                 .addAction(new Notification.Action.Builder(
-                        R.drawable.ic_social_safe_area, getString(R.string.close_app), close).build())
+                        R.drawable.ic_safe_area_notification, getString(R.string.close_app), close).build())
                 .build();
     }
 

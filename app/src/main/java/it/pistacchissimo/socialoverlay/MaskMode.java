@@ -24,6 +24,7 @@ final class MaskMode {
     private static final String SUBTITLE_OFFSET = "subtitle_offset";
     private static final String AUTO_PACKAGE = "auto_package";
     private static final String DISMISSED = "dismissed";
+    private static final String VIDEO_ONLY = "experimental_video_only";
 
     private MaskMode() {
     }
@@ -100,6 +101,14 @@ final class MaskMode {
 
     static String autoPackage(Context context) {
         return preferences(context).getString(AUTO_PACKAGE, "");
+    }
+
+    static boolean videoOnly(Context context) {
+        return preferences(context).getBoolean(VIDEO_ONLY, false);
+    }
+
+    static void setVideoOnly(Context context, boolean enabled) {
+        preferences(context).edit().putBoolean(VIDEO_ONLY, enabled).apply();
     }
 
     static void setAutoPackage(Context context, String packageName) {

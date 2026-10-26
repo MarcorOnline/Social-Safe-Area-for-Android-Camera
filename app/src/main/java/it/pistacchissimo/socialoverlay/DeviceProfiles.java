@@ -146,6 +146,29 @@ final class DeviceProfiles {
         return selected == null ? null : selected.optInt("vertical_offset_dp", 0);
     }
 
+    /** Mode rules must never inherit the approximate matching used for offsets. */
+    static JSONObject modeDetection(JSONArray entries, String manufacturer, String model, int sdk,
+            String camera, String version) {
+        if (camera == null || camera.isEmpty() || version == null || version.isEmpty()) return null;
+        for (int i = 0; entries != null && i < entries.length(); i++) {
+            JSONObject entry = entries.optJSONObject(i);
+            if (valid(entry) && normalize(manufacturer).equals(normalize(entry.optString("manufacturer")))
+                    && normalize(model).equals(normalize(entry.optString("model")))
+                    && sdk == entry.optInt("android_sdk")
+                    && camera.equals(entry.optString("camera_package"))
+                    && version.equals(entry.optString("camera_version"))) {
+                return entry.optJSONObject("mode_detection");
+            }
+        }
+        return null;
+    }
+
+    static JSONObject modeDetection(Context context) {
+        String camera = MaskMode.autoPackage(context);
+        return modeDetection(load(context), Build.MANUFACTURER, Build.MODEL, Build.VERSION.SDK_INT,
+                camera, cameraVersion(context, camera));
+    }
+
     static int defaultOffset(Context context) {
         Integer detected = detectedOffset(context);
         return detected == null ? 0 : detected;
@@ -154,10 +177,13 @@ final class DeviceProfiles {
     static String calibrationJson(Context context) {
         try {
             String camera = cameraPackage(context);
-            return new JSONObject().put("manufacturer", Build.MANUFACTURER)
+            JSONObject exported = new JSONObject().put("manufacturer", Build.MANUFACTURER)
                     .put("model", Build.MODEL).put("android_sdk", Build.VERSION.SDK_INT)
                     .put("camera_package", camera).put("camera_version", cameraVersion(context, camera))
-                    .put("vertical_offset_dp", MaskMode.verticalOffset(context)).toString(2);
+                    .put("vertical_offset_dp", MaskMode.verticalOffset(context));
+            JSONObject detection = modeDetection(context);
+            if (detection != null) exported.put("mode_detection", detection);
+            return exported.toString(2);
         } catch (JSONException | RuntimeException error) {
             return "{}";
         }

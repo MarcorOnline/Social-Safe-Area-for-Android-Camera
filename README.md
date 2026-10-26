@@ -6,14 +6,14 @@
 
 A lightweight Android overlay that helps you keep faces, captions and important details clear of the interface elements in Instagram Reels and TikTok.
 
-**v1.3.0 · Android 8.0+ (API 26) · GPL-3.0-only**
+**v1.4.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
 The app appears as **Safe Area** on your phone. The prepared Google Play title is
 **Safe Area: Reels & TikTok**; Google Play distribution is not available yet.
 
-[![Download the Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.3.0/Social-Safe-Area-1.3.0.apk)
+[![Download the Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.4.0/Social-Safe-Area-1.4.0.apk)
 
-**No compilation needed:** download the signed APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.3.0).
+**No compilation needed:** download the signed APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.4.0).
 
 The app draws a transparent guide over your existing camera app. It does not record video, replace the camera or modify the recorded file. The guide is visible on the phone screen; it is not burned into camera recordings.
 
@@ -48,7 +48,7 @@ Open **Safe Area**, then tap **Show quick button**. On Android's permission page
 
 This permission is required to draw over your camera. Accessibility is a separate, optional permission.
 
-Settings are grouped in **Customize mask** and **Automatic opening**, both initially closed: opening one section closes the other. **Show quick button** stays available at the top.
+Settings are grouped in **Customize mask**, **Automatic opening** and **Experimental features**, all initially closed: opening one section closes the previous one. **Show quick button** stays available at the top.
 
 1. Open **Customize mask** and turn the **Reel**, **TikTok** and **Subtitles** checkboxes on or off as needed.
 2. Adjust **Mask opacity** and **General vertical position**, if needed. Its **Reset** restores the detected profile's default alignment. **Subtitles vertical position** moves just the subtitle box relative to that general position; its **Reset** returns the additional offset to zero. The subtitle slider and its Reset are disabled when **Subtitles** is unchecked, keeping the saved position for next time.
@@ -71,7 +71,24 @@ Opening the selected app shows the quick button and restores the saved mask stat
 
 Closing the overlay explicitly using the trash target or the notification's **Close app** action suspends automatic reopening until you reopen Safe Area. Select **No app** to disable automatic following.
 
-Detection uses full-screen window-change events. Partial popups and panels do not count as leaving the camera. It does not inspect the contents of the screen.
+Detection uses full-screen window-change events. Partial popups and panels do not count as leaving the camera. Window contents are not read while experimental mode detection is off.
+
+### Show the mask only in Video mode (experimental)
+
+Under **Experimental features**, **Show the mask only in "Video" mode** is off by default.
+The adjacent **?** explains how it works and which controls it accesses before
+enabling it. It requires camera detection and an exact compatible profile. The
+initial profile supports Samsung Camera in Italian, English, French, Spanish and
+German, in portrait, on the device
+and camera version listed in the profiles.
+
+The feature reads the selected camera's accessible controls locally after UI
+events, without screenshots or periodic polling. Photo hides the guide but
+keeps the quick button; Video restores the manual ON/OFF choice. Unrecognized
+modes fall back to manual control after a short transition grace period. No
+control text is stored or transmitted, and the saved manual choice is never
+overwritten. Camera language, orientation and updates can affect recognition.
+See the [profile format](docs/camera-profiles.md#experimental-camera-mode-detection).
 
 ### Notifications
 
@@ -114,7 +131,7 @@ Preferences and the last valid update result stay on the device; Android backup 
 | Internet (from v1.1.0) | Check the latest stable GitHub release over HTTPS, at most weekly when opening the app. |
 | Display over other apps | Draw the guide and quick button above the camera. |
 | Foreground service (`specialUse` on recent Android versions) | Keep the overlay running while another app is in front. |
-| Accessibility service, optional and user-enabled | Receive window-change events to follow the selected app. Window-content retrieval is disabled. |
+| Accessibility service, optional and user-enabled | Follow the selected app through window events. Only with experimental mode detection enabled and a compatible profile, also read accessible camera controls to distinguish Video and Photo. Node retrieval capability is declared to Android but unused while the experiment is off. |
 
 No camera, microphone, media-library or storage permission is requested. Camera recordings remain the responsibility of the camera app you choose.
 

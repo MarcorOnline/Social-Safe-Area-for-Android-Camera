@@ -1,4 +1,13 @@
 <resources>
+    <string name="experimental_features">Experimentelle Funktionen</string>
+    <string name="experimental_video_only">Maske nur im Modus \"Video\" anzeigen</string>
+    <string name="experimental_video_help_description">Über die experimentelle Moduserkennung</string>
+    <string name="experimental_video_help">Die Maske wird nur beim Aufnehmen von Videos benötigt.\nSie kann daher verschwinden, wenn die Kamera in den Fotomodus wechselt.\n\nDie Funktion nutzt die Android-Bedienungshilfen: Die Kamera-App stellt den aktiven Modus bereit und Safe Area erkennt ihn, um die Maske ein- / auszuschalten.\n\nDerzeit unterstützte automatische Profile:\n• Samsung Galaxy S26 Ultra (SM-S948B), Android 17 / API 37, Samsung Camera 17.0.00.43: im Hochformat, auf Italienisch, Englisch, Französisch, Spanisch und Deutsch.\nFür andere Konfigurationen bleibt die manuelle Bedienung verfügbar.\n\nAls Entwickler können Sie durch das Hinzufügen von Profilen auf GitHub beitragen.</string>
+    <string name="experimental_enable">Funktion aktivieren</string>
+    <string name="experimental_choose_camera">Wählen Sie die Kamera unter Automatisches Öffnen.</string>
+    <string name="experimental_enable_accessibility">Aktivieren Sie die Kameraerkennung in den Android-Bedienungshilfen.</string>
+    <string name="experimental_no_profile">Kein exakt passendes Profil für dieses Gerät und diese Kameraversion. Manuelle Bedienung bleibt verfügbar.</string>
+    <string name="experimental_profile_ready">Passendes Profil verfügbar. Die Erkennung hängt von Sprache und Ausrichtung der Kamera ab.</string>
     <string name="customize_mask">Maske anpassen</string>
     <string name="automatic_opening">Automatisches Öffnen</string>
     <string name="description">Bildhilfen für Reels und TikTok. Video und Kamerabedienelemente bleiben bedienbar.</string>
@@ -33,7 +42,7 @@
     <string name="channel_description">Steuerung zum Schließen der Hilfslinien</string>
     <string name="trash_target">ZUM SCHLIESSEN HIERHER ZIEHEN</string>
     <string name="watcher_name">Safe Area Kameraerkennung</string>
-    <string name="app_watch_description">Zeigt die Safe Area Schnelltaste beim Öffnen der gewählten App und blendet sie beim App-Wechsel aus. Liest keine Bildschirminhalte.</string>
+    <string name="app_watch_description">Zeigt die Schnelltaste mit der gewählten App. Bei aktivierter experimenteller Moduserkennung werden auch die zugänglichen Bedienelemente dieser Kamera lokal gelesen. Keine Screenshots; Texte der Bedienelemente werden weder gespeichert noch gesendet.</string>
     <string name="information">Über diese App</string>
     <string name="back">Zurück</string>
     <string name="about_title">Über Social Safe Area</string>

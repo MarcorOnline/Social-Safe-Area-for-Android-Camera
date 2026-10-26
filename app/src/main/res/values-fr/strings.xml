@@ -1,4 +1,13 @@
 <resources>
+    <string name="experimental_features">Fonctions expérimentales</string>
+    <string name="experimental_video_only">Afficher le masque uniquement en mode \"Vidéo\"</string>
+    <string name="experimental_video_help_description">À propos de la détection expérimentale du mode</string>
+    <string name="experimental_video_help">Le masque est utile uniquement lors de l’enregistrement de vidéos.\nIl peut donc disparaître lorsque la caméra passe en mode Photo.\n\nCette fonction utilise les fonctionnalités d’accessibilité Android : l’application caméra indique le mode actif et Safe Area le détecte pour activer / désactiver le masque.\n\nProfils automatiques actuellement pris en charge :\n• Samsung Galaxy S26 Ultra (SM-S948B), Android 17 / API 37, Samsung Camera 17.0.00.43 : en portrait, en italien, anglais, français, espagnol et allemand.\nLes autres configurations restent en contrôle manuel.\n\nSi vous êtes développeur, vous pouvez contribuer en ajoutant des profils sur GitHub.</string>
+    <string name="experimental_enable">Activer la fonction</string>
+    <string name="experimental_choose_camera">Choisissez la caméra dans Ouverture automatique.</string>
+    <string name="experimental_enable_accessibility">Activez la détection de caméra dans les paramètres d’accessibilité Android.</string>
+    <string name="experimental_no_profile">Aucun profil exact pour cet appareil et cette version de caméra. Le contrôle manuel reste disponible.</string>
+    <string name="experimental_profile_ready">Profil compatible disponible. La détection dépend de la langue et de l’orientation de la caméra.</string>
     <string name="customize_mask">Personnaliser le masque</string>
     <string name="automatic_opening">Ouverture automatique</string>
     <string name="description">Des repères pour composer vos Reels et TikTok. La vidéo et les commandes de la caméra restent accessibles.</string>
@@ -33,7 +42,7 @@
     <string name="channel_description">Commande pour fermer le guide</string>
     <string name="trash_target">FAIRE GLISSER ICI POUR FERMER</string>
     <string name="watcher_name">Détection de caméra Safe Area</string>
-    <string name="app_watch_description">Affiche le bouton rapide Safe Area à l’ouverture de l’application choisie et le masque lorsque vous changez d’application. Ne lit pas le contenu de l’écran.</string>
+    <string name="app_watch_description">Affiche le bouton rapide avec l’application choisie. Si la détection expérimentale du mode est activée, lit aussi localement les commandes accessibles de cette caméra. Aucune capture d’écran ; aucun texte des commandes enregistré ou envoyé.</string>
     <string name="information">À propos de l’application</string>
     <string name="back">Retour</string>
     <string name="about_title">À propos de Social Safe Area</string>

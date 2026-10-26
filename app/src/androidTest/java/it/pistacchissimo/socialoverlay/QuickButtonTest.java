@@ -50,10 +50,13 @@ final class QuickButtonTest {
                     if (show == null) throw new AssertionError("Home must keep Mostra bottone rapido");
                     Button customize = findButton(root, screen.getString(R.string.customize_mask));
                     Button automatic = findButton(root, screen.getString(R.string.automatic_opening));
+                    Button experimental = findButton(root, screen.getString(R.string.experimental_features));
                     ViewGroup sections = (ViewGroup) customize.getParent();
                     View maskSection = sections.getChildAt(sections.indexOfChild(customize) + 1);
                     View autoSection = sections.getChildAt(sections.indexOfChild(automatic) + 1);
+                    View experimentalSection = sections.getChildAt(sections.indexOfChild(experimental) + 1);
                     if (maskSection.getVisibility() != View.GONE || autoSection.getVisibility() != View.GONE
+                            || experimentalSection.getVisibility() != View.GONE
                             || !show.isShown()) {
                         throw new AssertionError("Home must start compact with primary action visible");
                     }
@@ -65,8 +68,19 @@ final class QuickButtonTest {
                     if (maskSection.getVisibility() != View.GONE || autoSection.getVisibility() != View.VISIBLE) {
                         throw new AssertionError("Opening automatic must close customize");
                     }
+                    experimental.performClick();
+                    if (autoSection.getVisibility() != View.GONE || experimentalSection.getVisibility() != View.VISIBLE) {
+                        throw new AssertionError("Experimental must open as the third exclusive accordion");
+                    }
+                    ArrayList<View> help = new ArrayList<>();
+                    experimentalSection.findViewsWithText(help, screen.getString(R.string.experimental_video_help_description),
+                            View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
+                    if (help.size() != 1 || !"?".contentEquals(((Button) help.get(0)).getText())) {
+                        throw new AssertionError("Experimental option needs its adjacent accessible help button");
+                    }
                     customize.performClick();
-                    if (maskSection.getVisibility() != View.VISIBLE || autoSection.getVisibility() != View.GONE) {
+                    if (maskSection.getVisibility() != View.VISIBLE || autoSection.getVisibility() != View.GONE
+                            || experimentalSection.getVisibility() != View.GONE) {
                         throw new AssertionError("Opening customize must close automatic");
                     }
                     customize.performAccessibilityAction(AccessibilityNodeInfo.ACTION_COLLAPSE, null);

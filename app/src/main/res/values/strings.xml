@@ -1,4 +1,13 @@
 <resources>
+    <string name="experimental_features">Experimental features</string>
+    <string name="experimental_video_only">Show the mask only in \"Video\" mode</string>
+    <string name="experimental_video_help_description">About experimental camera mode detection</string>
+    <string name="experimental_video_help">The mask is only needed when recording videos.\nIt can therefore disappear when the camera switches to Photo mode.\n\nIt uses Android accessibility features: the camera app exposes its active mode and Safe Area detects it to turn the mask on / off.\n\nCurrently supported automatic profiles:\n• Samsung Galaxy S26 Ultra (SM-S948B), Android 17 / API 37, Samsung Camera 17.0.00.43: portrait, in Italian, English, French, Spanish and German.\nOther configurations use manual control.\n\nIf you are a developer, you can contribute by adding profiles on GitHub.</string>
+    <string name="experimental_enable">Enable experiment</string>
+    <string name="experimental_choose_camera">Select your camera in Automatic opening.</string>
+    <string name="experimental_enable_accessibility">Enable camera detection in Android accessibility settings.</string>
+    <string name="experimental_no_profile">No exact mode-detection profile for this device and camera version. Manual control remains available.</string>
+    <string name="experimental_profile_ready">Compatible profile available. Detection depends on camera language and orientation.</string>
     <string name="customize_mask">Customize mask</string>
     <string name="automatic_opening">Automatic opening</string>
     <string name="app_name" translatable="false">Safe Area</string>
@@ -38,7 +47,7 @@
     <string name="channel_description">Control for closing the guide</string>
     <string name="trash_target">DRAG HERE TO CLOSE</string>
     <string name="watcher_name">Safe Area camera detection</string>
-    <string name="app_watch_description">Shows the Safe Area quick button when the selected app opens and hides it when you switch to another app. Does not read screen contents.</string>
+    <string name="app_watch_description">Shows the quick button with the selected app. If experimental mode detection is enabled, also reads that camera’s accessible controls locally. Does not capture screenshots, save control text or send it.</string>
     <string name="information">About this app</string>
     <string name="back">Back</string>
     <string name="about_title">About Social Safe Area</string>

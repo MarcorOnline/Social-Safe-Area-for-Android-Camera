@@ -32,6 +32,27 @@ Calibrate the slider, open **ⓘ → Copy calibration JSON**, and add the object
 just this file change and a short description of your real-device check.
 See [profile fields and proximity rules](docs/camera-profiles.md).
 
+## Contribute experimental mode detection
+
+You can add another camera or language by editing only
+[`camera-profiles.json`](app/src/main/assets/camera-profiles.json); no Java changes
+are needed when the camera exposes usable accessibility controls.
+
+1. Copy your calibration JSON from the app for the device/API/camera version metadata.
+2. Inspect the camera's controls in both Photo and Video using the
+   [inspection script and walkthrough](docs/camera-profiles.md#collect-controls-for-a-contribution).
+3. Add `mode_detection` to the matching entry. For another language on the same
+   device and version, add rules to that existing entry instead of duplicating it.
+4. Build and test the experiment in both directions, including manual OFF and
+   reopening the camera. Include the camera's language and orientation in the PR.
+5. Open a PR against **develop**. Share only the relevant selector observations,
+   with any private content removed, rather than a full screen dump.
+
+Rules require an exact device/API/package/version match; an offset from a nearby
+profile does not establish mode-detection compatibility. The app does not discover
+new mode rules automatically. The walkthrough requires ADB, so contributors need
+basic command-line familiarity, but not Android programming experience.
+
 Translations are native Android resources under `app/src/main/res/values-*`;
 keep English defaults and formatting placeholders complete.
 

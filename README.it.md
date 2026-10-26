@@ -6,14 +6,14 @@
 
 Una maschera leggera per Android che ti aiuta a tenere volti, scritte e dettagli importanti lontani dagli elementi dell’interfaccia di Instagram Reels e TikTok.
 
-**v1.3.0 · Android 8.0+ (API 26) · GPL-3.0-only**
+**v1.4.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
 Sul telefono l’app si chiama **Safe Area**. Il nome preparato per Google Play è
 **Safe Area: Reels & TikTok**; la distribuzione su Google Play non è ancora disponibile.
 
-[![Scarica l’APK per Android](docs/download-apk.svg)](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.3.0/Social-Safe-Area-1.3.0.apk)
+[![Scarica l’APK per Android](docs/download-apk.svg)](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.4.0/Social-Safe-Area-1.4.0.apk)
 
-**Non serve compilare:** scarica l’APK firmato, aprilo sul telefono e segui le istruzioni di installazione di Android. Consulta le [note di rilascio e i checksum](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.3.0).
+**Non serve compilare:** scarica l’APK firmato, aprilo sul telefono e segui le istruzioni di installazione di Android. Consulta le [note di rilascio e i checksum](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.4.0).
 
 L’app disegna una guida trasparente sopra la fotocamera che usi già. Non registra video, non sostituisce la fotocamera e non modifica il file registrato. La guida compare sullo schermo del telefono, ma non viene impressa nelle registrazioni della fotocamera.
 
@@ -48,7 +48,7 @@ Apri **Safe Area** e tocca **Mostra bottone rapido**. Nella pagina dei permessi 
 
 Questo permesso serve per disegnare sopra la fotocamera. L’accessibilità è un permesso separato e facoltativo.
 
-Le impostazioni sono raccolte in due sezioni, **Personalizza maschera** e **Apertura automatica**, inizialmente chiuse: aprendo una sezione si chiude l’altra. **Mostra bottone rapido** resta sempre disponibile in alto.
+Le impostazioni sono raccolte in tre sezioni, **Personalizza maschera**, **Apertura automatica** e **Funzioni sperimentali**, inizialmente chiuse: aprendo una sezione si chiude la precedente. **Mostra bottone rapido** resta sempre disponibile in alto.
 
 1. Apri **Personalizza maschera** e attiva o disattiva a piacere i checkbox **Reel**, **TikTok** e **Sottotitoli**.
 2. Se necessario, regola **Opacità maschera** e **Posizione verticale generale**. Il relativo **Reset** ripristina l’allineamento predefinito del profilo rilevato. **Posizione verticale sottotitoli** sposta solo il box rispetto alla posizione generale; il suo **Reset** azzera lo scostamento aggiuntivo. Il cursore sottotitoli e il suo Reset sono disabilitati quando **Sottotitoli** non è selezionato, conservando la posizione salvata per la prossima attivazione.
@@ -71,7 +71,24 @@ Aprire l’app selezionata mostra il bottone rapido e ripristina lo stato salvat
 
 Chiudere esplicitamente la sovrapposizione con il cestino o con **Chiudi app** nella notifica sospende la riapertura automatica finché non riapri Safe Area. Seleziona **Nessuna app** per disattivare questa funzione.
 
-Il rilevamento usa gli eventi di cambio finestra a schermo intero. Popup e pannelli parziali non vengono considerati un’uscita dalla fotocamera. Il contenuto dello schermo non viene esaminato.
+Il rilevamento usa gli eventi di cambio finestra a schermo intero. Popup e pannelli parziali non vengono considerati un’uscita dalla fotocamera. Con la funzione sperimentale disattivata non viene letto il contenuto delle finestre.
+
+### Mostra la maschera solo in modalità Video (sperimentale)
+
+In **Funzioni sperimentali** puoi attivare **Mostra la maschera solo in modalità "Video"**,
+spenta di default. Il pulsante **?** spiega funzionamento, accesso ai comandi e
+limiti prima dell’attivazione. Richiede il rilevamento fotocamera e un profilo
+esatto compatibile: quello iniziale supporta Samsung Camera in italiano, inglese,
+francese, spagnolo e tedesco, in verticale, sul dispositivo e sulla versione
+indicati nei profili.
+
+La funzione legge localmente i comandi accessibili della fotocamera selezionata
+in risposta agli eventi, senza screenshot né controlli periodici. In Fotografia
+nasconde la guida mantenendo il bottone; in Video ripristina la scelta manuale
+ON/OFF. Se la modalità non è riconosciuta, torna al controllo manuale dopo una
+breve tolleranza alle transizioni. Non salva né invia il testo dei comandi e non
+cambia lo stato ON/OFF salvato. Lingua, orientamento e aggiornamenti della
+fotocamera possono influire sul riconoscimento. Consulta il [formato dei profili](docs/camera-profiles.md#experimental-camera-mode-detection).
 
 ### Notifiche
 
@@ -114,7 +131,7 @@ Le preferenze e l’ultimo risultato valido del controllo restano sul dispositiv
 | Internet (dalla v1.1.0) | Controllare l’ultima release stabile GitHub via HTTPS, al massimo settimanalmente all’apertura dell’app. |
 | Visualizzazione sopra altre app | Disegnare la guida e il bottone rapido sopra la fotocamera. |
 | Servizio in primo piano (`specialUse` nelle versioni Android recenti) | Mantenere attiva la sovrapposizione mentre un’altra app è in primo piano. |
-| Servizio di accessibilità, facoltativo e attivato dall’utente | Ricevere eventi di cambio finestra per seguire l’app selezionata. Il recupero del contenuto delle finestre è disabilitato. |
+| Servizio di accessibilità, facoltativo e attivato dall’utente | Seguire l’app selezionata tramite eventi di finestra. Solo con il rilevamento sperimentale attivo e un profilo compatibile, leggere anche i comandi accessibili della fotocamera per distinguere Video e Fotografia. La capacità di recuperare i nodi è dichiarata al sistema, ma non viene usata con l’esperimento spento. |
 
 Non vengono richiesti permessi per fotocamera, microfono, raccolta multimediale o memoria. Le registrazioni restano responsabilità dell’app fotocamera scelta.
 
