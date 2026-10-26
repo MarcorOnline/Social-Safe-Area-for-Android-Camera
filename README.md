@@ -2,7 +2,7 @@
 
 [English](README.md) · [Italiano](README.it.md)
 
-<img src="docs/social-safe-area-cover-en.jpg" alt="Social Safe Area — free Android app with Reels and TikTok composition guides over your native camera" width="560">
+<img src="docs/social-safe-area-cover-en-v1.4.0.jpg" alt="Social Safe Area — free Android app with Reels and TikTok composition guides over your native camera" width="560">
 
 A lightweight Android overlay that helps you keep faces, captions and important details clear of the interface elements in Instagram Reels and TikTok.
 
