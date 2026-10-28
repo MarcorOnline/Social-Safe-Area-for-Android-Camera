@@ -68,7 +68,9 @@ public final class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         refresh();
-        UpdateChecker.check(this, updateResult);
+        if (getResources().getBoolean(R.bool.check_github_updates)) {
+            UpdateChecker.check(this, updateResult);
+        }
     }
 
     @Override
@@ -335,6 +337,18 @@ public final class MainActivity extends Activity {
     }
 
     private void openAccessibilitySettings() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.accessibility_disclosure_title)
+                .setMessage(R.string.accessibility_disclosure)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.accessibility_continue, (dialog, which) -> {
+                    MaskMode.acceptAccessibilityConsent(this);
+                    launchAccessibilitySettings();
+                })
+                .show();
+    }
+
+    private void launchAccessibilitySettings() {
         String component = new ComponentName(this, AppWatchAccessibilityService.class).flattenToString();
         try {
             // This settings intent is provided by AOSP and some OEMs, but is not a public SDK constant.
@@ -496,6 +510,7 @@ public final class MainActivity extends Activity {
     }
 
     private boolean isWatcherEnabled() {
+        if (!MaskMode.accessibilityConsent(this)) return false;
         String enabled = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
         return enabled != null && enabled.contains(new ComponentName(this, AppWatchAccessibilityService.class).flattenToString());
     }

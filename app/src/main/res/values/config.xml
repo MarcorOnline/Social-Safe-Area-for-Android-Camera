@@ -1,0 +1,3 @@
+<resources>
+    <bool name="check_github_updates">true</bool>
+</resources>

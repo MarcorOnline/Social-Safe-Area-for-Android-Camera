@@ -8,6 +8,8 @@ Una maschera leggera per Android che ti aiuta a tenere volti, scritte e dettagli
 
 **v1.4.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
+I sorgenti attuali preparano la **1.4.1**, una bozza Google Play non pubblicata: target API 36, link alla privacy e consenso esplicito per il rilevamento fotocamera facoltativo. Vedi [preparazione e verifiche per Play](docs/google-play.md).
+
 Sul telefono l’app si chiama **Safe Area**. Il nome preparato per Google Play è
 **Safe Area: Reels & TikTok**; la distribuzione su Google Play non è ancora disponibile.
 
@@ -61,7 +63,7 @@ Aprire Safe Area ripristina anche il bottone rapido se il permesso di sovrapposi
 ### Segui automaticamente l’app fotocamera
 
 1. Apri **Apertura automatica** e, in **Apri il bottone rapido quando apro**, seleziona la tua app fotocamera.
-2. Tocca **Abilita rilevamento fotocamera** per aprire le impostazioni di accessibilità di Android.
+2. Tocca **Abilita rilevamento fotocamera**, leggi l'informativa e scegli **Continua nelle impostazioni Android** solo se vuoi usare questa funzione facoltativa. **Annulla** mantiene il controllo manuale senza aprire le impostazioni.
 3. Cerca **Rilevamento app Safe Area** tra le app o i servizi installati/scaricati, attivalo e conferma la richiesta di Android.
 4. Torna in Safe Area, poi apri la fotocamera selezionata.
 
@@ -140,8 +142,8 @@ Non vengono richiesti permessi per fotocamera, microfono, raccolta multimediale 
 Usa Android Studio oppure un ambiente da riga di comando con:
 
 - JDK 21 (la versione usata per le verifiche).
-- Android SDK Platform 35, Build Tools e Platform Tools.
-- Gradle 8.9 tramite il wrapper incluso; Android Gradle Plugin 8.7.3.
+- Android SDK Platform 36, Build Tools e Platform Tools.
+- Gradle 8.11.1 tramite il wrapper incluso; Android Gradle Plugin 8.9.1.
 
 Clona il repository:
 

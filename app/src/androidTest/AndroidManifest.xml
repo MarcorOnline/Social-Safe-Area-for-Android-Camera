@@ -8,4 +8,7 @@
     <instrumentation
         android:name="it.pistacchissimo.socialoverlay.UpdateCheckTest"
         android:targetPackage="it.pistacchissimo.socialoverlay" />
+    <instrumentation
+        android:name="it.pistacchissimo.socialoverlay.PrivacyFlowTest"
+        android:targetPackage="it.pistacchissimo.socialoverlay" />
 </manifest>

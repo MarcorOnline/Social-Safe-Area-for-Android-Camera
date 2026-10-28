@@ -1,4 +1,8 @@
 <resources>
+    <string name="privacy_policy">Informativa privacy</string>
+    <string name="accessibility_disclosure_title">Rilevamento fotocamera facoltativo</string>
+    <string name="accessibility_disclosure">Safe Area usa il servizio di accessibilità Android per rilevare quando apri o lasci la fotocamera che selezioni, così può mostrare o nascondere il pulsante flottante e le guide.\n\nSe attivi anche la modalità sperimentale solo Video, legge localmente i comandi accessibili di quella fotocamera per distinguere Fotografia e Video. Non acquisisce screenshot, non salva il testo dei comandi e non lo invia a nessuno.\n\nLa funzione è facoltativa. Puoi usare le guide manualmente senza abilitare l’accessibilità e disattivare il servizio in qualsiasi momento nelle impostazioni Android.\n\nTocca Continua per acconsentire a questo uso e aprire le impostazioni di accessibilità Android. Lì sceglierai se attivare il servizio Safe Area.</string>
+    <string name="accessibility_continue">Continua nelle impostazioni Android</string>
     <string name="experimental_features">Funzioni sperimentali</string>
     <string name="experimental_video_only">Mostra la maschera solo in modalità \"Video\"</string>
     <string name="experimental_video_help_description">Informazioni sul rilevamento sperimentale della modalità</string>

@@ -8,6 +8,8 @@ A lightweight Android overlay that helps you keep faces, captions and important 
 
 **v1.4.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
+The current source prepares **1.4.1**, an unpublished Google Play draft with an API 36 target, an in-app privacy link and explicit consent for optional camera detection. See [Play preparation and checks](docs/google-play.md).
+
 The app appears as **Safe Area** on your phone. The prepared Google Play title is
 **Safe Area: Reels & TikTok**; Google Play distribution is not available yet.
 
@@ -61,7 +63,7 @@ Opening Safe Area also restores the quick button when overlay permission is alre
 ### Automatically follow your camera app
 
 1. Open **Automatic opening** and, in **Show quick button when I open**, select your camera app.
-2. Tap **Enable camera detection** to open Android Accessibility settings.
+2. Tap **Enable camera detection**, review the disclosure, and choose **Continue to Android settings** only if you want this optional feature. **Cancel** retains manual control without opening settings.
 3. Find **Safe Area camera detection** under installed/downloaded apps or services, switch it on and confirm Android's prompt.
 4. Return to Safe Area, then open the selected camera.
 
@@ -140,8 +142,8 @@ No camera, microphone, media-library or storage permission is requested. Camera 
 Use Android Studio, or a command-line installation with:
 
 - JDK 21 (the version used for verification).
-- Android SDK Platform 35, Build Tools and Platform Tools.
-- Gradle 8.9 via the included wrapper; Android Gradle Plugin 8.7.3.
+- Android SDK Platform 36, Build Tools and Platform Tools.
+- Gradle 8.11.1 via the included wrapper; Android Gradle Plugin 8.9.1.
 
 Clone the repository:
 

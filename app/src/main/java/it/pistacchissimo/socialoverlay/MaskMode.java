@@ -25,6 +25,7 @@ final class MaskMode {
     private static final String AUTO_PACKAGE = "auto_package";
     private static final String DISMISSED = "dismissed";
     private static final String VIDEO_ONLY = "experimental_video_only";
+    static final String ACCESSIBILITY_CONSENT = "accessibility_consent";
 
     private MaskMode() {
     }
@@ -105,6 +106,14 @@ final class MaskMode {
 
     static boolean videoOnly(Context context) {
         return preferences(context).getBoolean(VIDEO_ONLY, false);
+    }
+
+    static boolean accessibilityConsent(Context context) {
+        return preferences(context).getBoolean(ACCESSIBILITY_CONSENT, false);
+    }
+
+    static void acceptAccessibilityConsent(Context context) {
+        preferences(context).edit().putBoolean(ACCESSIBILITY_CONSENT, true).apply();
     }
 
     static void setVideoOnly(Context context, boolean enabled) {

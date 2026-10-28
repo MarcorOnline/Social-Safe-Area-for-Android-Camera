@@ -1,4 +1,8 @@
 <resources>
+    <string name="privacy_policy">Datenschutzerklärung</string>
+    <string name="accessibility_disclosure_title">Optionale Kameraerkennung</string>
+    <string name="accessibility_disclosure">Safe Area nutzt den Android-Bedienungshilfedienst, um zu erkennen, wann du die gewählte Kamera-App öffnest oder verlässt, und die schwebende Schaltfläche und Hilfslinien ein- oder auszublenden.\n\nWenn du zusätzlich den experimentellen Nur-Video-Modus aktivierst, werden die zugänglichen Bedienelemente dieser Kamera lokal gelesen, um Foto und Video zu unterscheiden. Es werden keine Bildschirmaufnahmen erstellt und keine Texte der Bedienelemente gespeichert oder übertragen.\n\nDiese Funktion ist optional. Du kannst die Hilfslinien ohne Bedienungshilfen manuell verwenden und den Dienst jederzeit in den Android-Einstellungen deaktivieren.\n\nTippe auf Weiter, um dieser Nutzung zuzustimmen und die Android-Bedienungshilfeeinstellungen zu öffnen. Dort entscheidest du, ob du den Safe-Area-Dienst aktivierst.</string>
+    <string name="accessibility_continue">Weiter zu den Android-Einstellungen</string>
     <string name="experimental_features">Experimentelle Funktionen</string>
     <string name="experimental_video_only">Maske nur im Modus \"Video\" anzeigen</string>
     <string name="experimental_video_help_description">Über die experimentelle Moduserkennung</string>

@@ -1,4 +1,8 @@
 <resources>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="accessibility_disclosure_title">Optional camera detection</string>
+    <string name="accessibility_disclosure">Safe Area uses Android AccessibilityService to detect when you open or leave the camera app you select, so it can show or hide the floating button and guides.\n\nIf you also enable experimental Video-only mode, it reads that camera’s accessible controls locally to distinguish Photo from Video. It does not capture screenshots, save control text or send it to anyone.\n\nThis feature is optional. You can use the guides manually without enabling accessibility, and turn off the service at any time in Android settings.\n\nTap Continue to consent to this use and open Android accessibility settings. You will choose whether to enable the Safe Area service there.</string>
+    <string name="accessibility_continue">Continue to Android settings</string>
     <string name="experimental_features">Experimental features</string>
     <string name="experimental_video_only">Show the mask only in \"Video\" mode</string>
     <string name="experimental_video_help_description">About experimental camera mode detection</string>

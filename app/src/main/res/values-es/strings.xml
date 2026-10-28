@@ -1,4 +1,8 @@
 <resources>
+    <string name="privacy_policy">Política de privacidad</string>
+    <string name="accessibility_disclosure_title">Detección opcional de la cámara</string>
+    <string name="accessibility_disclosure">Safe Area utiliza el servicio de accesibilidad de Android para detectar cuándo abres o sales de la aplicación de cámara seleccionada y mostrar u ocultar el botón flotante y las guías.\n\nSi también activas el modo experimental solo Vídeo, lee localmente los controles accesibles de esa cámara para distinguir Foto y Vídeo. No captura pantallas, no guarda el texto de los controles ni lo transmite a nadie.\n\nEsta función es opcional. Puedes usar las guías manualmente sin activar la accesibilidad y desactivar el servicio cuando quieras en los ajustes de Android.\n\nPulsa Continuar para consentir este uso y abrir los ajustes de accesibilidad de Android. Allí decidirás si activas el servicio Safe Area.</string>
+    <string name="accessibility_continue">Continuar a los ajustes de Android</string>
     <string name="experimental_features">Funciones experimentales</string>
     <string name="experimental_video_only">Mostrar la máscara solo en modo \"Vídeo\"</string>
     <string name="experimental_video_help_description">Acerca de la detección experimental del modo</string>

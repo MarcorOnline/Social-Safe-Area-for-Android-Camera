@@ -1,4 +1,8 @@
 <resources>
+    <string name="privacy_policy">Politique de confidentialité</string>
+    <string name="accessibility_disclosure_title">Détection facultative de l’appareil photo</string>
+    <string name="accessibility_disclosure">Safe Area utilise le service d’accessibilité Android pour détecter quand vous ouvrez ou quittez l’application photo sélectionnée et afficher ou masquer le bouton flottant et les guides.\n\nSi vous activez aussi le mode expérimental Vidéo uniquement, les commandes accessibles de cet appareil photo sont lues localement pour distinguer Photo et Vidéo. Aucun enregistrement d’écran n’est effectué, et le texte des commandes n’est ni enregistré ni transmis.\n\nCette fonction est facultative. Vous pouvez utiliser les guides manuellement sans activer l’accessibilité et désactiver le service à tout moment dans les paramètres Android.\n\nAppuyez sur Continuer pour consentir à cet usage et ouvrir les paramètres d’accessibilité Android. Vous y choisirez d’activer ou non le service Safe Area.</string>
+    <string name="accessibility_continue">Continuer vers les paramètres Android</string>
     <string name="experimental_features">Fonctions expérimentales</string>
     <string name="experimental_video_only">Afficher le masque uniquement en mode \"Vidéo\"</string>
     <string name="experimental_video_help_description">À propos de la détection expérimentale du mode</string>

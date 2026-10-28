@@ -31,7 +31,8 @@ public final class AppWatchAccessibilityService extends AccessibilityService
     };
     private final Runnable readMode = () -> {
         readPending = false;
-        if (!cameraForeground || modeProfile == null || !MaskMode.videoOnly(this)) return;
+        if (!MaskMode.accessibilityConsent(this) || !cameraForeground
+                || modeProfile == null || !MaskMode.videoOnly(this)) return;
         AccessibilityNodeInfo root = getRootInActiveWindow();
         nodeReads++;
         CameraModeDetector.Mode mode = CameraModeDetector.Mode.UNKNOWN;
@@ -68,14 +69,16 @@ public final class AppWatchAccessibilityService extends AccessibilityService
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if ("experimental_video_only".equals(key) || "auto_package".equals(key)) configureModeDetection();
+        if ("experimental_video_only".equals(key) || "auto_package".equals(key)
+                || MaskMode.ACCESSIBILITY_CONSENT.equals(key)) configureModeDetection();
     }
 
     private void configureModeDetection() {
         resetModeDetection();
-        modeProfile = MaskMode.videoOnly(this) ? DeviceProfiles.modeDetection(this) : null;
+        boolean consent = MaskMode.accessibilityConsent(this);
+        modeProfile = consent && MaskMode.videoOnly(this) ? DeviceProfiles.modeDetection(this) : null;
         AccessibilityServiceInfo info = getServiceInfo();
-        info.eventTypes = AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
+        info.eventTypes = consent ? AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED : 0;
         info.flags &= ~AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS;
         if (modeProfile != null) {
             info.eventTypes |= AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
@@ -97,6 +100,7 @@ public final class AppWatchAccessibilityService extends AccessibilityService
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
+        if (!MaskMode.accessibilityConsent(this)) return;
         CharSequence source = event.getPackageName();
         String selected = MaskMode.autoPackage(this);
         if (source == null || selected.isEmpty()) return;
