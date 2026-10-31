@@ -1,6 +1,6 @@
 # Google Play preparation
 
-The source prepares version **1.4.1** (version code **11**) for a draft Google Play release. Preparing or saving a draft does not authorize submitting it for review or rolling it out.
+Version **1.4.1** (version code **11**) is available on [Google Play](https://play.google.com/store/apps/details?id=it.pistacchissimo.socialoverlay). This document describes the Play build, signing requirements and verification steps.
 
 ## Android requirements
 

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="64" viewBox="0 0 280 64" role="img" aria-label="Disponibile su Google Play">
+  <title>Disponibile su Google Play</title>
+  <rect width="280" height="64" rx="10" fill="#0969da"/>
+  <path d="M24 38l16-16m-13 0h13v13" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="62" y="26" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="13">DISPONIBILE SU</text>
+  <text x="62" y="48" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Google Play</text>
+</svg>

@@ -6,16 +6,15 @@
 
 A lightweight Android overlay that helps you keep faces, captions and important details clear of the interface elements in Instagram Reels and TikTok.
 
-**v1.4.0 · Android 8.0+ (API 26) · GPL-3.0-only**
+**Google Play: v1.4.1 · GitHub APK: v1.4.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
-The current source prepares **1.4.1**, an unpublished Google Play draft with an API 36 target, an in-app privacy link and explicit consent for optional camera detection. See [Play preparation and checks](docs/google-play.md).
+Version **1.4.1** is available on Google Play, with an API 36 target, an in-app privacy link and explicit consent for optional camera detection. See [Play build details and checks](docs/google-play.md).
 
-The app appears as **Safe Area** on your phone. The prepared Google Play title is
-**Safe Area: Reels & TikTok**; Google Play distribution is not available yet.
+The app appears as **Safe Area** on your phone and **Safe Area: Reels & TikTok** on Google Play.
 
-[![Download the Android APK](docs/download-apk.svg)](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.4.0/Social-Safe-Area-1.4.0.apk)
+[![Get it on Google Play](docs/download-google-play-en.svg)](https://play.google.com/store/apps/details?id=it.pistacchissimo.socialoverlay)
 
-**No compilation needed:** download the signed APK, open it on your phone and follow Android's installation prompts. See [release notes and checksums](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.4.0).
+**Install from Google Play** for straightforward installation and updates through the store. If you prefer to install it directly, [download the signed APK v1.4.0 from GitHub](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.4.0/Social-Safe-Area-1.4.0.apk) or see its [release notes and checksums](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.4.0). No compilation is needed with either option.
 
 The app draws a transparent guide over your existing camera app. It does not record video, replace the camera or modify the recorded file. The guide is visible on the phone screen; it is not burned into camera recordings.
 
@@ -34,7 +33,7 @@ If the app is useful to you, you can support my work by [following @pistacchissi
 - Mask opacity from 8% to 70%, defaulting to 23%.
 - Device/Android/camera profiles with proximity matching, plus manual vertical alignment from −360 to +360 dp. **Reset** restores the suggested profile.
 - Optional automatic display when a selected app opens, and automatic hiding when you switch to another app or the launcher.
-- From v1.1.0: a weekly update check when opening the app, with a quiet inline link when a newer release is available.
+- Updates through Google Play for the store version; the GitHub APK checks for GitHub releases at most weekly when opening the app, with a quiet inline link when a newer release is available.
 - Tap-through guide: camera controls remain usable.
 - Native Android views and services, with no third-party runtime libraries, account, ads or analytics.
 
@@ -42,7 +41,7 @@ The interface supports **English (default/fallback), Italian, French, Spanish an
 
 ## Getting started
 
-Download the APK using **Download the Android APK** above. Android may ask you to allow installation from your browser or file manager; grant that permission for the source you are using, then open the APK. You can also build it yourself using the instructions below.
+Install the app using **Get it on Google Play** above, then open **Safe Area**. If you choose the GitHub APK instead, Android may ask you to allow installation from your browser or file manager; grant that permission for the source you are using, then open the APK. You can also build it yourself using the instructions below.
 
 ### Allow display on top of the camera
 
@@ -122,7 +121,9 @@ See [the profile format and matching rules](docs/camera-profiles.md) for example
 
 ## Privacy and permissions
 
-From v1.1.0, the app uses Internet permission to request GitHub's latest stable release when opening the control screen, at most once every seven days (including failed attempts). It sends no device identifiers, calibration data, account or installed version. GitHub and its network providers see normal connection metadata such as the client's IP address. Earlier published versions have no network permission.
+The **Google Play version has no Internet permission and makes no automatic network requests**. Updates are handled by Google Play. Read the [app privacy policy](https://www.pistacchissimo.it/news/social-safe-area-lapp-per-girare-reels-e-tiktok-migliori-gratis/#privacy-safe-area).
+
+From v1.1.0, the **GitHub APK** uses Internet permission to request GitHub's latest stable release when opening the control screen, at most once every seven days (including failed attempts). It sends no device identifiers, calibration data, account or installed version. GitHub and its network providers see normal connection metadata such as the client's IP address. Earlier published versions have no network permission.
 
 A newer release appears as an inline **View update** button, which opens GitHub only when tapped. There are no update popups, notifications, automatic downloads or scheduled background requests. Offline, 404, GitHub rate limits and malformed responses do not interrupt the app. See [update behavior and release instructions](docs/app-updates.md).
 
@@ -130,7 +131,7 @@ Preferences and the last valid update result stay on the device; Android backup 
 
 | Permission / service | Purpose |
 | --- | --- |
-| Internet (from v1.1.0) | Check the latest stable GitHub release over HTTPS, at most weekly when opening the app. |
+| Internet (GitHub APK only, from v1.1.0) | Check the latest stable GitHub release over HTTPS, at most weekly when opening the app. Absent from the Google Play build. |
 | Display over other apps | Draw the guide and quick button above the camera. |
 | Foreground service (`specialUse` on recent Android versions) | Keep the overlay running while another app is in front. |
 | Accessibility service, optional and user-enabled | Follow the selected app through window events. Only with experimental mode detection enabled and a compatible profile, also read accessible camera controls to distinguish Video and Photo. Node retrieval capability is declared to Android but unused while the experiment is off. |
@@ -237,3 +238,5 @@ This program is distributed in the hope that it will be useful, but **WITHOUT AN
 The Gradle Wrapper is third-party build tooling under the Apache License 2.0 and retains its original notices. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 Android is a trademark of Google LLC. The Android robot is reproduced from work created and shared by Google and used according to the [Creative Commons Attribution 3.0 License](https://creativecommons.org/licenses/by/3.0/); this is not an endorsement.
+
+Google Play and the Google Play logo are trademarks of Google LLC.

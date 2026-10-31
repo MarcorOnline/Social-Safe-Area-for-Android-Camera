@@ -6,16 +6,15 @@
 
 Una maschera leggera per Android che ti aiuta a tenere volti, scritte e dettagli importanti lontani dagli elementi dell’interfaccia di Instagram Reels e TikTok.
 
-**v1.4.0 · Android 8.0+ (API 26) · GPL-3.0-only**
+**Google Play: v1.4.1 · APK GitHub: v1.4.0 · Android 8.0+ (API 26) · GPL-3.0-only**
 
-I sorgenti attuali preparano la **1.4.1**, una bozza Google Play non pubblicata: target API 36, link alla privacy e consenso esplicito per il rilevamento fotocamera facoltativo. Vedi [preparazione e verifiche per Play](docs/google-play.md).
+La versione **1.4.1** è disponibile su Google Play: target API 36, link alla privacy e consenso esplicito per il rilevamento fotocamera facoltativo. Vedi [dettagli della build e verifiche per Play](docs/google-play.md).
 
-Sul telefono l’app si chiama **Safe Area**. Il nome preparato per Google Play è
-**Safe Area: Reels & TikTok**; la distribuzione su Google Play non è ancora disponibile.
+Sul telefono l’app si chiama **Safe Area** e su Google Play **Safe Area: Reels & TikTok**.
 
-[![Scarica l’APK per Android](docs/download-apk.svg)](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.4.0/Social-Safe-Area-1.4.0.apk)
+[![Disponibile su Google Play](docs/download-google-play-it.svg)](https://play.google.com/store/apps/details?id=it.pistacchissimo.socialoverlay)
 
-**Non serve compilare:** scarica l’APK firmato, aprilo sul telefono e segui le istruzioni di installazione di Android. Consulta le [note di rilascio e i checksum](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.4.0).
+**Installa da Google Play** per un’installazione semplice e aggiornamenti gestiti dallo store. Se preferisci l’installazione diretta, [scarica l’APK firmato v1.4.0 da GitHub](https://github.com/MarcorOnline/SocialSafeArea/releases/download/v1.4.0/Social-Safe-Area-1.4.0.apk) oppure consulta le [note di rilascio e i checksum](https://github.com/MarcorOnline/SocialSafeArea/releases/tag/v1.4.0). Non serve compilare con nessuna delle due opzioni.
 
 L’app disegna una guida trasparente sopra la fotocamera che usi già. Non registra video, non sostituisce la fotocamera e non modifica il file registrato. La guida compare sullo schermo del telefono, ma non viene impressa nelle registrazioni della fotocamera.
 
@@ -34,7 +33,7 @@ Se l’app ti è utile, puoi sostenere il mio lavoro [seguendo @pistacchissimo s
 - Opacità della maschera dall’8% al 70%, con valore predefinito del 23%.
 - Profili per dispositivo, versione Android e fotocamera, con selezione del più simile, più regolazione verticale manuale da −360 a +360 dp. **Reset** ripristina il profilo suggerito.
 - Visualizzazione automatica facoltativa quando si apre l’app selezionata, con scomparsa quando si passa a un’altra app o alla schermata Home.
-- Dalla v1.1.0: controllo aggiornamenti settimanale all’apertura dell’app, con un link discreto quando è disponibile una nuova versione.
+- Aggiornamenti tramite Google Play per la versione dello store; l’APK GitHub controlla le release GitHub al massimo una volta a settimana all’apertura dell’app, con un link discreto quando è disponibile una nuova versione.
 - La guida lascia passare i tocchi: i comandi della fotocamera restano utilizzabili.
 - Interfaccia e servizi Android nativi, senza librerie di terze parti a runtime, account, pubblicità o analisi dell’utilizzo.
 
@@ -42,7 +41,7 @@ L’interfaccia supporta **inglese (predefinito e di riserva), italiano, frances
 
 ## Primi passi
 
-Scarica l’APK con il pulsante di download qui sopra. Android potrebbe chiederti di consentire l’installazione dal browser o dal gestore file: autorizza la sorgente che stai usando e poi apri l’APK. Puoi anche compilare l’app seguendo le istruzioni più avanti.
+Installa l’app con il pulsante **Disponibile su Google Play** qui sopra, poi apri **Safe Area**. Se scegli invece l’APK GitHub, Android potrebbe chiederti di consentire l’installazione dal browser o dal gestore file: autorizza la sorgente che stai usando e poi apri l’APK. Puoi anche compilare l’app seguendo le istruzioni più avanti.
 
 ### Consenti la visualizzazione sopra la fotocamera
 
@@ -122,7 +121,9 @@ Consulta [formato dei profili e regole di selezione](docs/camera-profiles.md) pe
 
 ## Privacy e permessi
 
-Dalla v1.1.0 l’app usa il permesso Internet per controllare direttamente l’ultima release stabile su GitHub quando apri la schermata dei comandi, al massimo una volta ogni sette giorni, anche se il tentativo fallisce. Non invia identificatori del dispositivo, calibrazioni, account o versione installata. GitHub e i suoi fornitori di rete ricevono i normali metadati di connessione, come l’indirizzo IP. Le versioni pubblicate in precedenza non hanno il permesso di accesso alla rete.
+La **versione Google Play non ha il permesso Internet e non esegue richieste automatiche alla rete**. Gli aggiornamenti sono gestiti da Google Play. Leggi l’[informativa privacy dell’app](https://www.pistacchissimo.it/news/social-safe-area-lapp-per-girare-reels-e-tiktok-migliori-gratis/#privacy-safe-area).
+
+Dalla v1.1.0 l’**APK GitHub** usa il permesso Internet per controllare direttamente l’ultima release stabile su GitHub quando apri la schermata dei comandi, al massimo una volta ogni sette giorni, anche se il tentativo fallisce. Non invia identificatori del dispositivo, calibrazioni, account o versione installata. GitHub e i suoi fornitori di rete ricevono i normali metadati di connessione, come l’indirizzo IP. Le versioni pubblicate in precedenza non hanno il permesso di accesso alla rete.
 
 Se esiste una versione più recente, compare il pulsante **Vedi aggiornamento**, che apre GitHub solo al tocco. Non ci sono popup, notifiche di aggiornamento, download automatici o richieste pianificate in background. Assenza di rete, 404, limiti di GitHub e risposte malformate non interrompono l’app. Consulta [funzionamento e istruzioni di rilascio](docs/app-updates.md).
 
@@ -130,7 +131,7 @@ Le preferenze e l’ultimo risultato valido del controllo restano sul dispositiv
 
 | Permesso / servizio | Scopo |
 | --- | --- |
-| Internet (dalla v1.1.0) | Controllare l’ultima release stabile GitHub via HTTPS, al massimo settimanalmente all’apertura dell’app. |
+| Internet (solo APK GitHub, dalla v1.1.0) | Controllare l’ultima release stabile GitHub via HTTPS, al massimo settimanalmente all’apertura dell’app. Assente nella build Google Play. |
 | Visualizzazione sopra altre app | Disegnare la guida e il bottone rapido sopra la fotocamera. |
 | Servizio in primo piano (`specialUse` nelle versioni Android recenti) | Mantenere attiva la sovrapposizione mentre un’altra app è in primo piano. |
 | Servizio di accessibilità, facoltativo e attivato dall’utente | Seguire l’app selezionata tramite eventi di finestra. Solo con il rilevamento sperimentale attivo e un profilo compatibile, leggere anche i comandi accessibili della fotocamera per distinguere Video e Fotografia. La capacità di recuperare i nodi è dichiarata al sistema, ma non viene usata con l’esperimento spento. |
@@ -237,3 +238,5 @@ Il programma è distribuito nella speranza che sia utile, ma **SENZA ALCUNA GARA
 Il Gradle Wrapper è uno strumento di build di terze parti con licenza Apache 2.0 e conserva i propri avvisi originali. Vedi [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 Android è un marchio di Google LLC. Il robot Android è riprodotto da un’opera creata e condivisa da Google ed è usato secondo la licenza [Creative Commons Attribution 3.0](https://creativecommons.org/licenses/by/3.0/); non costituisce un’approvazione del progetto.
+
+Google Play e il logo Google Play sono marchi di Google LLC.
